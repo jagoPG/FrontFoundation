@@ -16,6 +16,6 @@
     "parsleyjs": "2.x"
   },
   "scripts": {
-    "phoenix": "rm -rf node_modules && yarn install",
+    "phoenix": "rm -rf node_modules && yarn install"
   }
 }
