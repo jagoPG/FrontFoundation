@@ -15,6 +15,12 @@
   "peerDependencies": {
     "parsleyjs": "2.x"
   },
+  "files": [
+    "js",
+    "scss",
+    "LICENSE",
+    "README.md"
+  ],
   "scripts": {
     "phoenix": "rm -rf node_modules && yarn install"
   }
