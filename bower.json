@@ -1,0 +1,21 @@
+{
+  "name": "lin3s-front-foundation",
+  "description": "Base CSS and JS files for building views in LIN3S way",
+  "authors": [
+    {
+      "name": "LIN3S",
+      "email": "info@lin3s.com",
+      "homepage": "https://lin3s.com"
+    }
+  ],
+  "license": "MIT",
+  "keywords": [
+    "lin3s",
+    "front",
+    "foundation",
+    "es2015",
+    "js",
+    "scss"
+  ],
+  "homepage": "https://github.com/LIN3S/FrontFoundation"
+}
