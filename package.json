@@ -10,7 +10,7 @@
     "foundation",
     "es2015",
     "js",
-    "scss",
+    "scss"
   ],
   "peerDependencies": {
     "parsleyjs": "2.x"
