@@ -11,7 +11,7 @@
 
 'use strict';
 
-import initParsley from 'atoms/parsley-form-error';
+import initParsley from './atoms/parsley-form-error';
 
 export {
   initParsley
