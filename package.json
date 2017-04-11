@@ -1,6 +1,6 @@
 {
   "name": "lin3s-front-foundation",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "author": "LIN3S",
   "license": "MIT",
   "description": "Base CSS and JS files for building views in LIN3S way",
@@ -12,16 +12,31 @@
     "js",
     "scss"
   ],
+  "main": "dist/index.js",
   "peerDependencies": {
     "parsleyjs": "2.x"
   },
   "files": [
-    "js",
-    "scss",
+    "dist",
+    "src",
     "LICENSE",
     "README.md"
   ],
   "scripts": {
-    "phoenix": "rm -rf node_modules && yarn install"
+    "phoenix": "rm -rf node_modules && yarn install",
+    "prebuild": "rimraf dist",
+    "build": "babel --copy-files --out-dir dist src/js"
+  },
+  "babel": {
+    "presets": [
+      "es2015",
+      "stage-2"
+    ]
+  },
+  "devDependencies": {
+    "babel-cli": "^6.18.0",
+    "babel-preset-es2015": "^6.14.0",
+    "babel-preset-stage-2": "^6.13.0",
+    "rimraf": "^2.5.4"
   }
 }
