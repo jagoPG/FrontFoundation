@@ -35,10 +35,25 @@ $icon-vector-effect: non-scaling-stroke !default;
   vector-effect: $icon-vector-effect;
 }
 
+// scss-lint:disable ImportantRule
 .icon__glyph--primary {
+  fill: none !important;
   stroke: $icon-color-primary;
 }
 
 .icon__glyph--secondary {
+  fill: none !important;
   stroke: $icon-color-secondary;
 }
+
+.icon__glyph--primary-filled {
+  fill: $icon-color-primary;
+  stroke: none !important;
+}
+
+.icon__glyph--secondary-filled {
+  fill: $icon-color-secondary;
+  stroke: none !important;
+}
+
+// scss-lint:enable ImportantRule
