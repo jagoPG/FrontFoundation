@@ -34,4 +34,11 @@ const initParsley = (lang = null) => {
   Parsley.setLocale(locale);
 };
 
-export default initParsley;
+const excludeFormFieldsFromParsley = (inputsSelector) => {
+  Parsley.options.excluded = Parsley.options.excluded.concat(', ').concat(inputsSelector);
+};
+
+export {
+  initParsley,
+  excludeFormFieldsFromParsley
+};
