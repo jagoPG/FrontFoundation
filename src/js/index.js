@@ -11,9 +11,10 @@
 
 'use strict';
 
-import {initParsley, excludeFormFieldsFromParsley} from './atoms/parsley-form-error';
+import {Parsley, initParsley, excludeFormFieldsFromParsley} from './atoms/parsley-form-error';
 
 export {
+  Parsley,
   initParsley,
   excludeFormFieldsFromParsley
 }

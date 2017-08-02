@@ -39,6 +39,7 @@ const excludeFormFieldsFromParsley = (inputsSelector) => {
 };
 
 export {
+  Parsley,
   initParsley,
   excludeFormFieldsFromParsley
 };
