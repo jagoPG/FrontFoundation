@@ -9,8 +9,6 @@
  * @author Beñat Espiña <benatespina@gmail.com>
  */
 
-'use strict';
-
 import Parsley from 'parsleyjs';
 import 'parsleyjs/dist/i18n/en';
 import 'parsleyjs/dist/i18n/es';

@@ -9,14 +9,4 @@
  * @author Beñat Espiña <benatespina@gmail.com>
  */
 
-import * as App from './app/index';
-import * as Dom from './dom/index';
-import * as Promises from './promises/index';
-import * as Miscellaneous from './miscellaneous/index';
-
-export {
-  App,
-  Dom,
-  Miscellaneous,
-  Promises,
-}
+export {}
