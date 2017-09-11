@@ -10,6 +10,7 @@ To get the diff between two versions, go to https://github.com/LIN3S/FrontFounda
     * Added test app, fixed some broken imports and change miscellaneous folder with Parsley.
     * Added `twig` template directory.
     * Renamed `_parsley-form-error.scss` to `_parsley.scss` to keep naming consistency.
+    * Improved `_reset` and `_common` scss files.
 
 * 0.5.0
     * Included Parsley as dependency.
