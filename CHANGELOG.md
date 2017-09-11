@@ -7,6 +7,8 @@ To get the diff between two versions, go to https://github.com/LIN3S/FrontFounda
 
 * 0.6.0
     * Major refactor of the `js` directory.
+    * Added test app, fixed some broken imports and change miscellaneous folder with Parsley.
+    * Added `twig` template directory.
 
 * 0.5.0
     * Included Parsley as dependency.
