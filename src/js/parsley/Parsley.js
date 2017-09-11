@@ -9,8 +9,8 @@
  * @author Beñat Espiña <benatespina@gmail.com>
  */
 
-import * as Parsley from './Parsley';
+import Parsley from 'parsleyjs';
+import 'parsleyjs/dist/i18n/en';
+import 'parsleyjs/dist/i18n/es';
 
-export {
-  Parsley,
-}
+export default Parsley;

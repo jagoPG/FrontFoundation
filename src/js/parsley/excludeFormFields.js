@@ -9,14 +9,8 @@
  * @author Beñat Espiña <benatespina@gmail.com>
  */
 
-import * as App from './app/index';
-import * as Dom from './dom/index';
-import * as Promises from './promises/index';
-import * as Parsley from './parsley/index';
+import Parsley from './Parsley';
 
-export {
-  App,
-  Dom,
-  Parsley,
-  Promises,
-}
+export default (inputsSelector) => {
+  Parsley.options.excluded = Parsley.options.excluded.concat(', ').concat(inputsSelector);
+};

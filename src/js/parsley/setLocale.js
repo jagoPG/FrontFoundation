@@ -9,9 +9,7 @@
  * @author Beñat Espiña <benatespina@gmail.com>
  */
 
-import Parsley from 'parsleyjs';
-import 'parsleyjs/dist/i18n/en';
-import 'parsleyjs/dist/i18n/es';
+import Parsley from './Parsley';
 
 const getLang = (lang) => {
   if (null !== lang) {
@@ -21,7 +19,7 @@ const getLang = (lang) => {
   return document.getElementsByTagName('html')[0].getAttribute('lang');
 };
 
-const initParsley = (lang = null) => {
+export default (lang = null) => {
   const dividedLang = getLang(lang).split('_');
 
   let locale = lang;
@@ -30,14 +28,4 @@ const initParsley = (lang = null) => {
   }
 
   Parsley.setLocale(locale);
-};
-
-const excludeFormFieldsFromParsley = (inputsSelector) => {
-  Parsley.options.excluded = Parsley.options.excluded.concat(', ').concat(inputsSelector);
-};
-
-export {
-  Parsley,
-  initParsley,
-  excludeFormFieldsFromParsley
 };

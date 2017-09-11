@@ -1,0 +1,19 @@
+{
+  "name": "lin3s-front-foundation-test-app",
+  "author": "LIN3S",
+  "license": "MIT",
+  "scripts": {
+    "phoenix": "rm -rf node_modules && yarn install",
+    "build": "webpack --output-filename app.js"
+  },
+  "babel": {
+    "presets": [
+      "es2015",
+      "stage-2"
+    ]
+  },
+  "devDependencies": {
+    "babel-loader": "^7.1.2",
+    "webpack": "^3.5.6"
+  }
+}

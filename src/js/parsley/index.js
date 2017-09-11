@@ -9,14 +9,12 @@
  * @author Beñat Espiña <benatespina@gmail.com>
  */
 
-import * as App from './app/index';
-import * as Dom from './dom/index';
-import * as Promises from './promises/index';
-import * as Parsley from './parsley/index';
+import excludeFormFields from './excludeFormFields';
+import Parsley from './Parsley';
+import setLocale from './setLocale';
 
 export {
-  App,
-  Dom,
+  excludeFormFields,
   Parsley,
-  Promises,
+  setLocale
 }

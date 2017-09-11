@@ -9,10 +9,4 @@
  * @author Beñat Espiña <benatespina@gmail.com>
  */
 
-import * as React from './react/index';
-import * as Vanilla from './vanilla/index';
-
-export {
-  React,
-  Vanilla
-}
+export {}

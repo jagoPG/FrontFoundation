@@ -9,14 +9,8 @@
  * @author Beñat Espiña <benatespina@gmail.com>
  */
 
-import * as App from './app/index';
-import * as Dom from './dom/index';
-import * as Promises from './promises/index';
-import * as Parsley from './parsley/index';
+import Parsley from './../../dist/parsley/Parsley';
+import setLocale from './../../dist/parsley/setLocale';
 
-export {
-  App,
-  Dom,
-  Parsley,
-  Promises,
-}
+setLocale('en');
+console.log(Parsley);
