@@ -9,9 +9,6 @@
  * @author Beñat Espiña <benatespina@gmail.com>
  */
 
-import 'parsleyjs/dist/i18n/en';
-import 'parsleyjs/dist/i18n/es';
-
 const getLang = (lang) => {
   if (null !== lang) {
     return lang;
@@ -28,5 +25,6 @@ export default (lang = null) => {
     locale = dividedLang[0];
   }
 
+  require(`parsleyjs/dist/i18n/${locale}`);
   window.Parsley.setLocale(locale);
 };
