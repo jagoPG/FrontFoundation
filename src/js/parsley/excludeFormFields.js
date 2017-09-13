@@ -9,8 +9,6 @@
  * @author Beñat Espiña <benatespina@gmail.com>
  */
 
-import Parsley from './Parsley';
-
 export default (inputsSelector) => {
-  Parsley.options.excluded = Parsley.options.excluded.concat(', ').concat(inputsSelector);
+  window.Parsley.options.excluded = window.Parsley.options.excluded.concat(', ').concat(inputsSelector);
 };

@@ -10,11 +10,9 @@
  */
 
 import excludeFormFields from './excludeFormFields';
-import Parsley from './Parsley';
 import setLocale from './setLocale';
 
 export {
   excludeFormFields,
-  Parsley,
   setLocale
 }

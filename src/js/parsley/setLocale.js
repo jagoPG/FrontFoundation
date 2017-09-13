@@ -9,7 +9,8 @@
  * @author Beñat Espiña <benatespina@gmail.com>
  */
 
-import Parsley from './Parsley';
+import 'parsleyjs/dist/i18n/en';
+import 'parsleyjs/dist/i18n/es';
 
 const getLang = (lang) => {
   if (null !== lang) {
@@ -27,5 +28,5 @@ export default (lang = null) => {
     locale = dividedLang[0];
   }
 
-  Parsley.setLocale(locale);
+  window.Parsley.setLocale(locale);
 };
