@@ -9,4 +9,8 @@
  * @author Beñat Espiña <benatespina@gmail.com>
  */
 
-export {}
+import makeCancelablePromise from './makeCancelablePromise';
+
+export {
+  makeCancelablePromise
+}
