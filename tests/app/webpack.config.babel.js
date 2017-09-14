@@ -9,10 +9,30 @@
  */
 
 import {join} from 'path';
+import webpack from 'webpack';
 
 const include = join(__dirname);
 
-export default () => {
+const parseLocalesFromEnvOptions = (options) => {
+  if (options === undefined || typeof options.locales !== 'string') {
+    return null;
+  }
+
+  const splittedLocales = options.locales !== null ? options.locales.split(',') : [];
+
+  let parsleyLocales = '';
+
+  if (splittedLocales.length > 0) {
+    splittedLocales.forEach((locale, index) => parsleyLocales += `${index !== 0 ? '|' : ''}${locale}`);
+    return new RegExp(`(${parsleyLocales})\.js`);
+  }
+
+  return null;
+};
+
+export default (options) => {
+  const parsleyLocalesRegExp = parseLocalesFromEnvOptions(options);
+
   return {
     entry: './app.js',
     output: {
@@ -25,9 +45,16 @@ export default () => {
         {
           test: /\.js$/,
           loader: 'babel-loader',
-          include
+          include,
+          exclude: /(node_modules)/,
         }
       ]
-    }
+    },
+    plugins: [
+      new webpack.ContextReplacementPlugin(
+        /parsleyjs[\/\\]dist[\/\\]i18n/,
+        parsleyLocalesRegExp
+      )
+    ]
   }
 };

@@ -15,14 +15,13 @@
   "main": "dist/index.js",
   "files": [
     "dist",
-    "src",
     "LICENSE",
     "README.md"
   ],
   "scripts": {
-    "phoenix": "rm -rf node_modules && yarn install",
+    "phoenix": "rimraf node_modules && yarn install",
     "prebuild": "rimraf dist",
-    "build": "babel --copy-files --out-dir dist src/js"
+    "build": "yarn prebuild && babel --copy-files --out-dir dist/js src/js && cp -R src/scss dist"
   },
   "babel": {
     "presets": [
