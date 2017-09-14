@@ -10,9 +10,9 @@
  */
 
 /**
- *  In order to include the needed parsleyjs locale modules during compilation time, and prevent a ReferenceError during
+ *  In order to include the needed Parsley.js locale modules during compilation time, and prevent a ReferenceError during
  *  execution time, we must include the locales this way. By wrapping the require function with a conditional, we ensure
- *  Webpack does not require a non-existent module.
+ *  that this error is not thrown and breaks the execution process.
  *
  *  We will provide the required locales by setting an env parameter in our project's package.json file.
  *
