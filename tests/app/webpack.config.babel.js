@@ -10,10 +10,11 @@
 
 import {join} from 'path';
 import webpack from 'webpack';
+import {BundleAnalyzerPlugin} from 'webpack-bundle-analyzer';
 
 const include = join(__dirname);
 
-const parseLocalesFromEnvOptions = (options) => {
+const parseLocalesFromEnvOptions = options => {
   if (options === undefined || typeof options.locales !== 'string') {
     return null;
   }
@@ -30,9 +31,22 @@ const parseLocalesFromEnvOptions = (options) => {
   return null;
 };
 
-export default (options) => {
-  const parsleyLocalesRegExp = parseLocalesFromEnvOptions(options);
+const getPlugins = options => {
+  const plugins = [
+    new webpack.ContextReplacementPlugin(
+      /parsleyjs[\/\\]dist[\/\\]i18n/,
+      parseLocalesFromEnvOptions(options)
+    )
+  ];
 
+  if (options.analyze) {
+    plugins.push(new BundleAnalyzerPlugin());
+  }
+
+  return plugins;
+};
+
+export default options => {
   return {
     entry: './app.js',
     output: {
@@ -50,11 +64,6 @@ export default (options) => {
         }
       ]
     },
-    plugins: [
-      new webpack.ContextReplacementPlugin(
-        /parsleyjs[\/\\]dist[\/\\]i18n/,
-        parsleyLocalesRegExp
-      )
-    ]
+    plugins: getPlugins(options)
   }
 };

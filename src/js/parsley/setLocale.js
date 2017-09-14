@@ -9,7 +9,18 @@
  * @author Beñat Espiña <benatespina@gmail.com>
  */
 
-require(`parsleyjs/dist/i18n/${parsleyLocales}.js`);
+/**
+ *  In order to include the needed parsleyjs locale modules during compilation time, and prevent a ReferenceError during
+ *  execution time, we must include the locales this way. By wrapping the require function with a conditional, we ensure
+ *  Webpack does not require a non-existent module.
+ *
+ *  We will provide the required locales by setting an env parameter in our project's package.json file.
+ *
+ *  More info: https://webpack.js.org/plugins/context-replacement-plugin/
+ */
+if (typeof WEBPACK_ENV_LOCALE !== 'undefined') {
+  require(`parsleyjs/dist/i18n/${WEBPACK_ENV_LOCALE}.js`);
+}
 
 const getLang = (lang) => {
   if (null !== lang) {

@@ -9,13 +9,16 @@
  * @author Beñat Espiña <benatespina@gmail.com>
  */
 
-//import 'parsleyjs';
+import 'parsleyjs';
 import {Parsley} from 'lin3s-front-foundation';
 import {onDomReady} from 'lin3s-event-bus';
 
-const onReady = () => {
+const testParsleySetLocale = () => {
   Parsley.setLocale();
-  console.log(Parsley);
+};
+
+const onReady = () => {
+  testParsleySetLocale();
 };
 
 onDomReady(onReady);
