@@ -69,3 +69,14 @@ aCancelablePromise.cancel();
 // aCancelablePromise.promise has been rejected right after calling the cancel() method.
 ```
 
+### Browser
+This package will provide all browser related implementations.
+
+#### Browser.isIE11()
+This method will tell us if the browser is Internet Explorer 11.
+
+```bash
+import {Browser} from 'lin3s-front-foundation';
+
+const isIE11 = Browser.isIE11();
+```

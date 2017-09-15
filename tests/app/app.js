@@ -12,7 +12,8 @@
 import 'parsleyjs';
 import {
   Parsley,
-  Async
+  Async,
+  Browser
 } from 'lin3s-front-foundation';
 import {onDomReady} from 'lin3s-event-bus';
 
@@ -41,9 +42,18 @@ const testCancelablePromise = () => {
   myCancelablePromise.cancel();
 };
 
+const testIsIE11 = () => {
+  console.log('Testing Browser.testIsIE11');
+
+  const isIE11 = Browser.isIE11();
+
+  console.log('Is IE11?', isIE11);
+};
+
 const onReady = () => {
   testParsleySetLocale();
   testCancelablePromise();
+  testIsIE11();
 };
 
 onDomReady(onReady);

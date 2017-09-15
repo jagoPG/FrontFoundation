@@ -120,9 +120,18 @@ var testCancelablePromise = function testCancelablePromise() {
   myCancelablePromise.cancel();
 };
 
+var testIsIE11 = function testIsIE11() {
+  console.log('Testing Browser.testIsIE11');
+
+  var isIE11 = _lin3sFrontFoundation.Browser.isIE11();
+
+  console.log('Is IE11?', isIE11);
+};
+
 var onReady = function onReady() {
   testParsleySetLocale();
   testCancelablePromise();
+  testIsIE11();
 };
 
 (0, _lin3sEventBus.onDomReady)(onReady);
