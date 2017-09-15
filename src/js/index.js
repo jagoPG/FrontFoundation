@@ -9,14 +9,16 @@
  * @author Beñat Espiña <benatespina@gmail.com>
  */
 
-import * as App from './app/index';
+import * as Ui from './ui/index';
+import * as Browser from './browser/index';
 import * as Dom from './dom/index';
-import * as Promises from './promises/index';
+import * as Async from './async/index';
 import * as Parsley from './parsley/index';
 
 export {
-  App,
+  Ui,
+  Browser,
   Dom,
   Parsley,
-  Promises,
+  Async,
 }

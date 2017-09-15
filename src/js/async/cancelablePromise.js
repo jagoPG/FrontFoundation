@@ -9,7 +9,7 @@
  * @author Mikel Tuesta <mikeltuesta@gmail.com>
  */
 
-export default (promise) => {
+export default promise => {
   let hasBeenCanceled = false;
 
   const wrappedPromise = new Promise((resolve, reject) => {

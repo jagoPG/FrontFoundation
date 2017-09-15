@@ -6,8 +6,11 @@ To get the diff for a specific change, go to https://github.com/LIN3S/FrontFound
 To get the diff between two versions, go to https://github.com/LIN3S/FrontFoundation/compare/v0.5.0...v0.6.0
 
 * 0.7.0
+    * Added cancelablePromise Promise wrapper to Async 'package'.
     * Added dynamic parsley locale modules loading by env configuration.
     * Updated distributable configuration.
+    * Renamed the *app* 'package' to *ui*.
+    * Renamed the *promises* 'package' to *async*.
 * 0.6.1
     * Made locale conditional based on HTML lang.
 * 0.6.0

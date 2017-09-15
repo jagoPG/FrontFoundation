@@ -5,6 +5,7 @@
   "scripts": {
     "phoenix": "rm -rf node_modules && yarn install",
     "build": "webpack --output-filename app.js --env.locales es,en,fr",
+    "build:prod": "webpack --output-filename app.js --env.locales es,en,fr -p",
     "build:watch": "webpack --output-filename app.js --env.locales es,en,fr --watch",
     "build:analyze": "webpack --output-filename app.js --env.locales es,en,fr --env.analyze"
   },

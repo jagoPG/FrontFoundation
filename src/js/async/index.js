@@ -9,8 +9,8 @@
  * @author Beñat Espiña <benatespina@gmail.com>
  */
 
-import makeCancelablePromise from './makeCancelablePromise';
+import cancelablePromise from './cancelablePromise';
 
 export {
-  makeCancelablePromise
+  cancelablePromise
 }

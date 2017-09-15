@@ -87,6 +87,7 @@ var _lin3sFrontFoundation = __webpack_require__(4);
 var _lin3sEventBus = __webpack_require__(22);
 
 var testParsleySetLocale = function testParsleySetLocale() {
+  console.log('Testing Parsley.setLocale');
   _lin3sFrontFoundation.Parsley.setLocale();
 }; /*
     * This file is part of the Front Foundation package.
@@ -99,8 +100,29 @@ var testParsleySetLocale = function testParsleySetLocale() {
     * @author Beñat Espiña <benatespina@gmail.com>
     */
 
+var testCancelablePromise = function testCancelablePromise() {
+  console.log('Testing Promise.cancelablePromise');
+
+  var myPromise = new Promise(function (resolve) {
+    setTimeout(function () {
+      resolve('Promise inner process ended');
+    }, 1000);
+  });
+
+  var myCancelablePromise = _lin3sFrontFoundation.Async.cancelablePromise(myPromise);
+
+  myCancelablePromise.promise.then(function (resolvedObject) {
+    console.log('myCancelablePromise has been resolved', resolvedObject);
+  }, function (rejectedObject) {
+    console.log('myCancelablePromise has been rejected', rejectedObject);
+  });
+
+  myCancelablePromise.cancel();
+};
+
 var onReady = function onReady() {
   testParsleySetLocale();
+  testCancelablePromise();
 };
 
 (0, _lin3sEventBus.onDomReady)(onReady);
@@ -12871,11 +12893,11 @@ return jQuery;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.Promises = exports.Parsley = exports.Dom = exports.Browser = exports.App = undefined;
+exports.Async = exports.Parsley = exports.Dom = exports.Browser = exports.Ui = undefined;
 
 var _index = __webpack_require__(5);
 
-var App = _interopRequireWildcard(_index);
+var Ui = _interopRequireWildcard(_index);
 
 var _index2 = __webpack_require__(8);
 
@@ -12887,7 +12909,7 @@ var Dom = _interopRequireWildcard(_index3);
 
 var _index4 = __webpack_require__(13);
 
-var Promises = _interopRequireWildcard(_index4);
+var Async = _interopRequireWildcard(_index4);
 
 var _index5 = __webpack_require__(15);
 
@@ -12895,20 +12917,20 @@ var Parsley = _interopRequireWildcard(_index5);
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
-exports.App = App;
+exports.Ui = Ui;
 exports.Browser = Browser;
 exports.Dom = Dom;
 exports.Parsley = Parsley;
-exports.Promises = Promises; /*
-                              * This file is part of the Front Foundation package.
-                              *
-                              * Copyright (c) 2017-present LIN3S <info@lin3s.com>
-                              *
-                              * For the full copyright and license information, please view the LICENSE
-                              * file that was distributed with this source code.
-                              *
-                              * @author Beñat Espiña <benatespina@gmail.com>
-                              */
+exports.Async = Async; /*
+                        * This file is part of the Front Foundation package.
+                        *
+                        * Copyright (c) 2017-present LIN3S <info@lin3s.com>
+                        *
+                        * For the full copyright and license information, please view the LICENSE
+                        * file that was distributed with this source code.
+                        *
+                        * @author Beñat Espiña <benatespina@gmail.com>
+                        */
 
 /***/ }),
 /* 5 */
@@ -13295,9 +13317,18 @@ Object.defineProperty(exports, "__esModule", {
  * @author Beñat Espiña <benatespina@gmail.com>
  */
 
-//if (typeof locale !== 'undefined') {
-  __webpack_require__(18)("./" + locale + '.js');
-//}
+/**
+ *  In order to include the needed Parsley.js locale modules during compilation time, and prevent a ReferenceError during
+ *  execution time, we must include the locales this way. By wrapping the require function with a conditional, we ensure
+ *  that this error is not thrown and breaks the execution process.
+ *
+ *  We will provide the required locales by setting an env parameter in our project's package.json file.
+ *
+ *  More info: https://webpack.js.org/plugins/context-replacement-plugin/
+ */
+if (typeof WEBPACK_ENV_LOCALE !== 'undefined') {
+  __webpack_require__(18)("./" + WEBPACK_ENV_LOCALE + '.js');
+}
 
 var getLang = function getLang(lang) {
   if (null !== lang) {
@@ -13319,7 +13350,6 @@ exports.default = function () {
 
   window.Parsley.setLocale(locale);
 };
-
 
 /***/ }),
 /* 18 */
