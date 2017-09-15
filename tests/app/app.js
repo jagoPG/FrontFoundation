@@ -13,7 +13,8 @@ import 'parsleyjs';
 import {
   Parsley,
   Async,
-  Browser
+  Browser,
+  Dom
 } from 'lin3s-front-foundation';
 import {onDomReady} from 'lin3s-event-bus';
 
@@ -22,7 +23,7 @@ const testParsleySetLocale = () => {
   Parsley.setLocale();
 };
 
-const testCancelablePromise = () => {
+const testAsyncCancelablePromise = () => {
   console.log('Testing Promise.cancelablePromise');
 
   const myPromise = new Promise(resolve => {
@@ -42,7 +43,7 @@ const testCancelablePromise = () => {
   myCancelablePromise.cancel();
 };
 
-const testIsIE11 = () => {
+const testBrowserIsIE11 = () => {
   console.log('Testing Browser.testIsIE11');
 
   const isIE11 = Browser.isIE11();
@@ -50,10 +51,42 @@ const testIsIE11 = () => {
   console.log('Is IE11?', isIE11);
 };
 
+const testDomLoadScript = () => {
+  console.log('Testing Dom.waitImagesLoadInDomNode');
+
+  const DEMO_API_KEY = 'AIzaSyCYizPY9R-o4m5AF-bJWxeF-Us7F5dB9us';
+  const scriptPath = `https://maps.googleapis.com/maps/api/js?key=${DEMO_API_KEY}&callback=googleMapsLoadedCallback`;
+
+  window.googleMapsLoadedCallback = () => {
+    console.log('Google Maps script has been loaded!');
+  };
+
+  const scriptLoadPromise = Dom.loadScript(scriptPath);
+
+  scriptLoadPromise.then(resolvedObject => {
+    console.log('scriptLoadPromise has been resolved. We can safely use the loaded script.', resolvedObject);
+  }, rejectedObject => {
+    console.log('scriptLoadPromise has been rejected', rejectedObject);
+  });
+};
+
+const testDomWaitImagesLoadInDomNode = () => {
+  const imagesCollection = document.querySelector('.images__collection');
+  const imagesLoadPromise = Dom.waitImagesLoadInDomNode(imagesCollection);
+
+  imagesLoadPromise.then(resolvedObject => {
+    console.log('imagesLoadPromise has been resolved. We know for sure that our images has been loaded.', resolvedObject);
+  }, rejectedObject => {
+    console.log('imagesLoadPromise has been rejected', rejectedObject);
+  });
+};
+
 const onReady = () => {
   testParsleySetLocale();
-  testCancelablePromise();
-  testIsIE11();
+  testAsyncCancelablePromise();
+  testBrowserIsIE11();
+  testDomLoadScript();
+  testDomWaitImagesLoadInDomNode();
 };
 
 onDomReady(onReady);

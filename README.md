@@ -77,6 +77,42 @@ This method will tell us if the browser is Internet Explorer 11.
 
 ```bash
 import {Browser} from 'lin3s-front-foundation';
-
+ 
 const isIE11 = Browser.isIE11();
+```
+
+
+### Dom
+This package will provide all Dom related implementations.
+
+#### Dom.loadScript( scriptPath )
+This method will load an script by the provided scriptPath and return us a Promise object. This promise will be 
+resolved one the script has been loaded.
+
+```bash
+import {Dom} from 'lin3s-front-foundation';
+ 
+const scriptPath = 'https://yourdomain.com/script-path.js';
+ 
+const scriptLoadPromise = Dom.loadScript(scriptPath);
+
+scriptLoadPromise.then(() => {
+    // Our script has been loaded!
+});
+```
+
+#### Dom.waitImagesLoadInDomNode( domNode )
+This method will return us a Promise object that will be resolved once all the images contained in the provided domNode 
+have been loaded.
+
+```bash
+import {Dom} from 'lin3s-front-foundation';
+ 
+const imagesCollection = document.querySelector('.images__collection');
+ 
+const imagesLoadPromise = Dom.waitImagesLoadInDomNode(imagesCollection);
+ 
+imagesLoadPromise.then(() => {
+    // All images have been loaded!
+});
 ```

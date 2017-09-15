@@ -9,4 +9,10 @@
  * @author Beñat Espiña <benatespina@gmail.com>
  */
 
-export {}
+import loadScript from './loadScript';
+import waitImagesLoadInDomNode from './waitImagesLoadInDomNode';
+
+export {
+  loadScript,
+  waitImagesLoadInDomNode
+}

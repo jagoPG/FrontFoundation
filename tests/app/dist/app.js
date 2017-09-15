@@ -100,7 +100,7 @@ var testParsleySetLocale = function testParsleySetLocale() {
     * @author Beñat Espiña <benatespina@gmail.com>
     */
 
-var testCancelablePromise = function testCancelablePromise() {
+var testAsyncCancelablePromise = function testAsyncCancelablePromise() {
   console.log('Testing Promise.cancelablePromise');
 
   var myPromise = new Promise(function (resolve) {
@@ -120,7 +120,7 @@ var testCancelablePromise = function testCancelablePromise() {
   myCancelablePromise.cancel();
 };
 
-var testIsIE11 = function testIsIE11() {
+var testBrowserIsIE11 = function testBrowserIsIE11() {
   console.log('Testing Browser.testIsIE11');
 
   var isIE11 = _lin3sFrontFoundation.Browser.isIE11();
@@ -128,10 +128,42 @@ var testIsIE11 = function testIsIE11() {
   console.log('Is IE11?', isIE11);
 };
 
+var testDomLoadScript = function testDomLoadScript() {
+  console.log('Testing Dom.waitImagesLoadInDomNode');
+
+  var DEMO_API_KEY = 'AIzaSyCYizPY9R-o4m5AF-bJWxeF-Us7F5dB9us';
+  var scriptPath = 'https://maps.googleapis.com/maps/api/js?key=' + DEMO_API_KEY + '&callback=googleMapsLoadedCallback';
+
+  window.googleMapsLoadedCallback = function () {
+    console.log('Google Maps script has been loaded!');
+  };
+
+  var scriptLoadPromise = _lin3sFrontFoundation.Dom.loadScript(scriptPath);
+
+  scriptLoadPromise.then(function (resolvedObject) {
+    console.log('scriptLoadPromise has been resolved. We can safely use the loaded script.', resolvedObject);
+  }, function (rejectedObject) {
+    console.log('scriptLoadPromise has been rejected', rejectedObject);
+  });
+};
+
+var testDomWaitImagesLoadInDomNode = function testDomWaitImagesLoadInDomNode() {
+  var imagesCollection = document.querySelector('.images__collection');
+  var imagesLoadPromise = _lin3sFrontFoundation.Dom.waitImagesLoadInDomNode(imagesCollection);
+
+  imagesLoadPromise.then(function (resolvedObject) {
+    console.log('imagesLoadPromise has been resolved. We know for sure that our images has been loaded.', resolvedObject);
+  }, function (rejectedObject) {
+    console.log('imagesLoadPromise has been rejected', rejectedObject);
+  });
+};
+
 var onReady = function onReady() {
   testParsleySetLocale();
-  testCancelablePromise();
-  testIsIE11();
+  testAsyncCancelablePromise();
+  testBrowserIsIE11();
+  testDomLoadScript();
+  testDomWaitImagesLoadInDomNode();
 };
 
 (0, _lin3sEventBus.onDomReady)(onReady);
