@@ -1,0 +1,12 @@
+{
+    "name": "lin3s/lin3s-front-foundation",
+    "license": "MIT",
+    "type": "project",
+    "authors": [
+        {
+            "name": "LIN3S",
+            "email": "info@lin3s.com",
+            "homepage": "https://lin3s.com"
+        }
+    ]
+}

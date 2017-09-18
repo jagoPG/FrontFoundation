@@ -116,3 +116,12 @@ imagesLoadPromise.then(() => {
     // All images have been loaded!
 });
 ```
+
+## Usage - Available UI components
+
+### GMap
+This component will provide all the necessary implementations for displaying a Google Map, setting its markers, setting 
+a clusterer and displaying the MarkerDetail view.
+
+#### GMap - Setup a basic Google Map
+

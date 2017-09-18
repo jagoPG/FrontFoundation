@@ -1,0 +1,27 @@
+// This file is part of the Euskaltel project.
+//
+// Copyright (c) 2017 LIN3S <info@lin3s.com>
+//
+// For the full copyright and license information, please view the LICENSE
+// file that was distributed with this source code.
+//
+// @author Mikel Tuesta <mikel@lin3s.com>
+
+$gmap-marker-detail-z-index: 10;
+
+.gmap {
+  height: 100%;
+  position: relative;
+
+  .gmap-marker-detail {
+    left: 0;
+    position: absolute;
+    top: 0;
+    z-index: $gmap-marker-detail-z-index;
+  }
+}
+
+.gmap__map {
+  height: 100%;
+  width: 100%;
+}

@@ -6,6 +6,7 @@ To get the diff for a specific change, go to https://github.com/LIN3S/FrontFound
 To get the diff between two versions, go to https://github.com/LIN3S/FrontFoundation/compare/v0.5.0...v0.6.0
 
 * 0.7.0
+    * Added GMamp component to Ui 'package'.
     * Added loadScript and waitImagesLoadInDomNode helper methods to Dom 'package'.
     * Added isIE11 helper method to Browser 'package'.
     * Added cancelablePromise Promise wrapper to Async 'package'.

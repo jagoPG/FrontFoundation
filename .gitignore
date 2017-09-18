@@ -10,4 +10,10 @@
 /dist
 /node_modules
 /tests/app/node_modules
+/tests/app/vendor
+/var/cache
+!/var/cache/.gitkeep
+/var/logs/
+!/var/logs/.gitkeep
 /yarn.lock
+/composer.lock

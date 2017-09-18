@@ -9,4 +9,13 @@
  * @author Beñat Espiña <benatespina@gmail.com>
  */
 
-export {}
+import GMap from './components/GMap/GMap';
+import GMapMarkerDetail from './components/GMapMarkerDetail/GMapMarkerDetail';
+
+// Ui Components initialization
+import './components/GMap/init';
+
+export {
+  GMap,
+  GMapMarkerDetail
+}

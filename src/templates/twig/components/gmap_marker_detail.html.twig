@@ -1,0 +1,29 @@
+{##
+    This will be the base component for the gmap marker detail view. It's content will be embed.
+
+    @param gmap_marker_detail_standalone    bool=true
+    @param gmap_marker_detail_modifiers     array|string=null
+
+    @embed gmap_marker_detail_content
+#}
+
+{% set gmap_marker_detail_content %}
+    {%- block gmap_marker_detail_content -%}{%- endblock -%}
+{% endset %}
+
+{% set gmap_marker_detail_class_name = 'gmap-marker-detail' ~ (gmap_marker_detail_standalone|default(true) ? ' js-gmap-marker-detail' : '') %}
+
+<div class="{{ gmap_marker_detail_class_name }}{{ modifiers_implode('gmap-marker-detail', gmap_marker_detail_modifiers) }}">
+    {% include '@Euskaltel/svg/triangle.svg.twig' with {
+    direction: 'bottom'
+    } %}
+    <button class="gmap-marker-detail__close">
+        {{ icon('ui_small_remove') }}
+    </button>
+    <div class="gmap-marker-detail__loader">
+        {% include '@Euskaltel/atoms/loader.html.twig' %}
+    </div>
+    <div class="gmap-marker-detail__content">
+        {{ gmap_marker_detail_content|safe_raw }}
+    </div>
+</div>

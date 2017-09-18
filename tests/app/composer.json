@@ -1,0 +1,25 @@
+{
+    "name": "lin3s/lin3s-front-foundation-test-app",
+    "license": "MIT",
+    "type": "project",
+    "authors": [
+        {
+            "name": "LIN3S",
+            "email": "info@lin3s.com",
+            "homepage": "https://lin3s.com"
+        }
+    ],
+    "require": {
+        "php": "^7.1",
+        "symfony/asset": "^3.3",
+        "symfony/framework-bundle": "3.3.*",
+        "symfony/templating": "^3.3",
+        "symfony/twig-bundle": "3.3.*",
+        "symfony/web-server-bundle": "^3.3"
+    },
+    "autoload": {
+        "files": [
+            "Symfony.php"
+        ]
+    }
+}

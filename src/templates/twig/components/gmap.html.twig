@@ -1,0 +1,90 @@
+{##
+    This file is part of the Front Foundation package.
+
+    Copyright (c) 2017-present LIN3S <info@lin3s.com>
+
+    For the full copyright and license information, please view the LICENSE
+    file that was distributed with this source code.
+
+    @author Mikel Tuesta <mikeltuesta@gmail.com>
+#}
+
+{##
+    This component will build a google map component.
+
+    @param gmap_api_key                     string*
+    @param gmap_center_lat                  int*
+    @param gmap_center_lng                  int*
+    @param gmap_initial_zoom                int=8
+    @param gmap_max_zoom                    int=12
+    @param gmap_marker_default_path         string* (this ones must have no extension)
+    @param gmap_marker_selected_path        string*
+    @param gmap_marker_group_path           string*
+    @param gmap_style                       string
+#}
+
+{% set map_style = "[{
+  'featureType': 'water',
+  'elementType': 'geometry',
+  'stylers': [{'color': '#e9e9e9'}, {'lightness': 17}]
+}, {
+  'featureType': 'landscape',
+  'elementType': 'geometry',
+  'stylers': [{'color': '#f5f5f5'}, {'lightness': 20}]
+}, {
+  'featureType': 'road.highway',
+  'elementType': 'geometry.fill',
+  'stylers': [{'color': '#ffffff'}, {'lightness': 17}]
+}, {
+  'featureType': 'road.highway',
+  'elementType': 'geometry.stroke',
+  'stylers': [{'color': '#ffffff'}, {'lightness': 29}, {'weight': 0.2}]
+}, {
+  'featureType': 'road.arterial',
+  'elementType': 'geometry',
+  'stylers': [{'color': '#ffffff'}, {'lightness': 18}]
+}, {
+  'featureType': 'road.local',
+  'elementType': 'geometry',
+  'stylers': [{'color': '#ffffff'}, {'lightness': 16}]
+}, {
+  'featureType': 'poi',
+  'elementType': 'geometry',
+  'stylers': [{'color': '#f5f5f5'}, {'lightness': 21}]
+}, {
+  'featureType': 'poi.park',
+  'elementType': 'geometry',
+  'stylers': [{'color': '#dedede'}, {'lightness': 21}]
+}, {
+  'elementType': 'labels.text.stroke',
+  'stylers': [{'visibility': 'on'}, {'color': '#ffffff'}, {'lightness': 16}]
+}, {
+  'elementType': 'labels.text.fill',
+  'stylers': [{'saturation': 36}, {'color': '#333333'}, {'lightness': 40}]
+}, {'elementType': 'labels.icon', 'stylers': [{'visibility': 'off'}]}, {
+  'featureType': 'transit',
+  'elementType': 'geometry',
+  'stylers': [{'color': '#f2f2f2'}, {'lightness': 19}]
+}, {
+  'featureType': 'administrative',
+  'elementType': 'geometry.fill',
+  'stylers': [{'color': '#fefefe'}, {'lightness': 20}]
+}, {
+  'featureType': 'administrative',
+  'elementType': 'geometry.stroke',
+  'stylers': [{'color': '#fefefe'}, {'lightness': 17}, {'weight': 1.2}]
+}]" %}
+
+<section class="gmap js-gmap"
+         data-api-key="{{ gmap_api_key }}"
+         data-center-lat="{{ gmap_center_lat }}"
+         data-center-lng="{{ gmap_center_lng }}"
+         data-initial-zoom="{{ gmap_initial_zoom|default(8) }}"
+         data-max-zoom="{{ gmap_max_zoom|default(12) }}"
+         data-marker-default-path="{{ gmap_marker_default_path }}"
+         data-marker-selected-path="{{ gmap_marker_selected_path }}"
+         data-marker-group-path="{{ gmap_marker_group_path }}"
+         data-style="{{ gmap_style|default(map_style)|json_encode }}">
+    <div class="gmap__map"></div>
+    {% include '@Euskaltel/components/gmap_marker_detail.html.twig' %}
+</section>
