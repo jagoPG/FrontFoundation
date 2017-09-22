@@ -3,7 +3,7 @@
   "version": "0.6.1",
   "author": "LIN3S",
   "license": "MIT",
-  "description": "Base CSS and JS files for building views in LIN3S way",
+  "description": "Library that provides a sort of commonly used front-end components in LIN3S projects",
   "keywords": [
     "lin3s",
     "front",
@@ -12,7 +12,7 @@
     "js",
     "scss"
   ],
-  "main": "dist/index.js",
+  "main": "dist/js/index.js",
   "files": [
     "dist",
     "LICENSE",

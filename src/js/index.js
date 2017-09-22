@@ -14,6 +14,7 @@ import * as Browser from './browser/index';
 import * as Dom from './dom/index';
 import * as Async from './async/index';
 import * as Parsley from './parsley/index';
+import * as EventBus from './event-bus/index';
 
 export {
   Ui,
@@ -21,4 +22,5 @@ export {
   Dom,
   Parsley,
   Async,
+  EventBus,
 }

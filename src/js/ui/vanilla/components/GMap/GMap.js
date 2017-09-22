@@ -12,6 +12,7 @@
 import {EventPublisher} from 'lin3s-event-bus';
 import {isIE11} from './../../../../browser';
 import GMapMarkerDetail from './../GMapMarkerDetail/GMapMarkerDetail';
+import GMapInitializedEvent from './../../../../event-bus/GMap/GMapInitializedEvent';
 import GMapMarkerSelectedEvent from './../../../../event-bus/GMap/GMapMarkerSelectedEvent';
 import GMapGeocodeNoResultsEvent from './../../../../event-bus/GMap/GMapGeocodeNoResultsEvent';
 
@@ -61,11 +62,13 @@ class GMap {
     this.initGeocoder();
     this.bindListeners();
 
-    return new Promise(resolve => {
+    const initPromise = new Promise(resolve => {
       google.maps.event.addListenerOnce(this.map, 'projection_changed', () => {
-        resolve(this);
+        resolve();
       });
     });
+
+    initPromise.then(() => this.publishMapInstanceInitializedEvent());
   }
 
   buildMarkerIcons() {
@@ -135,6 +138,7 @@ class GMap {
   bindListeners() {
     this.map.addListener('click', () => this.onMarkerSelected());
     this.map.addListener('dragstart', () => this.onMarkerSelected());
+    this.map.addListener('zoom_changed', () => this.onMarkerSelected());
   }
 
   setCenterOffsets({x = 0, y = 0} = {}) {
@@ -308,7 +312,7 @@ class GMap {
     if (this.bounds !== undefined) {
       this.centerMapOnBounds(this.bounds);
     } else {
-      this.map.setZoom(this.zoom);
+      this.map.setZoom(this.zoom.initial);
       this.centerMap(this.getOffsetedLatLng(new google.maps.LatLng(
         this.center.lat,
         this.center.lng
@@ -318,6 +322,22 @@ class GMap {
 
   onMarkerSelected(marker) {
     this.publishMarkerSelectedEvent(marker);
+  }
+
+  isChildOfDomNode(node) {
+    let parentNode = this.domNode.parentNode;
+    while (parentNode !== null) {
+      if (parentNode === node) {
+        return true;
+      }
+      parentNode = parentNode.parentNode;
+    }
+
+    return false;
+  }
+
+  publishMapInstanceInitializedEvent() {
+    EventPublisher.publish(new GMapInitializedEvent(this));
   }
 
   publishMarkerSelectedEvent(marker) {

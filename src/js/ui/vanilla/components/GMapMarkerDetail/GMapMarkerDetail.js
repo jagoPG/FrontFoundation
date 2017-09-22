@@ -17,8 +17,8 @@ class GMapMarkerDetail {
 
   constructor(domNode) {
     this.domNode = domNode;
-    this.closeButton = this.domNode.querySelectorAll('.gmap-marker-detail__close');
-    this.content = this.domNode.querySelectorAll('.gmap-marker-detail__content');
+    this.closeButton = this.domNode.querySelector('.gmap-marker-detail__close');
+    this.content = this.domNode.querySelector('.gmap-marker-detail__content');
 
     this.bindListeners();
   }

@@ -5,6 +5,29 @@
 </head>
 <body>
     <script src="/dist/app.js"></script>
+    <style type="text/css">
+        .gmap {
+            position: relative;
+        }
+        .gmap__map {
+            height: 400px;
+        }
+        .gmap-geocoder__filter {
+            padding: 20px 30px;
+        }
+        .gmap-marker-detail {
+            background-color: #fff;
+            display: none;
+            left: 30px;
+            padding: 15px;
+            position: absolute;
+            top: 30px;
+            width: 320px;
+        }
+        .gmap-marker-detail--visible {
+            display: block;
+        }
+    </style>
 
     <h1>Lin3s Front Foundation</h1>
     <h2>Test App page</h2>
@@ -19,9 +42,40 @@
             </div>
         </section>
 
-        <section class="gmap">
-            <h3>This is a basic <i>gmap component</i> usage case.</h3>
+        <section class="gmap-basic">
+            <h3>This is a basic <i>gmap component</i> usage example.</h3>
+            {% include '@lin3s_front_foundation/components/gmap.html.twig' with {
+                gmap_api_key: 'AIzaSyDQaCE_7C5iAmpwr_y1C1DHbtZsqag74Sk',
+                gmap_center_lat: '43.2631394',
+                gmap_center_lng: '-2.9275847',
+                gmap_initial_zoom: 14,
+                gmap_max_zoom: 20,
+                gmap_marker_default_path: '/images/gmap/marker-default',
+                gmap_marker_selected_path: '/images/gmap/marker-default',
+                gmap_marker_group_path: '/images/gmap/marker-default'
+            } %}
+        </section>
 
+        <section class="gmap-geocoder">
+            <h3>This is an advanced <i>gmap component</i> usage example. We will use the geocoder and markers through a higher level composition</h3>
+            <div>
+                <input class="gmap-geocoder__filter" type="text" placeholder="Address, town, ZIP code, city..."/>
+                <label class="gmap-geocoder__error"></label>
+            </div>
+            {% embed '@lin3s_front_foundation/components/gmap.html.twig' with {
+                gmap_api_key: 'AIzaSyDQaCE_7C5iAmpwr_y1C1DHbtZsqag74Sk',
+                gmap_center_lat: '43.2631394',
+                gmap_center_lng: '-2.9275847',
+                gmap_initial_zoom: 14,
+                gmap_max_zoom: 20,
+                gmap_marker_default_path: '/images/gmap/marker-default',
+                gmap_marker_selected_path: '/images/gmap/marker-default',
+                gmap_marker_group_path: '/images/gmap/marker-default'
+            } %}
+                {% block gmap_marker_detail_close_button_content %}
+                    close
+                {% endblock %}
+            {% endembed %}
         </section>
     </main>
 </body>

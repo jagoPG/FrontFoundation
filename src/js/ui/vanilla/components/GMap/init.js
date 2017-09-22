@@ -12,13 +12,8 @@
 import {onDomReady, EventPublisher} from 'lin3s-event-bus';
 import {loadScript} from './../../../../dom';
 import GMap from './GMap';
-import {GMapInitializedEvent} from './../../../../event-bus/GMap/GMapInitializedEvent';
 
 const GMAP_CLASS_NAME = 'js-gmap';
-
-const publishMapInstanceInitializedEvent = (gmapInstance) => {
-  EventPublisher.publish(new GMapInitializedEvent(gmapInstance));
-};
 
 const loadGMapScripts = (apiKey) => {
   const lang = document.querySelector('html').getAttribute('lang');
@@ -47,14 +42,15 @@ window.initGMap = () => {
   Array.from(gmaps).forEach(map => {
     const
       centerLat = parseFloat(map.dataset.centerLat, 10),
-      centerLng = parseFloat(map.dataset.enterLng, 10),
+      centerLng = parseFloat(map.dataset.centerLng, 10),
       initialZoom = parseInt(map.dataset.initialZoom, 10),
-      maxZoom = parseInt(map.dataset.initialZoom, 10),
+      maxZoom = parseInt(map.dataset.maxZoom, 10),
       markerDefaultPath = map.dataset.markerDefaultPath,
       markerSelectedPath = map.dataset.markerSelectedPath,
-      markerGroupPath = map.dataset.markerGroupPath;
+      markerGroupPath = map.dataset.markerGroupPath,
+      mapStyle = JSON.parse(map.dataset.style);
 
-    const gmapPromise = new GMap(map, {
+    new GMap(map, {
       center: {
         lat: centerLat,
         lng: centerLng
@@ -65,11 +61,8 @@ window.initGMap = () => {
       },
       markerDefaultPath,
       markerSelectedPath,
-      markerGroupPath
-    });
-
-    gmapPromise.then(gmap => {
-      publishMapInstanceInitializedEvent(gmap);
+      markerGroupPath,
+      mapStyle
     });
   });
 };

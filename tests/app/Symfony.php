@@ -73,6 +73,7 @@ class Symfony extends Kernel
         $container->loadFromExtension('twig', [
             'paths' => [
                 '%kernel.project_dir%' => '',
+                '%kernel.project_dir%/vendor/lin3s/front-foundation/src/templates/twig' => 'lin3s_front_foundation',
             ],
         ]);
     }

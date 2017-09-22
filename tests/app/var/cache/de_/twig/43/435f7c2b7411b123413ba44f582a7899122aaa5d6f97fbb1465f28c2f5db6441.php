@@ -1,0 +1,290 @@
+<?php
+
+/* node_modules/fsevents/node_modules/ajv/lib/dotjs/_limit.js */
+class __TwigTemplate_a819bc436a5545f75e09d88adf2eb58c8178a4800e12745b0258cac294140e3e extends Twig_Template
+{
+    public function __construct(Twig_Environment $env)
+    {
+        parent::__construct($env);
+
+        $this->parent = false;
+
+        $this->blocks = array(
+        );
+    }
+
+    protected function doDisplay(array $context, array $blocks = array())
+    {
+        $__internal_2ae60c0acff8762b1bc7a085c14fe25106fa2452b0c46d953cc777c7a3a6a02c = $this->env->getExtension("Symfony\\Bridge\\Twig\\Extension\\ProfilerExtension");
+        $__internal_2ae60c0acff8762b1bc7a085c14fe25106fa2452b0c46d953cc777c7a3a6a02c->enter($__internal_2ae60c0acff8762b1bc7a085c14fe25106fa2452b0c46d953cc777c7a3a6a02c_prof = new Twig_Profiler_Profile($this->getTemplateName(), "template", "node_modules/fsevents/node_modules/ajv/lib/dotjs/_limit.js"));
+
+        // line 1
+        echo "'use strict';
+module.exports = function generate__limit(it, \$keyword) {
+  var out = ' ';
+  var \$lvl = it.level;
+  var \$dataLvl = it.dataLevel;
+  var \$schema = it.schema[\$keyword];
+  var \$schemaPath = it.schemaPath + it.util.getProperty(\$keyword);
+  var \$errSchemaPath = it.errSchemaPath + '/' + \$keyword;
+  var \$breakOnError = !it.opts.allErrors;
+  var \$errorKeyword;
+  var \$data = 'data' + (\$dataLvl || '');
+  var \$isData = it.opts.v5 && \$schema && \$schema.\$data,
+    \$schemaValue;
+  if (\$isData) {
+    out += ' var schema' + (\$lvl) + ' = ' + (it.util.getData(\$schema.\$data, \$dataLvl, it.dataPathArr)) + '; ';
+    \$schemaValue = 'schema' + \$lvl;
+  } else {
+    \$schemaValue = \$schema;
+  }
+  var \$isMax = \$keyword == 'maximum',
+    \$exclusiveKeyword = \$isMax ? 'exclusiveMaximum' : 'exclusiveMinimum',
+    \$schemaExcl = it.schema[\$exclusiveKeyword],
+    \$isDataExcl = it.opts.v5 && \$schemaExcl && \$schemaExcl.\$data,
+    \$op = \$isMax ? '<' : '>',
+    \$notOp = \$isMax ? '>' : '<';
+  if (\$isDataExcl) {
+    var \$schemaValueExcl = it.util.getData(\$schemaExcl.\$data, \$dataLvl, it.dataPathArr),
+      \$exclusive = 'exclusive' + \$lvl,
+      \$opExpr = 'op' + \$lvl,
+      \$opStr = '\\' + ' + \$opExpr + ' + \\'';
+    out += ' var schemaExcl' + (\$lvl) + ' = ' + (\$schemaValueExcl) + '; ';
+    \$schemaValueExcl = 'schemaExcl' + \$lvl;
+    out += ' var exclusive' + (\$lvl) + '; if (typeof ' + (\$schemaValueExcl) + ' != \\'boolean\\' && typeof ' + (\$schemaValueExcl) + ' != \\'undefined\\') { ';
+    var \$errorKeyword = \$exclusiveKeyword;
+    var \$\$outStack = \$\$outStack || [];
+    \$\$outStack.push(out);
+    out = ''; /* istanbul ignore else */
+    if (it.createErrors !== false) {
+      out += ' { keyword: \\'' + (\$errorKeyword || '_exclusiveLimit') + '\\' , dataPath: (dataPath || \\'\\') + ' + (it.errorPath) + ' , schemaPath: ' + (it.util.toQuotedString(\$errSchemaPath)) + ' , params: {} ';
+      if (it.opts.messages !== false) {
+        out += ' , message: \\'' + (\$exclusiveKeyword) + ' should be boolean\\' ';
+      }
+      if (it.opts.verbose) {
+        out += ' , schema: validate.schema' + (\$schemaPath) + ' , parentSchema: validate.schema' + (it.schemaPath) + ' , data: ' + (\$data) + ' ';
+      }
+      out += ' } ';
+    } else {
+      out += ' {} ';
+    }
+    var __err = out;
+    out = \$\$outStack.pop();
+    if (!it.compositeRule && \$breakOnError) { /* istanbul ignore if */
+      if (it.async) {
+        out += ' throw new ValidationError([' + (__err) + ']); ';
+      } else {
+        out += ' validate.errors = [' + (__err) + ']; return false; ';
+      }
+    } else {
+      out += ' var err = ' + (__err) + ';  if (vErrors === null) vErrors = [err]; else vErrors.push(err); errors++; ';
+    }
+    out += ' } else if( ';
+    if (\$isData) {
+      out += ' (' + (\$schemaValue) + ' !== undefined && typeof ' + (\$schemaValue) + ' != \\'number\\') || ';
+    }
+    out += ' ((exclusive' + (\$lvl) + ' = ' + (\$schemaValueExcl) + ' === true) ? ' + (\$data) + ' ' + (\$notOp) + '= ' + (\$schemaValue) + ' : ' + (\$data) + ' ' + (\$notOp) + ' ' + (\$schemaValue) + ') || ' + (\$data) + ' !== ' + (\$data) + ') { var op' + (\$lvl) + ' = exclusive' + (\$lvl) + ' ? \\'' + (\$op) + '\\' : \\'' + (\$op) + '=\\';';
+  } else {
+    var \$exclusive = \$schemaExcl === true,
+      \$opStr = \$op;
+    if (!\$exclusive) \$opStr += '=';
+    var \$opExpr = '\\'' + \$opStr + '\\'';
+    out += ' if ( ';
+    if (\$isData) {
+      out += ' (' + (\$schemaValue) + ' !== undefined && typeof ' + (\$schemaValue) + ' != \\'number\\') || ';
+    }
+    out += ' ' + (\$data) + ' ' + (\$notOp);
+    if (\$exclusive) {
+      out += '=';
+    }
+    out += ' ' + (\$schemaValue) + ' || ' + (\$data) + ' !== ' + (\$data) + ') {';
+  }
+  var \$errorKeyword = \$keyword;
+  var \$\$outStack = \$\$outStack || [];
+  \$\$outStack.push(out);
+  out = ''; /* istanbul ignore else */
+  if (it.createErrors !== false) {
+    out += ' { keyword: \\'' + (\$errorKeyword || '_limit') + '\\' , dataPath: (dataPath || \\'\\') + ' + (it.errorPath) + ' , schemaPath: ' + (it.util.toQuotedString(\$errSchemaPath)) + ' , params: { comparison: ' + (\$opExpr) + ', limit: ' + (\$schemaValue) + ', exclusive: ' + (\$exclusive) + ' } ';
+    if (it.opts.messages !== false) {
+      out += ' , message: \\'should be ' + (\$opStr) + ' ';
+      if (\$isData) {
+        out += '\\' + ' + (\$schemaValue);
+      } else {
+        out += '' + (\$schema) + '\\'';
+      }
+    }
+    if (it.opts.verbose) {
+      out += ' , schema:  ';
+      if (\$isData) {
+        out += 'validate.schema' + (\$schemaPath);
+      } else {
+        out += '' + (\$schema);
+      }
+      out += '         , parentSchema: validate.schema' + (it.schemaPath) + ' , data: ' + (\$data) + ' ';
+    }
+    out += ' } ';
+  } else {
+    out += ' {} ';
+  }
+  var __err = out;
+  out = \$\$outStack.pop();
+  if (!it.compositeRule && \$breakOnError) { /* istanbul ignore if */
+    if (it.async) {
+      out += ' throw new ValidationError([' + (__err) + ']); ';
+    } else {
+      out += ' validate.errors = [' + (__err) + ']; return false; ';
+    }
+  } else {
+    out += ' var err = ' + (__err) + ';  if (vErrors === null) vErrors = [err]; else vErrors.push(err); errors++; ';
+  }
+  out += ' } ';
+  if (\$breakOnError) {
+    out += ' else { ';
+  }
+  return out;
+}
+";
+        
+        $__internal_2ae60c0acff8762b1bc7a085c14fe25106fa2452b0c46d953cc777c7a3a6a02c->leave($__internal_2ae60c0acff8762b1bc7a085c14fe25106fa2452b0c46d953cc777c7a3a6a02c_prof);
+
+    }
+
+    public function getTemplateName()
+    {
+        return "node_modules/fsevents/node_modules/ajv/lib/dotjs/_limit.js";
+    }
+
+    public function getDebugInfo()
+    {
+        return array (  22 => 1,);
+    }
+
+    public function getSourceContext()
+    {
+        return new Twig_Source("'use strict';
+module.exports = function generate__limit(it, \$keyword) {
+  var out = ' ';
+  var \$lvl = it.level;
+  var \$dataLvl = it.dataLevel;
+  var \$schema = it.schema[\$keyword];
+  var \$schemaPath = it.schemaPath + it.util.getProperty(\$keyword);
+  var \$errSchemaPath = it.errSchemaPath + '/' + \$keyword;
+  var \$breakOnError = !it.opts.allErrors;
+  var \$errorKeyword;
+  var \$data = 'data' + (\$dataLvl || '');
+  var \$isData = it.opts.v5 && \$schema && \$schema.\$data,
+    \$schemaValue;
+  if (\$isData) {
+    out += ' var schema' + (\$lvl) + ' = ' + (it.util.getData(\$schema.\$data, \$dataLvl, it.dataPathArr)) + '; ';
+    \$schemaValue = 'schema' + \$lvl;
+  } else {
+    \$schemaValue = \$schema;
+  }
+  var \$isMax = \$keyword == 'maximum',
+    \$exclusiveKeyword = \$isMax ? 'exclusiveMaximum' : 'exclusiveMinimum',
+    \$schemaExcl = it.schema[\$exclusiveKeyword],
+    \$isDataExcl = it.opts.v5 && \$schemaExcl && \$schemaExcl.\$data,
+    \$op = \$isMax ? '<' : '>',
+    \$notOp = \$isMax ? '>' : '<';
+  if (\$isDataExcl) {
+    var \$schemaValueExcl = it.util.getData(\$schemaExcl.\$data, \$dataLvl, it.dataPathArr),
+      \$exclusive = 'exclusive' + \$lvl,
+      \$opExpr = 'op' + \$lvl,
+      \$opStr = '\\' + ' + \$opExpr + ' + \\'';
+    out += ' var schemaExcl' + (\$lvl) + ' = ' + (\$schemaValueExcl) + '; ';
+    \$schemaValueExcl = 'schemaExcl' + \$lvl;
+    out += ' var exclusive' + (\$lvl) + '; if (typeof ' + (\$schemaValueExcl) + ' != \\'boolean\\' && typeof ' + (\$schemaValueExcl) + ' != \\'undefined\\') { ';
+    var \$errorKeyword = \$exclusiveKeyword;
+    var \$\$outStack = \$\$outStack || [];
+    \$\$outStack.push(out);
+    out = ''; /* istanbul ignore else */
+    if (it.createErrors !== false) {
+      out += ' { keyword: \\'' + (\$errorKeyword || '_exclusiveLimit') + '\\' , dataPath: (dataPath || \\'\\') + ' + (it.errorPath) + ' , schemaPath: ' + (it.util.toQuotedString(\$errSchemaPath)) + ' , params: {} ';
+      if (it.opts.messages !== false) {
+        out += ' , message: \\'' + (\$exclusiveKeyword) + ' should be boolean\\' ';
+      }
+      if (it.opts.verbose) {
+        out += ' , schema: validate.schema' + (\$schemaPath) + ' , parentSchema: validate.schema' + (it.schemaPath) + ' , data: ' + (\$data) + ' ';
+      }
+      out += ' } ';
+    } else {
+      out += ' {} ';
+    }
+    var __err = out;
+    out = \$\$outStack.pop();
+    if (!it.compositeRule && \$breakOnError) { /* istanbul ignore if */
+      if (it.async) {
+        out += ' throw new ValidationError([' + (__err) + ']); ';
+      } else {
+        out += ' validate.errors = [' + (__err) + ']; return false; ';
+      }
+    } else {
+      out += ' var err = ' + (__err) + ';  if (vErrors === null) vErrors = [err]; else vErrors.push(err); errors++; ';
+    }
+    out += ' } else if( ';
+    if (\$isData) {
+      out += ' (' + (\$schemaValue) + ' !== undefined && typeof ' + (\$schemaValue) + ' != \\'number\\') || ';
+    }
+    out += ' ((exclusive' + (\$lvl) + ' = ' + (\$schemaValueExcl) + ' === true) ? ' + (\$data) + ' ' + (\$notOp) + '= ' + (\$schemaValue) + ' : ' + (\$data) + ' ' + (\$notOp) + ' ' + (\$schemaValue) + ') || ' + (\$data) + ' !== ' + (\$data) + ') { var op' + (\$lvl) + ' = exclusive' + (\$lvl) + ' ? \\'' + (\$op) + '\\' : \\'' + (\$op) + '=\\';';
+  } else {
+    var \$exclusive = \$schemaExcl === true,
+      \$opStr = \$op;
+    if (!\$exclusive) \$opStr += '=';
+    var \$opExpr = '\\'' + \$opStr + '\\'';
+    out += ' if ( ';
+    if (\$isData) {
+      out += ' (' + (\$schemaValue) + ' !== undefined && typeof ' + (\$schemaValue) + ' != \\'number\\') || ';
+    }
+    out += ' ' + (\$data) + ' ' + (\$notOp);
+    if (\$exclusive) {
+      out += '=';
+    }
+    out += ' ' + (\$schemaValue) + ' || ' + (\$data) + ' !== ' + (\$data) + ') {';
+  }
+  var \$errorKeyword = \$keyword;
+  var \$\$outStack = \$\$outStack || [];
+  \$\$outStack.push(out);
+  out = ''; /* istanbul ignore else */
+  if (it.createErrors !== false) {
+    out += ' { keyword: \\'' + (\$errorKeyword || '_limit') + '\\' , dataPath: (dataPath || \\'\\') + ' + (it.errorPath) + ' , schemaPath: ' + (it.util.toQuotedString(\$errSchemaPath)) + ' , params: { comparison: ' + (\$opExpr) + ', limit: ' + (\$schemaValue) + ', exclusive: ' + (\$exclusive) + ' } ';
+    if (it.opts.messages !== false) {
+      out += ' , message: \\'should be ' + (\$opStr) + ' ';
+      if (\$isData) {
+        out += '\\' + ' + (\$schemaValue);
+      } else {
+        out += '' + (\$schema) + '\\'';
+      }
+    }
+    if (it.opts.verbose) {
+      out += ' , schema:  ';
+      if (\$isData) {
+        out += 'validate.schema' + (\$schemaPath);
+      } else {
+        out += '' + (\$schema);
+      }
+      out += '         , parentSchema: validate.schema' + (it.schemaPath) + ' , data: ' + (\$data) + ' ';
+    }
+    out += ' } ';
+  } else {
+    out += ' {} ';
+  }
+  var __err = out;
+  out = \$\$outStack.pop();
+  if (!it.compositeRule && \$breakOnError) { /* istanbul ignore if */
+    if (it.async) {
+      out += ' throw new ValidationError([' + (__err) + ']); ';
+    } else {
+      out += ' validate.errors = [' + (__err) + ']; return false; ';
+    }
+  } else {
+    out += ' var err = ' + (__err) + ';  if (vErrors === null) vErrors = [err]; else vErrors.push(err); errors++; ';
+  }
+  out += ' } ';
+  if (\$breakOnError) {
+    out += ' else { ';
+  }
+  return out;
+}
+", "node_modules/fsevents/node_modules/ajv/lib/dotjs/_limit.js", "/Users/mikel/Developer/DEV/FrontFoundation/tests/app/node_modules/fsevents/node_modules/ajv/lib/dotjs/_limit.js");
+    }
+}

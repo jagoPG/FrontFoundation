@@ -70,7 +70,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 5);
+/******/ 	return __webpack_require__(__webpack_require__.s = 10);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -82,6 +82,89 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ }),
 /* 1 */
+/***/ (function(module, exports) {
+
+var g;
+
+// This works in non-strict mode
+g = (function() {
+	return this;
+})();
+
+try {
+	// This works if eval is allowed (see CSP)
+	g = g || Function("return this")() || (1,eval)("this");
+} catch(e) {
+	// This works if the window reference is available
+	if(typeof window === "object")
+		g = window;
+}
+
+// g can still be undefined, but nothing to do about it...
+// We return undefined, instead of nothing here, so it's
+// easier to handle this case. if(!global) { ...}
+
+module.exports = g;
+
+
+/***/ }),
+/* 2 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.EventBus = exports.Async = exports.Parsley = exports.Dom = exports.Browser = exports.Ui = undefined;
+
+var _index = __webpack_require__(13);
+
+var Ui = _interopRequireWildcard(_index);
+
+var _index2 = __webpack_require__(4);
+
+var Browser = _interopRequireWildcard(_index2);
+
+var _index3 = __webpack_require__(9);
+
+var Dom = _interopRequireWildcard(_index3);
+
+var _index4 = __webpack_require__(20);
+
+var Async = _interopRequireWildcard(_index4);
+
+var _index5 = __webpack_require__(22);
+
+var Parsley = _interopRequireWildcard(_index5);
+
+var _index6 = __webpack_require__(29);
+
+var EventBus = _interopRequireWildcard(_index6);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+/*
+ * This file is part of the Front Foundation package.
+ *
+ * Copyright (c) 2017-present LIN3S <info@lin3s.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * @author Beñat Espiña <benatespina@gmail.com>
+ */
+
+exports.Ui = Ui;
+exports.Browser = Browser;
+exports.Dom = Dom;
+exports.Parsley = Parsley;
+exports.Async = Async;
+exports.EventBus = EventBus;
+
+/***/ }),
+/* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -104,17 +187,21 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 var _lin3sEventBus = __webpack_require__(0);
 
-var _browser = __webpack_require__(2);
+var _browser = __webpack_require__(4);
 
-var _GMapMarkerDetail = __webpack_require__(3);
+var _GMapMarkerDetail = __webpack_require__(5);
 
 var _GMapMarkerDetail2 = _interopRequireDefault(_GMapMarkerDetail);
 
-var _GMapMarkerSelectedEvent = __webpack_require__(14);
+var _GMapInitializedEvent = __webpack_require__(6);
+
+var _GMapInitializedEvent2 = _interopRequireDefault(_GMapInitializedEvent);
+
+var _GMapMarkerSelectedEvent = __webpack_require__(7);
 
 var _GMapMarkerSelectedEvent2 = _interopRequireDefault(_GMapMarkerSelectedEvent);
 
-var _GMapGeocodeNoResultsEvent = __webpack_require__(15);
+var _GMapGeocodeNoResultsEvent = __webpack_require__(8);
 
 var _GMapGeocodeNoResultsEvent2 = _interopRequireDefault(_GMapGeocodeNoResultsEvent);
 
@@ -160,10 +247,14 @@ var GMap = function () {
     this.initGeocoder();
     this.bindListeners();
 
-    return new Promise(function (resolve) {
+    var initPromise = new Promise(function (resolve) {
       google.maps.event.addListenerOnce(_this.map, 'projection_changed', function () {
-        resolve(_this);
+        resolve();
       });
+    });
+
+    initPromise.then(function () {
+      return _this.publishMapInstanceInitializedEvent(_this);
     });
   }
 
@@ -242,6 +333,9 @@ var GMap = function () {
         return _this2.onMarkerSelected();
       });
       this.map.addListener('dragstart', function () {
+        return _this2.onMarkerSelected();
+      });
+      this.map.addListener('zoom_changed', function () {
         return _this2.onMarkerSelected();
       });
     }
@@ -437,7 +531,7 @@ var GMap = function () {
       if (this.bounds !== undefined) {
         this.centerMapOnBounds(this.bounds);
       } else {
-        this.map.setZoom(this.zoom);
+        this.map.setZoom(this.zoom.initial);
         this.centerMap(this.getOffsetedLatLng(new google.maps.LatLng(this.center.lat, this.center.lng)));
       }
     }
@@ -445,6 +539,24 @@ var GMap = function () {
     key: 'onMarkerSelected',
     value: function onMarkerSelected(marker) {
       this.publishMarkerSelectedEvent(marker);
+    }
+  }, {
+    key: 'isChildOfDomNode',
+    value: function isChildOfDomNode(node) {
+      var parentNode = this.domNode.parentNode;
+      while (parentNode !== null) {
+        if (parentNode === node) {
+          return true;
+        }
+        parentNode = parentNode.parentNode;
+      }
+
+      return false;
+    }
+  }, {
+    key: 'publishMapInstanceInitializedEvent',
+    value: function publishMapInstanceInitializedEvent() {
+      _lin3sEventBus.EventPublisher.publish(new _GMapInitializedEvent2.default(this));
     }
   }, {
     key: 'publishMarkerSelectedEvent',
@@ -465,7 +577,7 @@ GMap.MARKER_HEIGHT = 59;
 exports.default = GMap;
 
 /***/ }),
-/* 2 */
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -476,7 +588,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.isIE11 = undefined;
 
-var _isIE = __webpack_require__(13);
+var _isIE = __webpack_require__(16);
 
 var _isIE2 = _interopRequireDefault(_isIE);
 
@@ -494,7 +606,7 @@ exports.isIE11 = _isIE2.default; /*
                                   */
 
 /***/ }),
-/* 3 */
+/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -524,8 +636,8 @@ var GMapMarkerDetail = function () {
     _classCallCheck(this, GMapMarkerDetail);
 
     this.domNode = domNode;
-    this.closeButton = this.domNode.querySelectorAll('.gmap-marker-detail__close');
-    this.content = this.domNode.querySelectorAll('.gmap-marker-detail__content');
+    this.closeButton = this.domNode.querySelector('.gmap-marker-detail__close');
+    this.content = this.domNode.querySelector('.gmap-marker-detail__content');
 
     this.bindListeners();
   }
@@ -587,7 +699,142 @@ var GMapMarkerDetail = function () {
 exports.default = GMapMarkerDetail;
 
 /***/ }),
-/* 4 */
+/* 6 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _lin3sEventBus = __webpack_require__(0);
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /*
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * This file is part of the Front Foundation package.
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                *
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Copyright (c) 2017-present LIN3S <info@lin3s.com>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                *
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * For the full copyright and license information, please view the LICENSE
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * file that was distributed with this source code.
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                *
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @author Mikel Tuesta <mikeltuesta@gmail.com>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
+
+var GMapInitializedEvent = function (_Event) {
+  _inherits(GMapInitializedEvent, _Event);
+
+  function GMapInitializedEvent(gmap) {
+    _classCallCheck(this, GMapInitializedEvent);
+
+    var _this = _possibleConstructorReturn(this, (GMapInitializedEvent.__proto__ || Object.getPrototypeOf(GMapInitializedEvent)).call(this, GMapInitializedEvent.NAME));
+
+    _this.gmap = gmap;
+    return _this;
+  }
+
+  return GMapInitializedEvent;
+}(_lin3sEventBus.Event);
+
+GMapInitializedEvent.NAME = 'GMAP_INITIALIZED';
+exports.default = GMapInitializedEvent;
+
+/***/ }),
+/* 7 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _lin3sEventBus = __webpack_require__(0);
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /*
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * This file is part of the Front Foundation package.
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                *
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Copyright (c) 2017-present LIN3S <info@lin3s.com>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                *
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * For the full copyright and license information, please view the LICENSE
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * file that was distributed with this source code.
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                *
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @author Mikel Tuesta <mikeltuesta@gmail.com>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
+
+var GMapMarkerSelectedEvent = function (_Event) {
+  _inherits(GMapMarkerSelectedEvent, _Event);
+
+  function GMapMarkerSelectedEvent(marker) {
+    _classCallCheck(this, GMapMarkerSelectedEvent);
+
+    var _this = _possibleConstructorReturn(this, (GMapMarkerSelectedEvent.__proto__ || Object.getPrototypeOf(GMapMarkerSelectedEvent)).call(this, GMapMarkerSelectedEvent.NAME));
+
+    _this.marker = marker;
+    return _this;
+  }
+
+  return GMapMarkerSelectedEvent;
+}(_lin3sEventBus.Event);
+
+GMapMarkerSelectedEvent.NAME = 'GMAP_MARKER_SELECTED';
+exports.default = GMapMarkerSelectedEvent;
+
+/***/ }),
+/* 8 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _lin3sEventBus = __webpack_require__(0);
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /*
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * This file is part of the Front Foundation package.
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                *
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Copyright (c) 2017-present LIN3S <info@lin3s.com>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                *
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * For the full copyright and license information, please view the LICENSE
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * file that was distributed with this source code.
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                *
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @author Mikel Tuesta <mikeltuesta@gmail.com>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
+
+var GMapGeocodeNoResultsEvent = function (_Event) {
+  _inherits(GMapGeocodeNoResultsEvent, _Event);
+
+  function GMapGeocodeNoResultsEvent() {
+    _classCallCheck(this, GMapGeocodeNoResultsEvent);
+
+    return _possibleConstructorReturn(this, (GMapGeocodeNoResultsEvent.__proto__ || Object.getPrototypeOf(GMapGeocodeNoResultsEvent)).call(this, GMapGeocodeNoResultsEvent.NAME));
+  }
+
+  return GMapGeocodeNoResultsEvent;
+}(_lin3sEventBus.Event);
+
+GMapGeocodeNoResultsEvent.NAME = 'GMAP_GEOCODE_NO_RESULTS_EVENT';
+exports.default = GMapGeocodeNoResultsEvent;
+
+/***/ }),
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -598,11 +845,11 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.waitImagesLoadInDomNode = exports.loadScript = undefined;
 
-var _loadScript = __webpack_require__(17);
+var _loadScript = __webpack_require__(18);
 
 var _loadScript2 = _interopRequireDefault(_loadScript);
 
-var _waitImagesLoadInDomNode = __webpack_require__(18);
+var _waitImagesLoadInDomNode = __webpack_require__(19);
 
 var _waitImagesLoadInDomNode2 = _interopRequireDefault(_waitImagesLoadInDomNode);
 
@@ -623,31 +870,35 @@ exports.loadScript = _loadScript2.default;
 exports.waitImagesLoadInDomNode = _waitImagesLoadInDomNode2.default;
 
 /***/ }),
-/* 5 */
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-__webpack_require__(6);
+__webpack_require__(11);
 
-var _lin3sFrontFoundation = __webpack_require__(9);
+var _lin3sFrontFoundation = __webpack_require__(2);
 
 var _lin3sEventBus = __webpack_require__(0);
+
+__webpack_require__(33);
+
+/*
+ * This file is part of the Front Foundation package.
+ *
+ * Copyright (c) 2017-present LIN3S <info@lin3s.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * @author Mikel Tuesta <mikeltuesta@gmail.com>
+ */
 
 var testParsleySetLocale = function testParsleySetLocale() {
   console.log('Testing Parsley.setLocale');
   _lin3sFrontFoundation.Parsley.setLocale();
-}; /*
-    * This file is part of the Front Foundation package.
-    *
-    * Copyright (c) 2017-present LIN3S <info@lin3s.com>
-    *
-    * For the full copyright and license information, please view the LICENSE
-    * file that was distributed with this source code.
-    *
-    * @author Mikel Tuesta <mikeltuesta@gmail.com>
-    */
+};
 
 var testAsyncCancelablePromise = function testAsyncCancelablePromise() {
   console.log('Testing Promise.cancelablePromise');
@@ -678,15 +929,9 @@ var testBrowserIsIE11 = function testBrowserIsIE11() {
 };
 
 var testDomLoadScript = function testDomLoadScript() {
-  console.log('Testing Dom.waitImagesLoadInDomNode');
+  console.log('Testing Dom.loadScript');
 
-  var DEMO_API_KEY = 'AIzaSyCYizPY9R-o4m5AF-bJWxeF-Us7F5dB9us';
-  var scriptPath = 'https://maps.googleapis.com/maps/api/js?key=' + DEMO_API_KEY + '&callback=googleMapsLoadedCallback';
-
-  window.googleMapsLoadedCallback = function () {
-    console.log('Google Maps script has been loaded!');
-  };
-
+  var scriptPath = 'https://code.jquery.com/jquery-3.2.1.slim.min.js';
   var scriptLoadPromise = _lin3sFrontFoundation.Dom.loadScript(scriptPath);
 
   scriptLoadPromise.then(function (resolvedObject) {
@@ -718,7 +963,7 @@ var onReady = function onReady() {
 (0, _lin3sEventBus.onDomReady)(onReady);
 
 /***/ }),
-/* 6 */
+/* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {/*!
@@ -742,7 +987,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) arr2[i] = arr[i]; return arr2; } else { return Array.from(arr); } }
 
 (function (global, factory) {
-   true ? module.exports = factory(__webpack_require__(8)) : typeof define === 'function' && define.amd ? define(['jquery'], factory) : global.parsley = factory(global.jQuery);
+   true ? module.exports = factory(__webpack_require__(12)) : typeof define === 'function' && define.amd ? define(['jquery'], factory) : global.parsley = factory(global.jQuery);
 })(this, function ($) {
   'use strict';
 
@@ -3184,37 +3429,10 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 });
 //# sourceMappingURL=parsley.js.map
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 7 */
-/***/ (function(module, exports) {
-
-var g;
-
-// This works in non-strict mode
-g = (function() {
-	return this;
-})();
-
-try {
-	// This works if eval is allowed (see CSP)
-	g = g || Function("return this")() || (1,eval)("this");
-} catch(e) {
-	// This works if the window reference is available
-	if(typeof window === "object")
-		g = window;
-}
-
-// g can still be undefined, but nothing to do about it...
-// We return undefined, instead of nothing here, so it's
-// easier to handle this case. if(!global) { ...}
-
-module.exports = g;
-
-
-/***/ }),
-/* 8 */
+/* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -13474,56 +13692,7 @@ return jQuery;
 
 
 /***/ }),
-/* 9 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.Async = exports.Parsley = exports.Dom = exports.Browser = exports.Ui = undefined;
-
-var _index = __webpack_require__(10);
-
-var Ui = _interopRequireWildcard(_index);
-
-var _index2 = __webpack_require__(2);
-
-var Browser = _interopRequireWildcard(_index2);
-
-var _index3 = __webpack_require__(4);
-
-var Dom = _interopRequireWildcard(_index3);
-
-var _index4 = __webpack_require__(20);
-
-var Async = _interopRequireWildcard(_index4);
-
-var _index5 = __webpack_require__(22);
-
-var Parsley = _interopRequireWildcard(_index5);
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-exports.Ui = Ui;
-exports.Browser = Browser;
-exports.Dom = Dom;
-exports.Parsley = Parsley;
-exports.Async = Async; /*
-                        * This file is part of the Front Foundation package.
-                        *
-                        * Copyright (c) 2017-present LIN3S <info@lin3s.com>
-                        *
-                        * For the full copyright and license information, please view the LICENSE
-                        * file that was distributed with this source code.
-                        *
-                        * @author Beñat Espiña <benatespina@gmail.com>
-                        */
-
-/***/ }),
-/* 10 */
+/* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13534,11 +13703,11 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.Vanilla = exports.React = undefined;
 
-var _index = __webpack_require__(11);
+var _index = __webpack_require__(14);
 
 var React = _interopRequireWildcard(_index);
 
-var _index2 = __webpack_require__(12);
+var _index2 = __webpack_require__(15);
 
 var Vanilla = _interopRequireWildcard(_index2);
 
@@ -13559,7 +13728,7 @@ exports.React = React;
 exports.Vanilla = Vanilla;
 
 /***/ }),
-/* 11 */
+/* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13570,7 +13739,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 
 /***/ }),
-/* 12 */
+/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13581,15 +13750,15 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.GMapMarkerDetail = exports.GMap = undefined;
 
-var _GMap = __webpack_require__(1);
+var _GMap = __webpack_require__(3);
 
 var _GMap2 = _interopRequireDefault(_GMap);
 
-var _GMapMarkerDetail = __webpack_require__(3);
+var _GMapMarkerDetail = __webpack_require__(5);
 
 var _GMapMarkerDetail2 = _interopRequireDefault(_GMapMarkerDetail);
 
-__webpack_require__(16);
+__webpack_require__(17);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -13609,7 +13778,7 @@ exports.GMapMarkerDetail = _GMapMarkerDetail2.default;
  */
 
 /***/ }),
-/* 13 */
+/* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13645,96 +13814,7 @@ exports.default = function () {
 };
 
 /***/ }),
-/* 14 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _lin3sEventBus = __webpack_require__(0);
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /*
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * This file is part of the Front Foundation package.
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                *
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Copyright (c) 2017-present LIN3S <info@lin3s.com>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                *
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * For the full copyright and license information, please view the LICENSE
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * file that was distributed with this source code.
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                *
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @author Mikel Tuesta <mikeltuesta@gmail.com>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
-
-var GMapMarkerSelectedEvent = function (_Event) {
-  _inherits(GMapMarkerSelectedEvent, _Event);
-
-  function GMapMarkerSelectedEvent(marker) {
-    _classCallCheck(this, GMapMarkerSelectedEvent);
-
-    var _this = _possibleConstructorReturn(this, (GMapMarkerSelectedEvent.__proto__ || Object.getPrototypeOf(GMapMarkerSelectedEvent)).call(this, GMapMarkerSelectedEvent.NAME));
-
-    _this.marker = marker;
-    return _this;
-  }
-
-  return GMapMarkerSelectedEvent;
-}(_lin3sEventBus.Event);
-
-GMapMarkerSelectedEvent.NAME = 'GMAP_MARKER_SELECTED';
-exports.default = GMapMarkerSelectedEvent;
-
-/***/ }),
-/* 15 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _lin3sEventBus = __webpack_require__(0);
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /*
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * This file is part of the Front Foundation package.
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                *
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Copyright (c) 2017-present LIN3S <info@lin3s.com>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                *
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * For the full copyright and license information, please view the LICENSE
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * file that was distributed with this source code.
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                *
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @author Mikel Tuesta <mikeltuesta@gmail.com>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
-
-var GMapGeocodeNoResultsEvent = function (_Event) {
-  _inherits(GMapGeocodeNoResultsEvent, _Event);
-
-  function GMapGeocodeNoResultsEvent() {
-    _classCallCheck(this, GMapGeocodeNoResultsEvent);
-
-    return _possibleConstructorReturn(this, (GMapGeocodeNoResultsEvent.__proto__ || Object.getPrototypeOf(GMapGeocodeNoResultsEvent)).call(this, GMapGeocodeNoResultsEvent.NAME));
-  }
-
-  return GMapGeocodeNoResultsEvent;
-}(_lin3sEventBus.Event);
-
-GMapGeocodeNoResultsEvent.NAME = 'GMAP_GEOCODE_NO_RESULTS_EVENT';
-exports.default = GMapGeocodeNoResultsEvent;
-
-/***/ }),
-/* 16 */
+/* 17 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13742,32 +13822,24 @@ exports.default = GMapGeocodeNoResultsEvent;
 
 var _lin3sEventBus = __webpack_require__(0);
 
-var _dom = __webpack_require__(4);
+var _dom = __webpack_require__(9);
 
-var _GMap = __webpack_require__(1);
+var _GMap = __webpack_require__(3);
 
 var _GMap2 = _interopRequireDefault(_GMap);
 
-var _GMapInitializedEvent = __webpack_require__(19);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-/*
- * This file is part of the Front Foundation package.
- *
- * Copyright (c) 2017-present LIN3S <info@lin3s.com>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- *
- * @author Mikel Tuesta <mikeltuesta@gmail.com>
- */
-
-var GMAP_CLASS_NAME = 'js-gmap';
-
-var publishMapInstanceInitializedEvent = function publishMapInstanceInitializedEvent(gmapInstance) {
-  _lin3sEventBus.EventPublisher.publish(new _GMapInitializedEvent.GMapInitializedEvent(gmapInstance));
-};
+var GMAP_CLASS_NAME = 'js-gmap'; /*
+                                  * This file is part of the Front Foundation package.
+                                  *
+                                  * Copyright (c) 2017-present LIN3S <info@lin3s.com>
+                                  *
+                                  * For the full copyright and license information, please view the LICENSE
+                                  * file that was distributed with this source code.
+                                  *
+                                  * @author Mikel Tuesta <mikeltuesta@gmail.com>
+                                  */
 
 var loadGMapScripts = function loadGMapScripts(apiKey) {
   var lang = document.querySelector('html').getAttribute('lang');
@@ -13794,14 +13866,15 @@ window.initGMap = function () {
 
   Array.from(gmaps).forEach(function (map) {
     var centerLat = parseFloat(map.dataset.centerLat, 10),
-        centerLng = parseFloat(map.dataset.enterLng, 10),
+        centerLng = parseFloat(map.dataset.centerLng, 10),
         initialZoom = parseInt(map.dataset.initialZoom, 10),
-        maxZoom = parseInt(map.dataset.initialZoom, 10),
+        maxZoom = parseInt(map.dataset.maxZoom, 10),
         markerDefaultPath = map.dataset.markerDefaultPath,
         markerSelectedPath = map.dataset.markerSelectedPath,
-        markerGroupPath = map.dataset.markerGroupPath;
+        markerGroupPath = map.dataset.markerGroupPath,
+        mapStyle = JSON.parse(map.dataset.style);
 
-    var gmapPromise = new _GMap2.default(map, {
+    new _GMap2.default(map, {
       center: {
         lat: centerLat,
         lng: centerLng
@@ -13812,11 +13885,8 @@ window.initGMap = function () {
       },
       markerDefaultPath: markerDefaultPath,
       markerSelectedPath: markerSelectedPath,
-      markerGroupPath: markerGroupPath
-    });
-
-    gmapPromise.then(function (gmap) {
-      publishMapInstanceInitializedEvent(gmap);
+      markerGroupPath: markerGroupPath,
+      mapStyle: mapStyle
     });
   });
 };
@@ -13824,7 +13894,7 @@ window.initGMap = function () {
 (0, _lin3sEventBus.onDomReady)(onReady);
 
 /***/ }),
-/* 17 */
+/* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13860,7 +13930,7 @@ exports.default = function (scriptPath) {
 };
 
 /***/ }),
-/* 18 */
+/* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13895,52 +13965,6 @@ exports.default = function (domNode) {
 
   return Promise.all(promises);
 };
-
-/***/ }),
-/* 19 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _lin3sEventBus = __webpack_require__(0);
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /*
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * This file is part of the Front Foundation package.
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                *
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Copyright (c) 2017-present LIN3S <info@lin3s.com>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                *
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * For the full copyright and license information, please view the LICENSE
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * file that was distributed with this source code.
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                *
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @author Mikel Tuesta <mikeltuesta@gmail.com>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
-
-var GMapInitializedEvent = function (_Event) {
-  _inherits(GMapInitializedEvent, _Event);
-
-  function GMapInitializedEvent(gmap) {
-    _classCallCheck(this, GMapInitializedEvent);
-
-    var _this = _possibleConstructorReturn(this, (GMapInitializedEvent.__proto__ || Object.getPrototypeOf(GMapInitializedEvent)).call(this, GMapInitializedEvent.NAME));
-
-    _this.gmap = gmap;
-    return _this;
-  }
-
-  return GMapInitializedEvent;
-}(_lin3sEventBus.Event);
-
-GMapInitializedEvent.NAME = 'GMAP_INITIALIZED';
-exports.default = GMapInitializedEvent;
 
 /***/ }),
 /* 20 */
@@ -14260,6 +14284,724 @@ Parsley.addMessages('fr', {
 
 Parsley.setLocale('fr');
 
+
+/***/ }),
+/* 29 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.GMapGeocodeNoResultsEventSubscriber = exports.GMapMarkerSelectedEventSubscriber = exports.GMapInitializedEventSubscriber = undefined;
+
+var _GMapInitializedEventSubscriber = __webpack_require__(30);
+
+var _GMapInitializedEventSubscriber2 = _interopRequireDefault(_GMapInitializedEventSubscriber);
+
+var _GMapMarkerSelectedEventSubscriber = __webpack_require__(31);
+
+var _GMapMarkerSelectedEventSubscriber2 = _interopRequireDefault(_GMapMarkerSelectedEventSubscriber);
+
+var _GMapGeocodeNoResultsEventSubscriber = __webpack_require__(32);
+
+var _GMapGeocodeNoResultsEventSubscriber2 = _interopRequireDefault(_GMapGeocodeNoResultsEventSubscriber);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.GMapInitializedEventSubscriber = _GMapInitializedEventSubscriber2.default;
+exports.GMapMarkerSelectedEventSubscriber = _GMapMarkerSelectedEventSubscriber2.default;
+exports.GMapGeocodeNoResultsEventSubscriber = _GMapGeocodeNoResultsEventSubscriber2.default; /*
+                                                                                              * This file is part of the Front Foundation package.
+                                                                                              *
+                                                                                              * Copyright (c) 2017-present LIN3S <info@lin3s.com>
+                                                                                              *
+                                                                                              * For the full copyright and license information, please view the LICENSE
+                                                                                              * file that was distributed with this source code.
+                                                                                              *
+                                                                                              * @author Mikel Tuesta <mikeltuesta@gmail.com>
+                                                                                              */
+
+/***/ }),
+/* 30 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _lin3sEventBus = __webpack_require__(0);
+
+var _GMapInitializedEvent = __webpack_require__(6);
+
+var _GMapInitializedEvent2 = _interopRequireDefault(_GMapInitializedEvent);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /*
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * This file is part of the Front Foundation package.
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                *
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Copyright (c) 2017-present LIN3S <info@lin3s.com>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                *
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * For the full copyright and license information, please view the LICENSE
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * file that was distributed with this source code.
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                *
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @author Mikel Tuesta <mikeltuesta@gmail.com>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
+
+var GMapInitializedEventSubscriber = function (_EventSubscriber) {
+  _inherits(GMapInitializedEventSubscriber, _EventSubscriber);
+
+  function GMapInitializedEventSubscriber() {
+    _classCallCheck(this, GMapInitializedEventSubscriber);
+
+    return _possibleConstructorReturn(this, (GMapInitializedEventSubscriber.__proto__ || Object.getPrototypeOf(GMapInitializedEventSubscriber)).apply(this, arguments));
+  }
+
+  _createClass(GMapInitializedEventSubscriber, [{
+    key: 'isSubscribedTo',
+    value: function isSubscribedTo(anEvent) {
+      var event = new _GMapInitializedEvent2.default();
+
+      return anEvent.getName() === event.getName();
+    }
+  }]);
+
+  return GMapInitializedEventSubscriber;
+}(_lin3sEventBus.EventSubscriber);
+
+exports.default = GMapInitializedEventSubscriber;
+
+/***/ }),
+/* 31 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _lin3sEventBus = __webpack_require__(0);
+
+var _GMapMarkerSelectedEvent = __webpack_require__(7);
+
+var _GMapMarkerSelectedEvent2 = _interopRequireDefault(_GMapMarkerSelectedEvent);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /*
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * This file is part of the Front Foundation package.
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                *
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Copyright (c) 2017-present LIN3S <info@lin3s.com>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                *
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * For the full copyright and license information, please view the LICENSE
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * file that was distributed with this source code.
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                *
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @author Mikel Tuesta <mikeltuesta@gmail.com>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
+
+var GMapMarkerSelectedEventSubscriber = function (_EventSubscriber) {
+  _inherits(GMapMarkerSelectedEventSubscriber, _EventSubscriber);
+
+  function GMapMarkerSelectedEventSubscriber() {
+    _classCallCheck(this, GMapMarkerSelectedEventSubscriber);
+
+    return _possibleConstructorReturn(this, (GMapMarkerSelectedEventSubscriber.__proto__ || Object.getPrototypeOf(GMapMarkerSelectedEventSubscriber)).apply(this, arguments));
+  }
+
+  _createClass(GMapMarkerSelectedEventSubscriber, [{
+    key: 'isSubscribedTo',
+    value: function isSubscribedTo(anEvent) {
+      var event = new _GMapMarkerSelectedEvent2.default();
+
+      return anEvent.getName() === event.getName();
+    }
+  }]);
+
+  return GMapMarkerSelectedEventSubscriber;
+}(_lin3sEventBus.EventSubscriber);
+
+exports.default = GMapMarkerSelectedEventSubscriber;
+
+/***/ }),
+/* 32 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _lin3sEventBus = __webpack_require__(0);
+
+var _GMapGeocodeNoResultsEvent = __webpack_require__(8);
+
+var _GMapGeocodeNoResultsEvent2 = _interopRequireDefault(_GMapGeocodeNoResultsEvent);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /*
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * This file is part of the Front Foundation package.
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                *
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Copyright (c) 2017-present LIN3S <info@lin3s.com>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                *
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * For the full copyright and license information, please view the LICENSE
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * file that was distributed with this source code.
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                *
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @author Mikel Tuesta <mikeltuesta@gmail.com>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
+
+var GMapGeocodeNoResultsEventSubscriber = function (_EventSubscriber) {
+  _inherits(GMapGeocodeNoResultsEventSubscriber, _EventSubscriber);
+
+  function GMapGeocodeNoResultsEventSubscriber() {
+    _classCallCheck(this, GMapGeocodeNoResultsEventSubscriber);
+
+    return _possibleConstructorReturn(this, (GMapGeocodeNoResultsEventSubscriber.__proto__ || Object.getPrototypeOf(GMapGeocodeNoResultsEventSubscriber)).apply(this, arguments));
+  }
+
+  _createClass(GMapGeocodeNoResultsEventSubscriber, [{
+    key: 'isSubscribedTo',
+    value: function isSubscribedTo(anEvent) {
+      var event = new _GMapGeocodeNoResultsEvent2.default();
+
+      return anEvent.getName() === event.getName();
+    }
+  }]);
+
+  return GMapGeocodeNoResultsEventSubscriber;
+}(_lin3sEventBus.EventSubscriber);
+
+exports.default = GMapGeocodeNoResultsEventSubscriber;
+
+/***/ }),
+/* 33 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }(); /*
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      * This file is part of the Front Foundation package.
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      *
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      * Copyright (c) 2017-present LIN3S <info@lin3s.com>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      *
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      * For the full copyright and license information, please view the LICENSE
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      * file that was distributed with this source code.
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      *
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      * @author Mikel Tuesta <mikeltuesta@gmail.com>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      */
+
+var _lin3sEventBus = __webpack_require__(0);
+
+var _lin3sFrontFoundation = __webpack_require__(2);
+
+var _lodash = __webpack_require__(34);
+
+var _lodash2 = _interopRequireDefault(_lodash);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var renderMarkerDetailView = function renderMarkerDetailView(marker) {
+  return '\n    <h3>This is a mocked marker detail view</h3>\n    <p>Marker <b>lat</b>: ' + marker.lat + '</p>\n    <p>Marker <b>lng</b>: ' + marker.lng + '</p>\n  ';
+};
+
+var GMapGeocoder = function () {
+  function GMapGeocoder(domNode) {
+    var _this = this;
+
+    _classCallCheck(this, GMapGeocoder);
+
+    this.domNode = domNode;
+    this.filterInput = this.domNode.querySelector('.gmap-geocoder__filter');
+    this.errorLabel = this.domNode.querySelector('.gmap-geocoder__error');
+
+    // throttled method
+    this.throttledGeocodeByAddress = (0, _lodash2.default)(function (address) {
+      _this.gmapInstance.geocodeAddress(address);
+    }, 500);
+
+    // Subscribe
+    _lin3sEventBus.EventPublisher.subscribe(new _lin3sFrontFoundation.EventBus.GMapInitializedEventSubscriber(function (gmapInitializedEvent) {
+      //      gmapInitializedEvent.gmap.domNode.parentNode.classList.contains('gmap-geocoder')
+      if (gmapInitializedEvent.gmap.isChildOfDomNode(_this.domNode)) {
+        _this.gmapInstance = gmapInitializedEvent.gmap;
+        _this.init();
+      }
+    }));
+  }
+
+  _createClass(GMapGeocoder, [{
+    key: 'init',
+    value: function init() {
+      this.setupMarkers();
+      this.bindListeners();
+    }
+  }, {
+    key: 'setupMarkers',
+    value: function setupMarkers() {
+      var markers = [{
+        id: 0,
+        lat: 43.2631394,
+        lng: -2.9275847
+      }];
+
+      this.gmapInstance.setMarkers(markers);
+    }
+  }, {
+    key: 'bindListeners',
+    value: function bindListeners() {
+      var _this2 = this;
+
+      this.filterInput.addEventListener('input', function () {
+        _this2.errorLabel.innerHTML = '';
+        _this2.throttledGeocodeByAddress(_this2.filterInput.value);
+      });
+
+      _lin3sEventBus.EventPublisher.subscribe(new _lin3sFrontFoundation.EventBus.GMapGeocodeNoResultsEventSubscriber(function () {
+        _this2.errorLabel.innerHTML = 'Sorry, there are no results for the provided value!';
+      }));
+
+      _lin3sEventBus.EventPublisher.subscribe(new _lin3sFrontFoundation.EventBus.GMapMarkerSelectedEventSubscriber(function (gmapMarkerSelectedEvent) {
+        _this2.onMarkerSelected(gmapMarkerSelectedEvent.marker);
+      }));
+    }
+  }, {
+    key: 'onMarkerSelected',
+    value: function onMarkerSelected(marker) {
+      if (marker === undefined) {
+        this.gmapInstance.hideMarkerDetailView();
+      } else {
+        this.gmapInstance.showMarkerDetailView(marker.id, renderMarkerDetailView(marker));
+      }
+    }
+  }]);
+
+  return GMapGeocoder;
+}();
+
+var initGMapGeocoder = function initGMapGeocoder() {
+  var gmapWithGeocoders = document.querySelectorAll('.gmap-geocoder');
+
+  Array.from(gmapWithGeocoders).forEach(function (gmapWithGeocoder) {
+    return new GMapGeocoder(gmapWithGeocoder);
+  });
+};
+
+(0, _lin3sEventBus.onDomReady)(initGMapGeocoder);
+
+/***/ }),
+/* 34 */
+/***/ (function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function(global) {/**
+ * lodash (Custom Build) <https://lodash.com/>
+ * Build: `lodash modularize exports="npm" -o ./`
+ * Copyright jQuery Foundation and other contributors <https://jquery.org/>
+ * Released under MIT license <https://lodash.com/license>
+ * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
+ * Copyright Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+ */
+
+/** Used as the `TypeError` message for "Functions" methods. */
+var FUNC_ERROR_TEXT = 'Expected a function';
+
+/** Used as references for various `Number` constants. */
+var NAN = 0 / 0;
+
+/** `Object#toString` result references. */
+var symbolTag = '[object Symbol]';
+
+/** Used to match leading and trailing whitespace. */
+var reTrim = /^\s+|\s+$/g;
+
+/** Used to detect bad signed hexadecimal string values. */
+var reIsBadHex = /^[-+]0x[0-9a-f]+$/i;
+
+/** Used to detect binary string values. */
+var reIsBinary = /^0b[01]+$/i;
+
+/** Used to detect octal string values. */
+var reIsOctal = /^0o[0-7]+$/i;
+
+/** Built-in method references without a dependency on `root`. */
+var freeParseInt = parseInt;
+
+/** Detect free variable `global` from Node.js. */
+var freeGlobal = typeof global == 'object' && global && global.Object === Object && global;
+
+/** Detect free variable `self`. */
+var freeSelf = typeof self == 'object' && self && self.Object === Object && self;
+
+/** Used as a reference to the global object. */
+var root = freeGlobal || freeSelf || Function('return this')();
+
+/** Used for built-in method references. */
+var objectProto = Object.prototype;
+
+/**
+ * Used to resolve the
+ * [`toStringTag`](http://ecma-international.org/ecma-262/7.0/#sec-object.prototype.tostring)
+ * of values.
+ */
+var objectToString = objectProto.toString;
+
+/* Built-in method references for those with the same name as other `lodash` methods. */
+var nativeMax = Math.max,
+    nativeMin = Math.min;
+
+/**
+ * Gets the timestamp of the number of milliseconds that have elapsed since
+ * the Unix epoch (1 January 1970 00:00:00 UTC).
+ *
+ * @static
+ * @memberOf _
+ * @since 2.4.0
+ * @category Date
+ * @returns {number} Returns the timestamp.
+ * @example
+ *
+ * _.defer(function(stamp) {
+ *   console.log(_.now() - stamp);
+ * }, _.now());
+ * // => Logs the number of milliseconds it took for the deferred invocation.
+ */
+var now = function() {
+  return root.Date.now();
+};
+
+/**
+ * Creates a debounced function that delays invoking `func` until after `wait`
+ * milliseconds have elapsed since the last time the debounced function was
+ * invoked. The debounced function comes with a `cancel` method to cancel
+ * delayed `func` invocations and a `flush` method to immediately invoke them.
+ * Provide `options` to indicate whether `func` should be invoked on the
+ * leading and/or trailing edge of the `wait` timeout. The `func` is invoked
+ * with the last arguments provided to the debounced function. Subsequent
+ * calls to the debounced function return the result of the last `func`
+ * invocation.
+ *
+ * **Note:** If `leading` and `trailing` options are `true`, `func` is
+ * invoked on the trailing edge of the timeout only if the debounced function
+ * is invoked more than once during the `wait` timeout.
+ *
+ * If `wait` is `0` and `leading` is `false`, `func` invocation is deferred
+ * until to the next tick, similar to `setTimeout` with a timeout of `0`.
+ *
+ * See [David Corbacho's article](https://css-tricks.com/debouncing-throttling-explained-examples/)
+ * for details over the differences between `_.debounce` and `_.throttle`.
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Function
+ * @param {Function} func The function to debounce.
+ * @param {number} [wait=0] The number of milliseconds to delay.
+ * @param {Object} [options={}] The options object.
+ * @param {boolean} [options.leading=false]
+ *  Specify invoking on the leading edge of the timeout.
+ * @param {number} [options.maxWait]
+ *  The maximum time `func` is allowed to be delayed before it's invoked.
+ * @param {boolean} [options.trailing=true]
+ *  Specify invoking on the trailing edge of the timeout.
+ * @returns {Function} Returns the new debounced function.
+ * @example
+ *
+ * // Avoid costly calculations while the window size is in flux.
+ * jQuery(window).on('resize', _.debounce(calculateLayout, 150));
+ *
+ * // Invoke `sendMail` when clicked, debouncing subsequent calls.
+ * jQuery(element).on('click', _.debounce(sendMail, 300, {
+ *   'leading': true,
+ *   'trailing': false
+ * }));
+ *
+ * // Ensure `batchLog` is invoked once after 1 second of debounced calls.
+ * var debounced = _.debounce(batchLog, 250, { 'maxWait': 1000 });
+ * var source = new EventSource('/stream');
+ * jQuery(source).on('message', debounced);
+ *
+ * // Cancel the trailing debounced invocation.
+ * jQuery(window).on('popstate', debounced.cancel);
+ */
+function debounce(func, wait, options) {
+  var lastArgs,
+      lastThis,
+      maxWait,
+      result,
+      timerId,
+      lastCallTime,
+      lastInvokeTime = 0,
+      leading = false,
+      maxing = false,
+      trailing = true;
+
+  if (typeof func != 'function') {
+    throw new TypeError(FUNC_ERROR_TEXT);
+  }
+  wait = toNumber(wait) || 0;
+  if (isObject(options)) {
+    leading = !!options.leading;
+    maxing = 'maxWait' in options;
+    maxWait = maxing ? nativeMax(toNumber(options.maxWait) || 0, wait) : maxWait;
+    trailing = 'trailing' in options ? !!options.trailing : trailing;
+  }
+
+  function invokeFunc(time) {
+    var args = lastArgs,
+        thisArg = lastThis;
+
+    lastArgs = lastThis = undefined;
+    lastInvokeTime = time;
+    result = func.apply(thisArg, args);
+    return result;
+  }
+
+  function leadingEdge(time) {
+    // Reset any `maxWait` timer.
+    lastInvokeTime = time;
+    // Start the timer for the trailing edge.
+    timerId = setTimeout(timerExpired, wait);
+    // Invoke the leading edge.
+    return leading ? invokeFunc(time) : result;
+  }
+
+  function remainingWait(time) {
+    var timeSinceLastCall = time - lastCallTime,
+        timeSinceLastInvoke = time - lastInvokeTime,
+        result = wait - timeSinceLastCall;
+
+    return maxing ? nativeMin(result, maxWait - timeSinceLastInvoke) : result;
+  }
+
+  function shouldInvoke(time) {
+    var timeSinceLastCall = time - lastCallTime,
+        timeSinceLastInvoke = time - lastInvokeTime;
+
+    // Either this is the first call, activity has stopped and we're at the
+    // trailing edge, the system time has gone backwards and we're treating
+    // it as the trailing edge, or we've hit the `maxWait` limit.
+    return (lastCallTime === undefined || (timeSinceLastCall >= wait) ||
+      (timeSinceLastCall < 0) || (maxing && timeSinceLastInvoke >= maxWait));
+  }
+
+  function timerExpired() {
+    var time = now();
+    if (shouldInvoke(time)) {
+      return trailingEdge(time);
+    }
+    // Restart the timer.
+    timerId = setTimeout(timerExpired, remainingWait(time));
+  }
+
+  function trailingEdge(time) {
+    timerId = undefined;
+
+    // Only invoke if we have `lastArgs` which means `func` has been
+    // debounced at least once.
+    if (trailing && lastArgs) {
+      return invokeFunc(time);
+    }
+    lastArgs = lastThis = undefined;
+    return result;
+  }
+
+  function cancel() {
+    if (timerId !== undefined) {
+      clearTimeout(timerId);
+    }
+    lastInvokeTime = 0;
+    lastArgs = lastCallTime = lastThis = timerId = undefined;
+  }
+
+  function flush() {
+    return timerId === undefined ? result : trailingEdge(now());
+  }
+
+  function debounced() {
+    var time = now(),
+        isInvoking = shouldInvoke(time);
+
+    lastArgs = arguments;
+    lastThis = this;
+    lastCallTime = time;
+
+    if (isInvoking) {
+      if (timerId === undefined) {
+        return leadingEdge(lastCallTime);
+      }
+      if (maxing) {
+        // Handle invocations in a tight loop.
+        timerId = setTimeout(timerExpired, wait);
+        return invokeFunc(lastCallTime);
+      }
+    }
+    if (timerId === undefined) {
+      timerId = setTimeout(timerExpired, wait);
+    }
+    return result;
+  }
+  debounced.cancel = cancel;
+  debounced.flush = flush;
+  return debounced;
+}
+
+/**
+ * Checks if `value` is the
+ * [language type](http://www.ecma-international.org/ecma-262/7.0/#sec-ecmascript-language-types)
+ * of `Object`. (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is an object, else `false`.
+ * @example
+ *
+ * _.isObject({});
+ * // => true
+ *
+ * _.isObject([1, 2, 3]);
+ * // => true
+ *
+ * _.isObject(_.noop);
+ * // => true
+ *
+ * _.isObject(null);
+ * // => false
+ */
+function isObject(value) {
+  var type = typeof value;
+  return !!value && (type == 'object' || type == 'function');
+}
+
+/**
+ * Checks if `value` is object-like. A value is object-like if it's not `null`
+ * and has a `typeof` result of "object".
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
+ * @example
+ *
+ * _.isObjectLike({});
+ * // => true
+ *
+ * _.isObjectLike([1, 2, 3]);
+ * // => true
+ *
+ * _.isObjectLike(_.noop);
+ * // => false
+ *
+ * _.isObjectLike(null);
+ * // => false
+ */
+function isObjectLike(value) {
+  return !!value && typeof value == 'object';
+}
+
+/**
+ * Checks if `value` is classified as a `Symbol` primitive or object.
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a symbol, else `false`.
+ * @example
+ *
+ * _.isSymbol(Symbol.iterator);
+ * // => true
+ *
+ * _.isSymbol('abc');
+ * // => false
+ */
+function isSymbol(value) {
+  return typeof value == 'symbol' ||
+    (isObjectLike(value) && objectToString.call(value) == symbolTag);
+}
+
+/**
+ * Converts `value` to a number.
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to process.
+ * @returns {number} Returns the number.
+ * @example
+ *
+ * _.toNumber(3.2);
+ * // => 3.2
+ *
+ * _.toNumber(Number.MIN_VALUE);
+ * // => 5e-324
+ *
+ * _.toNumber(Infinity);
+ * // => Infinity
+ *
+ * _.toNumber('3.2');
+ * // => 3.2
+ */
+function toNumber(value) {
+  if (typeof value == 'number') {
+    return value;
+  }
+  if (isSymbol(value)) {
+    return NAN;
+  }
+  if (isObject(value)) {
+    var other = typeof value.valueOf == 'function' ? value.valueOf() : value;
+    value = isObject(other) ? (other + '') : other;
+  }
+  if (typeof value != 'string') {
+    return value === 0 ? value : +value;
+  }
+  value = value.replace(reTrim, '');
+  var isBinary = reIsBinary.test(value);
+  return (isBinary || reIsOctal.test(value))
+    ? freeParseInt(value.slice(2), isBinary ? 2 : 8)
+    : (reIsBadHex.test(value) ? NAN : +value);
+}
+
+module.exports = debounce;
+
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ })
 /******/ ]);

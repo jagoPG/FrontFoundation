@@ -15,11 +15,13 @@
         "symfony/framework-bundle": "3.3.*",
         "symfony/templating": "^3.3",
         "symfony/twig-bundle": "3.3.*",
-        "symfony/web-server-bundle": "^3.3"
+        "symfony/web-server-bundle": "^3.3",
+        "lin3s/front-foundation": "dev-master"
     },
     "autoload": {
         "files": [
             "Symfony.php"
         ]
-    }
+    },
+    "minimum-stability": "dev"
 }

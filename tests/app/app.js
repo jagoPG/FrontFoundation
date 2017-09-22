@@ -18,6 +18,8 @@ import {
 } from 'lin3s-front-foundation';
 import {onDomReady} from 'lin3s-event-bus';
 
+import './src/js/GMapGeocoder';
+
 const testParsleySetLocale = () => {
   console.log('Testing Parsley.setLocale');
   Parsley.setLocale();
@@ -52,15 +54,9 @@ const testBrowserIsIE11 = () => {
 };
 
 const testDomLoadScript = () => {
-  console.log('Testing Dom.waitImagesLoadInDomNode');
+  console.log('Testing Dom.loadScript');
 
-  const DEMO_API_KEY = 'AIzaSyCYizPY9R-o4m5AF-bJWxeF-Us7F5dB9us';
-  const scriptPath = `https://maps.googleapis.com/maps/api/js?key=${DEMO_API_KEY}&callback=googleMapsLoadedCallback`;
-
-  window.googleMapsLoadedCallback = () => {
-    console.log('Google Maps script has been loaded!');
-  };
-
+  const scriptPath = 'https://code.jquery.com/jquery-3.2.1.slim.min.js';
   const scriptLoadPromise = Dom.loadScript(scriptPath);
 
   scriptLoadPromise.then(resolvedObject => {
