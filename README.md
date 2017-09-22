@@ -169,8 +169,8 @@ These are the mostly used methods available on the GMap component's instance.
 | Name                           | Parameters            | Returned value    | Description |
 |--------------------------------|:----------------------|:------------------|:------------|
 | isChildOfDomNode               | domNode: Element|Node | boolean           | This method wil return true if the instance has any ancestor matching the passed domNode. |
-| setCenterOffsets               | { <br/>&nbsp;&nbsp;&nbsp;&nbsp; x = 0, <br>&nbsp;&nbsp;&nbsp;&nbsp; y = 0<br> }  | undefined (void)  | This method will set the instance's center's offset (in pixels) |
-| setMarkers                     | markers               | undefined (void)  | This method will display the passed markers on the map. It will generate the clusters automatically. <br><br> Each marker object must, at least, have the *lat*, *lng* and *id* properties. |
+| setCenterOffsets               | { <br/>&nbsp;&nbsp;&nbsp;&nbsp; x: 0, <br>&nbsp;&nbsp;&nbsp;&nbsp; y: 0<br> }  | undefined (void)  | This method will set the instance's center's offset (in pixels) |
+| setMarkers                     | markers: \[{ <br>&nbsp;&nbsp;&nbsp;&nbsp; id: 0, <br>&nbsp;&nbsp;&nbsp;&nbsp; lat: 43.2631394, <br>&nbsp;&nbsp;&nbsp;&nbsp; lng: -2.9275847, <br>&nbsp;&nbsp;&nbsp;&nbsp; // your properties... <br>}, <br> //... <br>]               | undefined (void)  | This method will display the passed markers on the map. It will generate the clusters automatically. <br><br> Each marker object must, at least, have the *lat*, *lng* and *id* properties. |
 | showMarkerDetailView           | markerId, markerDetailHtmlContent | undefined (void) | This method will render and display the passed markerDetailHtmlContent centered on the correspondingn marker. |
 | hideMarkerDetailView           | -                     | undefined (void)  | This method will hide the currently visible marker detail view. |
 | geocodeAddress                 | address: String       | undefined (void)  | This method will geocode the passed address (Address, town, ZIP code, city...) and center the map on the result's location. <br><br> If no result matches the passed address, it will publish an event through the EventBus. |
@@ -211,7 +211,8 @@ import {EventBus} from 'lin3s-front-foundation';
 EventPublisher.subscribe(new EventBus.GMapInitializedEventSubscriber(gmapInitializedEvent => {
     // If your need to filter the published instances, by their ancestor,
     const gmapInstance = gmapInitializedEvent.gmap;
-    const instanceBelongsToThisNode = gmapInstance.isChildOfDomNode(someNode) {
+    const instanceBelongsToThisNode = gmapInstance.isChildOfDomNode(someNode);
+    if (instanceBelongsToThisNode) {
         // whatever...
     }
     // ...

@@ -33,7 +33,7 @@ class GMapGeocoder {
     this.errorLabel = this.domNode.querySelector('.gmap-geocoder__error');
 
     // throttled method
-    this.throttledGeocodeByAddress = debounce(address => {
+    this.debouncedGeocodeByAddress = debounce(address => {
       this.gmapInstance.geocodeAddress(address);
     }, 500);
 
@@ -64,7 +64,7 @@ class GMapGeocoder {
   bindListeners() {
     this.filterInput.addEventListener('input', () => {
       this.errorLabel.innerHTML = '';
-      this.throttledGeocodeByAddress(this.filterInput.value);
+      this.debouncedGeocodeByAddress(this.filterInput.value);
     });
 
     EventPublisher.subscribe(new EventBus.GMapGeocodeNoResultsEventSubscriber(() => {
