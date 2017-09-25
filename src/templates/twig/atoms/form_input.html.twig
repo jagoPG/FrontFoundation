@@ -1,0 +1,27 @@
+{##
+    This file is part of the Front Foundation package.
+
+    Copyright (c) 2017-present LIN3S <info@lin3s.com>
+
+    For the full copyright and license information, please view the LICENSE
+    file that was distributed with this source code.
+
+    @author Mikel Tuesta <mikeltuesta@gmail.com>
+#}
+
+{##
+    This atom will display a form input.
+
+    @param type             string='text'
+    @param class_name       string=null
+    @param modifiers        string=null
+    @param placeholder      string*
+    @param id               string=null
+    @param required         bool=false
+
+#}
+
+<input class="form-input{{ modifiers }} {{ class_name }}"
+       type="{{ type|default('text') }}" placeholder="{{ placeholder }}" autocomplete="off"
+       {% if id|default %}id="{{ id }}" name="{{ id }}"{% endif %}
+       {% if required|default %} required{% endif %}/>

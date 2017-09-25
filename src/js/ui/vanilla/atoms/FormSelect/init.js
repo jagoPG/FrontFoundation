@@ -7,15 +7,16 @@
  * file that was distributed with this source code.
  *
  * @author Beñat Espiña <benatespina@gmail.com>
- * @author Mikel Tuesta <mikeltuesta@gmail.com>
  */
 
-import loadScript from './loadScript';
-import waitImagesLoadInDomNode from './waitImagesLoadInDomNode';
-import getHtmlLang from './getHtmlLang';
+import {onDomReady} from 'lin3s-event-bus';
+import $ from 'jquery';
+import FormSelect from './FormSelect';
 
-export {
-  loadScript,
-  waitImagesLoadInDomNode,
-  getHtmlLang
-}
+const initFormSelects = () => {
+  const $formSelects = $('.js-form-select');
+
+  Array.from($formSelects).forEach(formSelect => new FormSelect(formSelect));
+};
+
+onDomReady(initFormSelects);

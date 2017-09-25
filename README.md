@@ -83,6 +83,16 @@ const isIE11 = Browser.isIE11();
 
 ### Dom
 This package will provide all Dom related implementations.
+```bash
+import {Dom} from 'lin3s-front-foundation';
+
+const currentHtmlLang = Dom.getHtmlLang();
+
+console.log(currentHtmlLang);
+```
+
+#### Dom.getHtmlLang()
+This method will return the html tag's *lang* attribute.
 
 #### Dom.loadScript( scriptPath )
 This method will load an script by the provided scriptPath and return us a Promise object. This promise will be 

@@ -19,6 +19,9 @@ import {
 import {onDomReady} from 'lin3s-event-bus';
 
 import './src/js/GMapGeocoder';
+import './src/js/ReactFormSelect';
+
+import './app.scss';
 
 const testParsleySetLocale = () => {
   console.log('Testing Parsley.setLocale');

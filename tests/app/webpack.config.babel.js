@@ -11,6 +11,10 @@
 import {join} from 'path';
 import webpack from 'webpack';
 import {BundleAnalyzerPlugin} from 'webpack-bundle-analyzer';
+import autoprefixer from 'autoprefixer';
+import ExtractTextPlugin from 'extract-text-webpack-plugin';
+import StyleLintPlugin from 'stylelint-webpack-plugin';
+import Webpack from 'webpack';
 
 const include = join(__dirname);
 
@@ -32,7 +36,25 @@ const parseLocalesFromEnvOptions = options => {
 };
 
 const getPlugins = options => {
+  const esLintDefaultOptions = {
+      configFile: join(__dirname, '.eslintrc.js')
+    },
+    styleLintDefaultOptions = {
+      configFile: join(__dirname, '.stylelintrc.js'),
+      sintax: 'scss'
+    };
+
   const plugins = [
+    new StyleLintPlugin(styleLintDefaultOptions),
+    new ExtractTextPlugin('[name].css'),
+    new Webpack.LoaderOptionsPlugin({
+      options: {
+        sassLoader: {
+          includePaths: [join(__dirname, 'src/scss')]
+        },
+        eslint: esLintDefaultOptions
+      }
+    }),
     new webpack.ContextReplacementPlugin(
       /parsleyjs[\/\\]dist[\/\\]i18n/,
       parseLocalesFromEnvOptions(options)
@@ -58,9 +80,38 @@ export default options => {
       loaders: [
         {
           test: /\.js$/,
-          loader: 'babel-loader',
+          use: [{
+            loader: 'babel-loader',
+            options: {
+              presets: ['react', 'es2015', 'stage-2'],
+              compact: false
+            }
+          }, {
+            loader: 'eslint-loader',
+            options: {
+              enforce: 'pre'
+            }
+          }],
           include,
           exclude: /(node_modules)/,
+        }, {
+          test: /\.(s?css)$/,
+          use: ExtractTextPlugin.extract({
+            publicPath: '/',
+            fallback: 'style-loader',
+            use: [{
+              loader: 'css-loader',
+            }, {
+              loader: 'postcss-loader',
+              options: {
+                plugins: () => [
+                  autoprefixer({browsers: ['last 2 versions']})
+                ]
+              }
+            }, {
+              loader: 'sass-loader'
+            }]
+          })
         }
       ]
     },

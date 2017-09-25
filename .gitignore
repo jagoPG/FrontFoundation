@@ -11,6 +11,8 @@
 /node_modules
 /tests/app/node_modules
 /tests/app/vendor
+/tests/app/dist
+/tests/app/var
 /var/cache
 !/var/cache/.gitkeep
 /var/logs

@@ -1,0 +1,28 @@
+{##
+    This file is part of the Front Foundation package.
+
+    Copyright (c) 2017-present LIN3S <info@lin3s.com>
+
+    For the full copyright and license information, please view the LICENSE
+    file that was distributed with this source code.
+
+    @author Mikel Tuesta <mikeltuesta@gmail.com>
+#}
+
+{##
+    This atom will display a form label.
+
+    @param class_name       string=null
+    @param modifiers        array|string=null
+    @param title            string*
+    @param required         bool=false
+    @param for              string=null
+
+#}
+
+<label class="form-label {{ modifiers }} {{ class_name }}"{% if for|default %} for="{{ for }}"{% endif %}>
+    {% if required|default(false) %}
+        <span class="form-label__required">*</span>
+    {% endif %}
+    {{ title }}
+</label>

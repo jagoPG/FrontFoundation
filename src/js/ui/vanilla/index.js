@@ -11,11 +11,14 @@
 
 import GMap from './components/GMap/GMap';
 import GMapMarkerDetail from './components/GMapMarkerDetail/GMapMarkerDetail';
+import FormSelect from './atoms/FormSelect/FormSelect';
 
 // Ui Components initialization
 import './components/GMap/init';
+import './atoms/FormSelect/init';
 
 export {
   GMap,
-  GMapMarkerDetail
+  GMapMarkerDetail,
+  FormSelect
 }

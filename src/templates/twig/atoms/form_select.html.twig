@@ -1,0 +1,77 @@
+{##
+    This file is part of the Front Foundation package.
+
+    Copyright (c) 2017-present LIN3S <info@lin3s.com>
+
+    For the full copyright and license information, please view the LICENSE
+    file that was distributed with this source code.
+
+    @author Mikel Tuesta <mikeltuesta@gmail.com>
+#}
+
+{##
+    Form select
+
+    @param id                           string*
+    @param required                     bool=null
+    @param select_modifiers             string=null
+    @param select_standalone            bool=true      (If false, this atom will need a manual initialization through JS)
+    @param select_no_selection_label    string="--"
+    @param select_no_selection_value    string="--"
+    @param select_options               array*
+        - value                         string*
+        - label                         string*
+        - selected                      bool=false
+    @param select_max_height_mobile     int=260
+    @param select_max_height_desktop    int=420
+    @param select_is_filterable         int=1
+    @param select_filter_placeholder    string=null
+    @param select_filter_order_by       string='value' (or 'label')
+    @param select_mobile_breakpoint     int=1024
+#}
+
+{% set select_no_selection_label = select_no_selection_label|default('--') %}
+{% set select_no_selection_value = select_no_selection_value|default('--') %}
+{% set select_filter_order_by = select_filter_order_by|default('value') %}
+
+<div class="form-select {{ select_modifiers }}{% if select_standalone|default(true) %} js-form-select{% endif %}"
+    data-max-height-mobile="{{ select_max_height_mobile|default(260) }}"
+    data-max-height-desktop="{{ select_max_height_desktop|default(420) }}"
+    data-filterable="{{ select_is_filterable|default(1) }}"
+    data-filter-order-by="{{ select_filter_order_by }}"
+    data-mobile-breakpoint="{{ select_mobile_breakpoint|default(1024) }}">
+    <select class="form-select__select" name="{{ id }}" id="{{ id }}" {% if required|default %} required{% endif %}>
+        <option class="form-select__select-no-option" value="{{ select_no_selection_value }}">
+            {{ select_no_selection_label }}
+        </option>
+        {% for option in select_options %}
+            <option value="{{ option.value }}"{% if option.selected|default(false) %} selected="selected"{% endif %}>
+                {{ option.label }}
+            </option>
+        {% endfor %}
+    </select>
+    <span class="form-select__dropdown-icon">
+        {% include '@lin3s_front_foundation/svg/arrows_small_down.svg.twig' %}
+    </span>
+    {% if select_is_filterable|default(1) %}
+        <div class="form-select__input-container">
+            {% include '@lin3s_front_foundation/atoms/form_input.html.twig' with {
+                class_name: 'form-select__input',
+                placeholder: select_filter_placeholder
+            } %}
+        </div>
+    {% endif %}
+    <div class="form-select__label">{{ select_no_selection_label }}</div>
+    <div class="form-select__options-container">
+        <div class="form-select__options">
+            <div class="form-select__option" data-label="{{ select_no_selection_label }}" data-value="{{ select_no_selection_value }}">
+                {{ select_no_selection_label }}
+            </div>
+            {% for option in select_options %}
+                <div class="form-select__option" data-label="{{ option.label }}" data-value="{{ option.value }}">
+                    {{ option.label }}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>

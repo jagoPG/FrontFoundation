@@ -9,6 +9,8 @@
  * @author Beñat Espiña <benatespina@gmail.com>
  */
 
+import getHtmlLang from './../dom/getHtmlLang';
+
 /**
  *  In order to include the needed Parsley.js locale modules during compilation time, and prevent a ReferenceError during
  *  execution time, we must include the locales this way. By wrapping the require function with a conditional, we ensure
@@ -27,7 +29,7 @@ const getLang = (lang) => {
     return lang;
   }
 
-  return document.getElementsByTagName('html')[0].getAttribute('lang');
+  return getHtmlLang();
 };
 
 export default (lang = null) => {

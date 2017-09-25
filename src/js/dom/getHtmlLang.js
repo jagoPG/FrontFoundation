@@ -6,16 +6,16 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @author Beñat Espiña <benatespina@gmail.com>
  * @author Mikel Tuesta <mikeltuesta@gmail.com>
  */
 
-import loadScript from './loadScript';
-import waitImagesLoadInDomNode from './waitImagesLoadInDomNode';
-import getHtmlLang from './getHtmlLang';
+let htmlLang;
+const getHtmlLang = () => {
+  if (htmlLang === undefined) {
+    htmlLang = document.getElementsByTagName('html')[0].getAttribute('lang');
+  }
 
-export {
-  loadScript,
-  waitImagesLoadInDomNode,
-  getHtmlLang
-}
+  return htmlLang;
+};
+
+export default getHtmlLang;
