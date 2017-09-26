@@ -9,10 +9,11 @@
  * @author Mikel Tuesta <mikeltuesta@gmail.com>
  */
 
-import {onDomReady} from 'lin3s-event-bus';
+import React from 'react';
 
-const onReady = () => {
+const ArrowDown = () =>
+  <svg className="icon" viewBox="0 0 64 64">
+    <polyline className="icon__glyph icon__glyph--secondary" points="44,26 32,38 20,26"></polyline>
+  </svg>;
 
-};
-
-onDomReady(onReady);
+export default ArrowDown;

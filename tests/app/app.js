@@ -19,7 +19,7 @@ import {
 import {onDomReady} from 'lin3s-event-bus';
 
 import './src/js/GMapGeocoder';
-import './src/js/ReactFormSelect';
+import './src/js/React/init';
 
 import './app.scss';
 
@@ -74,7 +74,8 @@ const testDomWaitImagesLoadInDomNode = () => {
   const imagesLoadPromise = Dom.waitImagesLoadInDomNode(imagesCollection);
 
   imagesLoadPromise.then(resolvedObject => {
-    console.log('imagesLoadPromise has been resolved. We know for sure that our images has been loaded.', resolvedObject);
+    console.log('imagesLoadPromise has been resolved. We know for sure that our images has been loaded.',
+      resolvedObject);
   }, rejectedObject => {
     console.log('imagesLoadPromise has been rejected', rejectedObject);
   });

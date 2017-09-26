@@ -180,7 +180,10 @@ class FormSelect {
 
   onResize(windowResizedEvent) {
     this.windowWidth = windowResizedEvent.windowWidth || $(window).width();
-    this.setOptionsContainerHeight(this.getOptionsContainerHeight());
+
+    if (this.opened) {
+      this.openSelect();
+    }
   }
 
   setInitiallySelectedOption() {

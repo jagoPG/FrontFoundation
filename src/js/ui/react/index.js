@@ -6,7 +6,15 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @author Beñat Espiña <benatespina@gmail.com>
+ * @author Mikel Tuesta <mikeltuesta@gmail.com>
  */
 
-export {}
+import FormSelect from './atoms/FormSelect/FormSelect';
+import FormGroupInput from './components/FormGroupInput/FormGroupInput';
+import FormGroupSelect from './components/FormGroupSelect/FormGroupSelect';
+
+export {
+  FormSelect,
+  FormGroupInput,
+  FormGroupSelect
+}
