@@ -6,6 +6,12 @@ To get the diff for a specific change, go to https://github.com/LIN3S/FrontFound
 To get the diff between two versions, go to https://github.com/LIN3S/FrontFoundation/compare/v0.5.0...v0.6.0
 
 * 0.7.0
+    * Added React FormGroupInput component to Ui 'package'
+    * Added React FormGroupSelect component to Ui 'package'
+    * Added React FormSelect atom to Ui 'package'
+    * Added React Loader atom to Ui 'package'
+    * Added React ResizeAware HOC to Ui 'package'
+    * Added React ArrowDown svg to Ui 'package'
     * Added FormError atom to Ui 'package'
     * Added FormLabel atom to Ui 'package'
     * Added FormInput atom to Ui 'package'
@@ -28,6 +34,5 @@ To get the diff between two versions, go to https://github.com/LIN3S/FrontFounda
     * Added `twig` template directory.
     * Renamed `_parsley-form-error.scss` to `_parsley.scss` to keep naming consistency.
     * Improved `_reset` and `_common` scss files.
-
 * 0.5.0
     * Included Parsley as dependency.
