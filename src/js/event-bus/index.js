@@ -9,12 +9,4 @@
  * @author Mikel Tuesta <mikeltuesta@gmail.com>
  */
 
-import GMapInitializedEventSubscriber from './GMap/GMapInitializedEventSubscriber';
-import GMapMarkerSelectedEventSubscriber from './GMap/GMapMarkerSelectedEventSubscriber';
-import GMapGeocodeNoResultsEventSubscriber from './GMap/GMapGeocodeNoResultsEventSubscriber';
-
-export {
-  GMapInitializedEventSubscriber,
-  GMapMarkerSelectedEventSubscriber,
-  GMapGeocodeNoResultsEventSubscriber
-}
+export * from './Subscriptions';

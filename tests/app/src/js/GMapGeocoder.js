@@ -9,7 +9,7 @@
  * @author Mikel Tuesta <mikeltuesta@gmail.com>
  */
 
-import {onDomReady, EventPublisher} from 'lin3s-event-bus';
+import {onDomReady} from 'lin3s-event-bus';
 import {EventBus} from 'lin3s-front-foundation';
 import debounce from 'lodash.debounce';
 
@@ -38,12 +38,10 @@ class GMapGeocoder {
     }, 500);
 
     // Subscribe
-    EventPublisher.subscribe(new EventBus.GMapInitializedEventSubscriber(gmapInitializedEvent => {
-      if (gmapInitializedEvent.gmap.isChildOfDomNode(this.domNode)) {
-        this.gmapInstance = gmapInitializedEvent.gmap;
-        this.init();
-      }
-    }));
+    EventBus.onGMapInitialized(this.domNode, gmapInitializedEvent => {
+      this.gmapInstance = gmapInitializedEvent.gmapInstance;
+      this.init();
+    });
   }
 
   init() {
@@ -67,13 +65,13 @@ class GMapGeocoder {
       this.debouncedGeocodeByAddress(this.filterInput.value);
     });
 
-    EventPublisher.subscribe(new EventBus.GMapGeocodeNoResultsEventSubscriber(() => {
+    EventBus.onGMapGeocodeNoResults(this.domNode, () => {
       this.errorLabel.innerHTML = 'Sorry, there are no results for the provided value!';
-    }));
+    });
 
-    EventPublisher.subscribe(new EventBus.GMapMarkerSelectedEventSubscriber(gmapMarkerSelectedEvent => {
+    EventBus.onGMapMarkerSelected(this.domNode, gmapMarkerSelectedEvent => {
       this.onMarkerSelected(gmapMarkerSelectedEvent.marker);
-    }));
+    });
   }
 
   onMarkerSelected(marker) {

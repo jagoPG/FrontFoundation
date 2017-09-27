@@ -11,13 +11,22 @@
 
 import {EventSubscriber} from 'lin3s-event-bus';
 import GMapInitializedEvent from './GMapInitializedEvent';
+import {isDomNodeDescendantOfDomNode} from './../../dom';
 
 class GMapInitializedEventSubscriber extends EventSubscriber {
 
-  isSubscribedTo(anEvent) {
-    const event = new GMapInitializedEvent();
+  constructor(domNode, aCallback, aPriority) {
+    super(aCallback, aPriority);
 
-    return anEvent.getName() === event.getName();
+    this.domNode = domNode;
+  }
+
+  isSubscribedTo(gmapInitializedEvent) {
+    const event = new GMapInitializedEvent();
+    const gmapInstanceDomNode = gmapInitializedEvent.gmapInstance.domNode;
+
+    return gmapInitializedEvent.getName() === event.getName()
+      && (this.domNode === gmapInstanceDomNode || isDomNodeDescendantOfDomNode(gmapInstanceDomNode, this.domNode));
   }
 }
 

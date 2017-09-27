@@ -11,13 +11,23 @@
 
 import {EventSubscriber} from 'lin3s-event-bus';
 import GMapGeocodeNoResultsEvent from './GMapGeocodeNoResultsEvent';
+import {isDomNodeDescendantOfDomNode} from './../../dom';
 
 class GMapGeocodeNoResultsEventSubscriber extends EventSubscriber {
 
-  isSubscribedTo(anEvent) {
+  constructor(domNode, aCallback, aPriority) {
+    super(aCallback, aPriority);
+
+    this.domNode = domNode;
+  }
+
+  isSubscribedTo(gmapNoResultsEvent) {
     const event = new GMapGeocodeNoResultsEvent();
 
-    return anEvent.getName() === event.getName();
+    const gmapInstanceDomNode = gmapNoResultsEvent.gmapInstance.domNode;
+
+    return gmapNoResultsEvent.getName() === event.getName()
+      && (this.domNode === gmapInstanceDomNode || isDomNodeDescendantOfDomNode(gmapInstanceDomNode, this.domNode));
   }
 }
 

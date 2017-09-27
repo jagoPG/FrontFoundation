@@ -15,9 +15,10 @@ class GMapMarkerSelectedEvent extends Event {
 
   static NAME = 'GMAP_MARKER_SELECTED';
 
-  constructor(marker) {
+  constructor(gmapInstance, marker) {
     super(GMapMarkerSelectedEvent.NAME);
 
+    this.gmapInstance = gmapInstance;
     this.marker = marker;
   }
 }

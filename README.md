@@ -187,46 +187,46 @@ These are the mostly used methods available on the GMap component's instance.
 | resetMapZoomAndCenterToDefault | -                     | undefined (void)  | This method will reset the instance's center and zoom to the default values. |
 
 #### GMap - EventBus events
-Each GMap instance will publish these events through the EventBus. We will subscribe to these events as follows:
+Each GMap instance will publish this events through the EventBus. We will subscribe to this events using som exported
+helper methods:
+
 ```bash
 import {EventBus} from 'lin3s-front-foundation';
 
-EventPublisher.subscribe(new EventBus.GMapInitializedEventSubscriber(gmapInitializedEvent => {
-    const gmapInstance = gmapInitializedEvent.gmap;
-}));
+const domNode = document.querySelector('.my-map');
 
-EventPublisher.subscribe(new EventBus.GMapGeocodeNoResultsEventSubscriber(() => {
-    console.log('Sorry, there are no results for the provided address!');
-}));
+EventBus.onGMapInitialized(domNode, gmapInitializedEvent => {
+  const gmapInstance = gmapInitializedEvent.gmapInstance;
+});
 
-EventPublisher.subscribe(new EventBus.GMapMarkerSelectedEventSubscriber(gmapMarkerSelectedEvent => {
-    const selectedMarker = gmapMarkerSelectedEvent.marker;
-}));
+EventBus.onGMapGeocodeNoResults(domNode, gmapGeocodeNoResultsEvent => {
+  console.log('Sorry, there are no results for the provided address!');
+});
+
+EventBus.onGMapMarkerSelected(domNode, gmapMarkerSelectedEvent => {
+  const selectedMarker = gmapMarkerSelectedEvent.marker;
+});
 ```
 
-| Type                           | Properties            |
-|--------------------------------|:----------------------|
-| GMapInitializedEvent           | gmap: GMap instance   |
-| GMapMarkerSelectedEvent        | marker: Your marker object representation |
-| GMapGeocodeNoResultsEvent      | - |
+| Type                           | Properties              |
+|--------------------------------|:------------------------|
+| GMapInitializedEvent           | gmapInstance: GMap |
+| GMapMarkerSelectedEvent        | gmapInstance: GMap<br/>marker: Your marker object representation |
+| GMapGeocodeNoResultsEvent      | gmapInstance: GMap |
 
 #### GMap - Advanced features
 If we need to work with the initialized GMap component instance, we must subscribe to the GMapInitializedEvent, that 
 will be published through the event-bus once the gmap component has been initialized.
 
 ```bash
-import {EventPublisher} from 'lin3s-event-bus';
 import {EventBus} from 'lin3s-front-foundation';
 
-EventPublisher.subscribe(new EventBus.GMapInitializedEventSubscriber(gmapInitializedEvent => {
-    // If your need to filter the published instances, by their ancestor,
-    const gmapInstance = gmapInitializedEvent.gmap;
-    const instanceBelongsToThisNode = gmapInstance.isChildOfDomNode(someNode);
-    if (instanceBelongsToThisNode) {
-        // whatever...
-    }
-    // ...
-}));
+const domNode = document.querySelector('.my-map');
+
+EventBus.onGMapInitialized(domNode, gmapInitializedEvent => {
+  const gmapInstance = gmapInitializedEvent.gmap;
+  // whatever...
+});
 ```
 
 We will set the GMap component's markers calling the *setMarkers(markers)* method.
@@ -243,57 +243,127 @@ import {EventPublisher} from 'lin3s-event-bus';
 import {EventBus} from 'lin3s-front-foundation';
 
 class GMapTest {
-    constructor() {
-        EventPublisher.subscribe(new EventBus.GMapInitializedEventSubscriber(gmapInitializedEvent => {
-            this.gmapInstance = gmapInitializedEvent.gmap;
-            this.setupMarkers();
-            this.init();
-        }));
-    }
+  constructor(domNode) {
+    this.domNode = domNode;
+  
+    EventBus.onGMapInitialized(this.domNode, gmapInitializedEvent => {
+      const gmapInstance = gmapInitializedEvent.gmap;
+      this.setupMarkers();
+      this.init();
+    });
+  }
+  
+  setupMarkers() {
+    const markers = [{
+      id: 0,
+      lat: 43.2631394,
+      lng: -2.9275847
+    }];
+
+    this.gmapInstance.setMarkers(markers);
+  }
+  
+  init() {
+    this.filterInput = document.querySelector('.my-input-class'); 
+    this.filterInput.addEventListener('input', () => {
+      this.gmapInstance.geocodeAddress(this.filterInput.value);
+    });
     
-    setupMarkers() {
-        const markers = [{
-            id: 0,
-            lat: 43.2631394,
-            lng: -2.9275847
-        }];
+    EventBus.onGMapGeocodeNoResults(this.domNode, gmapGeocodeNoResultsEvent => {
+      console.log('Sorry, there are no results for the provided value!');
+    });
     
-        this.gmapInstance.setMarkers(markers);
+    EventBus.onGMapMarkerSelected(this.domNode, gmapMarkerSelectedEvent => {
+      this.onMarkerSelected(gmapMarkerSelectedEvent.marker);
+    });
+  }
+  
+  onMarkerSelected(marker) {
+    if (marker === undefined) {
+      this.gmapInstance.hideMarkerDetailView();
+    } else {
+      this.gmapInstance.showMarkerDetailView(
+        marker.id,
+        `<h3>This is the marker detail's inner html content</h3>
+         <p>Marker <b>lat</b>: ${marker.lat}</p>
+         <p>Marker <b>lng</b>: ${marker.lng}</p>`
+      );
     }
-    
-    init() {
-        this.filterInput = document.querySelector('.my-input-class'); 
-        this.filterInput.addEventListener('input', () => {
-            this.gmapInstance.geocodeAddress(this.filterInput.value);
-        });
-        
-        EventPublisher.subscribe(new EventBus.GMapGeocodeNoResultsEventSubscriber(() => {
-            console.log('Sorry, there are no results for the provided value!');
-        }));
-        
-        EventPublisher.subscribe(new EventBus.GMapMarkerSelectedEventSubscriber(gmapMarkerSelectedEvent => {
-            this.onMarkerSelected(gmapMarkerSelectedEvent.marker);
-        }));
-    }
-    
-    onMarkerSelected(marker) {
-        if (marker === undefined) {
-            this.gmapInstance.hideMarkerDetailView();
-        } else {
-            this.gmapInstance.showMarkerDetailView(
-                marker.id,
-                `<h3>This is the marker detail's inner html content</h3>
-                 <p>Marker <b>lat</b>: ${marker.lat}</p>
-                 <p>Marker <b>lng</b>: ${marker.lng}</p>`
-            );
-        }
-    }
+  }
 }
 
 onDomReady(() => {
-    new GMapTest();
+  new GMapTest();
 });
 ```
+
+### FormGroupSelect
+This component and it's associated FormSelect atom will build a custom rich select component. The component is composed 
+by the FormSelect, FormLabel, FormInput and the FormError atoms.
+
+#### FormGroupSelect - Basic setup
+
+In order to setup the FormGroupSelect component, we will define every required parameter while including the twig 
+template. 
+
+The list of the available parameters, their type and default values are as follows:
+
+| Parameter                 | Type          | Required | Default value | Purpose       |
+|-------------------------- |:--------------|:---------|:--------------|:--------------|
+| select_id                 | string        | yes      |               |               |
+| select_required           | bool          | no       | false         |               |
+| select_mobile_breakpoint  | int           | no       | 1024          |               |
+| select_max_height_mobile  | int           | no       | 260           |               |
+| select_max_height_desktop | int           | no       | 420           |               |
+| select_is_filterable      | bool          | no       | true          |               |
+| select_filter_placeholder | string        | no       | null          |               |
+| select_filter_order_by    | string        | no       | 'value'       | If you set 'label' as this parameter, the component will order it's items by the 'label' while filtering it's options. |
+| select_label_modifiers    | array\|string | no       | null          |               |
+| select_label_title        | string        | no       | null          |               |
+| select_error_modifiers    | array\|string | no       | null          |               |
+| select_error_content      | string        | no       | null          |               |
+| select_select_modifiers   | array\|string | no       | null          |               |
+| select_no_selection_label | string        | no       | '--'          |               |
+| select_no_selection_value | string        | no       | '--'          |               |
+| select_options            | array         | yes      |               | These are the component's options. Each option must have, at least, this shape: <br/>{<br/>&nbsp;&nbsp;&nbsp;&nbsp;value: string\*<br/>&nbsp;&nbsp;&nbsp;&nbsp;label: string\*<br/>&nbsp;&nbsp;&nbsp;&nbsp;selected: bool=false<br/>} |
+
+This is a full setup example:
+
+```bash
+{% set my_select_options = [{
+    label: Male,
+    value: 0,
+    selected: true
+}, {
+    label: Female,
+    value: 1
+}] %}
+
+{% include '@lin3s_front_foundation/components/form_group_select.html.twig' with {
+    select_id: 'my-select',
+    select_required: 1,
+    select_mobile_breakpoint: 768,
+    select_max_height_mobile: 260,
+    select_max_height_desktop: 420,
+    select_is_filterable: 1,
+    select_filter_placeholder: 'Type to filter...',
+    select_filter_order_by: 'label',
+    select_label_modifiers: null,
+    select_label_title: 'My select\'s label',
+    select_error_modifiers: null,
+    select_error_content: 'This is the initial error\'s content.'
+    select_select_modifiers: null,
+    select_no_selection_label: '--',
+    select_no_selection_value: '--',
+    select_options: my_select_options
+} %}
+```
+
+#### FormSelect - JS API
+These are the mostly used methods available on the FormSelect atom's instance.
+
+
+
 
 [1]: https://github.com/LIN3S/FrontFoundation/blob/master/src/templates/twig/components/gmap.html.twig#L26
 [2]: https://snazzymaps.com/

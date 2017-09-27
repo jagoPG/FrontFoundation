@@ -15,8 +15,10 @@ class GMapGeocodeNoResultsEvent extends Event {
 
   static NAME = 'GMAP_GEOCODE_NO_RESULTS_EVENT';
 
-  constructor() {
+  constructor(gmapInstance) {
     super(GMapGeocodeNoResultsEvent.NAME);
+
+    this.gmapInstance = gmapInstance;
   }
 }
 

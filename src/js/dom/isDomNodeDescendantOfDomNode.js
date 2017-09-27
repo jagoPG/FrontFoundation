@@ -9,17 +9,14 @@
  * @author Mikel Tuesta <mikeltuesta@gmail.com>
  */
 
-import {Event} from 'lin3s-event-bus';
-
-class GMapInitializedEvent extends Event {
-
-  static NAME = 'GMAP_INITIALIZED';
-
-  constructor(gmapInstance) {
-    super(GMapInitializedEvent.NAME);
-
-    this.gmapInstance = gmapInstance;
+export default (needleDomNode, domNode) => {
+  let parentNode = needleDomNode.parentNode;
+  while (parentNode !== null) {
+    if (parentNode === domNode) {
+      return true;
+    }
+    parentNode = parentNode.parentNode;
   }
-}
 
-export default GMapInitializedEvent;
+  return false;
+};

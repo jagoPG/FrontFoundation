@@ -324,28 +324,16 @@ class GMap {
     this.publishMarkerSelectedEvent(marker);
   }
 
-  isChildOfDomNode(node) {
-    let parentNode = this.domNode.parentNode;
-    while (parentNode !== null) {
-      if (parentNode === node) {
-        return true;
-      }
-      parentNode = parentNode.parentNode;
-    }
-
-    return false;
-  }
-
   publishMapInstanceInitializedEvent() {
     EventPublisher.publish(new GMapInitializedEvent(this));
   }
 
   publishMarkerSelectedEvent(marker) {
-    EventPublisher.publish(new GMapMarkerSelectedEvent(marker));
+    EventPublisher.publish(new GMapMarkerSelectedEvent(this, marker));
   }
 
   publishGeocodeNoResultsEvent() {
-    EventPublisher.publish(new GMapGeocodeNoResultsEvent());
+    EventPublisher.publish(new GMapGeocodeNoResultsEvent(this));
   }
 }
 
