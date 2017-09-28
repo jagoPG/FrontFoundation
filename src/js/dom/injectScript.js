@@ -16,7 +16,7 @@ export default (scriptCode, domNode = document.body) => {
   scriptCode = `(function(){${scriptCode}})();`;
 
   try {
-    scriptCode.appendChild(document.createTextNode(scriptCode));
+    scriptNode.appendChild(document.createTextNode(scriptCode));
     domNode.appendChild(scriptNode);
   } catch (error) {
     scriptNode.text = scriptCode;
