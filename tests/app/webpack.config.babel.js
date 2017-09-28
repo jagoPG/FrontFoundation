@@ -41,7 +41,8 @@ const getPlugins = options => {
     },
     styleLintDefaultOptions = {
       configFile: join(__dirname, '.stylelintrc.js'),
-      sintax: 'scss'
+      files: ['src/**/*.scss', 'app.scss'],
+      syntax: 'scss'
     };
 
   const plugins = [
@@ -84,12 +85,8 @@ export default options => {
             loader: 'babel-loader',
             options: {
               presets: ['react', 'es2015', 'stage-2'],
+              plugins: ['transform-class-properties'],
               compact: false
-            }
-          }, {
-            loader: 'eslint-loader',
-            options: {
-              enforce: 'pre'
             }
           }],
           include,

@@ -13,13 +13,13 @@
     This componenet will display a form group composed by an @atoms/form_label, an @atom/form_input and an
     @atoms/form_error.
 
-    @param required                 bool=false
-    @param id                       string=*
-    @param label_class_name         string=null
-    @param label_modifiers          array|string=null
-    @param label_title              atring=null
-    @param error_content            string=null
-    @param error_modifiers          array|string=null
+    @param input_required           bool=false
+    @param input_id                 string=*
+    @param input_label_class_name   string=null
+    @param input_label_modifiers    array|string=null
+    @param input_label_title        atring=null
+    @param input_error_content      string=null
+    @param input_error_modifiers    array|string=null
     @param input_class_name         string=null
     @param input_modifiers          array|string=null
     @param input_placeholder        string*
@@ -27,32 +27,32 @@
 #}
 
 <div class="form-group-input">
-    {% if label_title|default %}
+    {% if input_label_title|default %}
         <div class="form-group__label">
             {% include '@lin3s_front_foundation/atoms/form_label.html.twig' with {
-                for: id,
-                required: required,
-                class_name: label_class_name,
-                modifiers: label_modifiers,
-                title: label_title
+                label_for: input_id,
+                label_required: input_required,
+                label_class_name: input_label_class_name,
+                label_modifiers: input_label_modifiers,
+                label_title: input_label_title
             } %}
         </div>
     {% endif %}
 
     {% include '@lin3s_front_foundation/atoms/form_input.html.twig' with {
-        type: input_type,
-        id: id,
-        class_name: input_class_name,
-        modifiers: input_modifiers,
-        placeholder: input_placeholder,
-        required: required
+        input_type: input_type,
+        input_id: input_id,
+        input_class_name: input_class_name,
+        input_modifiers: input_modifiers,
+        input_placeholder: input_placeholder,
+        input_required: input_required
     } %}
 
-    {% if error_content|default %}
+    {% if input_error_content|default %}
         <div class="form-group-input__error">
             {% include '@lin3s_front_foundation/atoms/form_error.html.twig' with {
-                content: error_content,
-                modifiers: error_modifiers
+                error_content: input_error_content,
+                error_modifiers: input_error_modifiers
             } %}
         </div>
     {% endif %}

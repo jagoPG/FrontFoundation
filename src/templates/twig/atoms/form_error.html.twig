@@ -12,9 +12,9 @@
 {##
     This atom will display a form input associated error.
 
-    @param content        string*
-    @param class_name     string=null
+    @param error_content        string*
+    @param error_class_name     string=null
 
 #}
 
-<p class="form-error{% if class_name|default %} {{ class_name }}{% endif %}">{{ content }}</p>
+<p class="form-error{% if error_class_name|default %} {{ error_class_name }}{% endif %}">{{ error_content }}</p>

@@ -138,25 +138,6 @@ class FormSelect extends React.Component {
     }
   }
 
-  scrollTo(element, to, duration) {
-    if (duration <= 0) {
-      return;
-    }
-
-    const difference = to - element.scrollTop;
-    const perTick = difference / duration * 10;
-
-    requestAnimationFrame(() => {
-      element.scrollTop = element.scrollTop + perTick;
-
-      if (element.scrollTop === to) {
-        return;
-      }
-
-      this.scrollTo(element, to, duration - 16);
-    });
-  }
-
   onOptionSelected(option) {
     if (!this.props.enabled) {
       return;
@@ -323,8 +304,8 @@ class FormSelect extends React.Component {
             {options && options.map((option, index) => {
               const
                 formOptionClassName = `form-select__option${option === selectedOption
-                    ? ' form-select__option--active' : ''}${option === hoveredOption
-                    ? ' form-select__option--hover' : ''}`,
+                  ? ' form-select__option--active' : ''}${option === hoveredOption
+                  ? ' form-select__option--hover' : ''}`,
                 labelHtml = this.getDangerousHtml(option.label);
               return <div className={formOptionClassName}
                 dangerouslySetInnerHTML={labelHtml}

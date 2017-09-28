@@ -13,4 +13,4 @@ import cancelablePromise from './cancelablePromise';
 
 export {
   cancelablePromise
-}
+};

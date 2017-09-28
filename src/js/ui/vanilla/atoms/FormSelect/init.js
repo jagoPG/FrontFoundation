@@ -19,4 +19,4 @@ const initFormSelects = () => {
   Array.from($formSelects).forEach(formSelect => new FormSelect(formSelect));
 };
 
-onDomReady(initFormSelects);
+onDomReady(initFormSelects, -1);

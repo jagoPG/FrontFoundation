@@ -15,4 +15,4 @@ import setLocale from './setLocale';
 export {
   excludeFormFields,
   setLocale
-}
+};

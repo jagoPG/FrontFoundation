@@ -21,13 +21,11 @@ class GMapMarkerSelectedEventSubscriber extends EventSubscriber {
     this.domNode = domNode;
   }
 
-  isSubscribedTo(gmapMarkerSelectedEvent) {
+  isSubscribedTo(anEvent) {
     const event = new GMapMarkerSelectedEvent();
 
-    const gmapInstanceDomNode = gmapMarkerSelectedEvent.gmapInstance.domNode;
-
-    return gmapMarkerSelectedEvent.getName() === event.getName()
-      && (this.domNode === gmapInstanceDomNode || isDomNodeDescendantOfDomNode(gmapInstanceDomNode, this.domNode));
+    return anEvent.getName() === event.getName() && (this.domNode === anEvent.gmapInstance.domNode
+      || isDomNodeDescendantOfDomNode(anEvent.gmapInstance.domNode, this.domNode));
   }
 }
 

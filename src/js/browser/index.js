@@ -13,4 +13,4 @@ import isIE11 from './isIE11';
 
 export {
   isIE11
-}
+};

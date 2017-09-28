@@ -13,26 +13,26 @@
     This component will display a form group composed by an @atoms/form_label, an @atom/form_select and an
     @atoms/form_error.
 
-    @param required                     bool=false
-    @param id                           string=*
-    @param label_modifiers              array|string=null
-    @param label_title                  atring=null
-    @param error_content                string=null
-    @param error_modifiers              array|string=null
-    @param select_standalone            bool=false
-    @param select_modifiers             string=null
-    @param select_no_selection_label    string="--"
-    @param select_no_selection_value    string="--"
-    @param select_options               array*
-        - value                         string*
-        - label                         string*
-        - selected                      bool=false
-    @param select_max_height_mobile     int=260
-    @param select_max_height_desktop    int=420
-    @param select_is_filterable         int=1
-    @param select_filter_placeholder    string=null
-    @param select_filter_order_by       string='value' (or 'label')
-    @param select_mobile_breakpoint     int=1024
+    @param select_required                          bool=false
+    @param select_id                                string=*
+    @param select_outside_click_to_close_enabled    bool=true
+    @param select_label_modifiers                   array|string=null
+    @param select_label_title                       string=null
+    @param select_error_content                     string=null
+    @param select_error_modifiers                   array|string=null
+    @param select_select_modifiers                  string=null
+    @param select_no_selection_label                string="--"
+    @param select_no_selection_value                string="--"
+    @param select_options                           array*
+        - value                                     string*
+        - label                                     string*
+        - selected                                  bool=false
+    @param select_max_height_mobile                 int=260
+    @param select_max_height_desktop                int=420
+    @param select_is_filterable                     int=1
+    @param select_filter_placeholder                string=null
+    @param select_filter_order_by                   string='value' (or 'label')
+    @param select_mobile_breakpoint                 int=1024
 #}
 
 {% set select_no_selection_label = select_no_selection_label|default('--') %}
@@ -40,22 +40,21 @@
 {% set select_filter_order_by = select_filter_order_by|default('value') %}
 
 <div class="form-group-select">
-    {% if label_title|default %}
+    {% if select_label_title|default %}
         <div class="form-group-select__label">
             {% include '@lin3s_front_foundation/atoms/form_label.html.twig' with {
-                for: id,
-                required: required,
-                modifiers: label_modifiers,
-                title: label_title
+                label_for: select_id,
+                label_required: select_required,
+                label_modifiers: select_label_modifiers,
+                label_title: select_label_title
             } %}
         </div>
     {% endif %}
 
     {% include '@lin3s_front_foundation/atoms/form_select.html.twig' with {
-        id: id,
-        select_standalone: select_standalone,
-        select_modifiers: select_modifiers,
-        required: required,
+        select_id: select_id,
+        select_modifiers: select_select_modifiers,
+        select_required: select_required,
         select_no_selection_label: select_no_selection_label,
         select_no_selection_value: select_no_selection_value,
         select_options: select_options,
@@ -64,14 +63,15 @@
         select_is_filterable: select_is_filterable|default(1),
         select_filter_placeholder: select_filter_placeholder,
         select_filter_order_by: select_filter_order_by,
-        select_mobile_breakpoint: select_mobile_breakpoint|default(1024)
+        select_mobile_breakpoint: select_mobile_breakpoint|default(1024),
+        select_outside_click_to_close_enabled: select_outside_click_to_close_enabled|default(1)
     } %}
 
-    {% if error_content|default %}
+    {% if select_error_content|default %}
         <div class="form-group-select__error">
             {% include '@lin3s_front_foundation/atoms/form_error.html.twig' with {
-                content: error_content,
-                modifiers: error_modifiers
+                error_content: select_error_content,
+                error_modifiers: select_error_modifiers
             } %}
         </div>
     {% endif %}

@@ -11,10 +11,12 @@
 
 export default (needleDomNode, domNode) => {
   let parentNode = needleDomNode.parentNode;
+
   while (parentNode !== null) {
     if (parentNode === domNode) {
       return true;
     }
+
     parentNode = parentNode.parentNode;
   }
 

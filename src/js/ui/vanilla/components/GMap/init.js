@@ -9,7 +9,7 @@
  * @author Mikel Tuesta <mikeltuesta@gmail.com>
  */
 
-import {onDomReady, EventPublisher} from 'lin3s-event-bus';
+import {onDomReady} from 'lin3s-event-bus';
 import {loadScript} from './../../../../dom';
 import GMap from './GMap';
 
@@ -67,4 +67,4 @@ window.initGMap = () => {
   });
 };
 
-onDomReady(onReady);
+onDomReady(onReady, -1);

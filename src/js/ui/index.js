@@ -15,4 +15,4 @@ import * as Vanilla from './vanilla/index';
 export {
   React,
   Vanilla
-}
+};

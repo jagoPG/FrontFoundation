@@ -11,8 +11,11 @@
 
 import $ from 'jquery';
 import debounce from 'lodash.debounce';
-import {onWindowResized} from 'lin3s-event-bus';
+import {onWindowResized, EventPublisher} from 'lin3s-event-bus';
 import {getHtmlLang} from './../../../../dom';
+import FormSelectInitializedEvent from './../../../../event-bus/FormSelect/FormSelectInitializedEvent';
+import FormSelectOptionSelectedEvent from './../../../../event-bus/FormSelect/FormSelectOptionSelectedEvent';
+import FormSelectStateChangedEvent from './../../../../event-bus/FormSelect/FormSelectStateChangedEvent';
 
 const renderSelectOption = (optionValue, optionLabel) =>
     `<option value="${optionValue}">${optionLabel}</option>`,
@@ -23,11 +26,17 @@ const isMobile = (viewportWidth, mobileBreakpoint = 1024) => viewportWidth < mob
 
 class FormSelect {
 
+  static STATE = {
+    OPENED: 'OPENED',
+    CLOSED: 'CLOSED'
+  };
+
   windowWidth;
   maxHeightMobile;
   maxHeightDesktop;
   mobileBreakpoint;
 
+  domNode;
   $domNode;
   $select;
   $selectOptions;
@@ -41,20 +50,9 @@ class FormSelect {
   selectedOptionValue;
   keyboardControlledSelectedOptionIndex = -1;
 
-  outsideClickToCloseEnabled;
-  onChangeCallback;
-  onClickCallback;
-
-  constructor(domNode,
-              onChangeCallback = () => {
-              },
-              onClickCallback = () => {
-              },
-              outsideClickToCloseEnabled = true) {
+  constructor(domNode) {
+    this.domNode = domNode;
     this.$domNode = $(domNode);
-    this.onChangeCallback = onChangeCallback;
-    this.onClickCallback = onClickCallback;
-    this.outsideClickToCloseEnabled = outsideClickToCloseEnabled;
     this.opened = this.$domNode.hasClass('form-select--opened');
     this.enabled = true;
 
@@ -62,7 +60,7 @@ class FormSelect {
     this.maxHeightMobile = parseInt(domNode.dataset.maxHeightMobile, 10);
     this.isFilterable = parseInt(domNode.dataset.filterable, 10) === 1;
     this.filterBy = domNode.dataset.filterOrderBy;
-    this.mobileBreakpoint = parseInt(domNode.dataset.mobileBreakpoint);
+    this.mobileBreakpoint = parseInt(domNode.dataset.mobileBreakpoint, 10);
 
     if (this.isFilterable) {
       this.$filterInput = this.$domNode.find('.form-select__input');
@@ -79,6 +77,8 @@ class FormSelect {
     this.bindListeners();
     this.setSelectOpened(this.opened);
     this.setInitiallySelectedOption();
+
+    this.publishFormSelectInitializedEvent();
   }
 
   parseSelectOptions() {
@@ -107,7 +107,7 @@ class FormSelect {
 
   getOptionsContainerHeight() {
     const totalHeight = Array.from(this.$domNode.find('.form-select__option')).reduce((accumulatedHeight, option) =>
-    accumulatedHeight + $(option).outerHeight(), 0);
+      accumulatedHeight + $(option).outerHeight(), 0);
 
     if (isMobile(this.windowWidth, this.mobileBreakpoint) && totalHeight >= this.maxHeightMobile) {
       return this.maxHeightMobile;
@@ -119,11 +119,6 @@ class FormSelect {
   }
 
   bindListeners() {
-    if (this.outsideClickToCloseEnabled) {
-      $(window).on('click.form_select', this.closeSelect.bind(this));
-      this.$domNode.on('click.form_select', event => event.stopPropagation());
-    }
-
     if (this.isFilterable) {
       this.$filterInput.on('input.form_select', () => {
         this.debouncedFilter();
@@ -136,7 +131,13 @@ class FormSelect {
       });
     }
 
-    this.$domNode.on('click.form_select', () => this.setSelectOpened(!this.opened));
+    $(window).on('click.form_select', this.close.bind(this));
+
+    this.$domNode.on('click.form_select', event => {
+      event.stopPropagation();
+
+      this.setSelectOpened(!this.opened);
+    });
 
     this.$domNode.on('click.form_select_option', '.form-select__option', (event) => {
       this.setSelectedOption($(event.currentTarget));
@@ -171,7 +172,7 @@ class FormSelect {
           true);
       } else if (event.which === 13) { // enter
         this.setSelectedOption($selectOptionViews.eq(this.keyboardControlledSelectedOptionIndex));
-        this.closeSelect();
+        this.close();
       }
     });
 
@@ -182,7 +183,7 @@ class FormSelect {
     this.windowWidth = windowResizedEvent.windowWidth || $(window).width();
 
     if (this.opened) {
-      this.openSelect();
+      this.open();
     }
   }
 
@@ -198,15 +199,15 @@ class FormSelect {
 
   setSelectOpened(opened) {
     if (opened) {
-      this.openSelect();
+      this.open();
     } else {
-      this.closeSelect();
+      this.close();
     }
 
-    this.onClickCallback(opened);
+    this.publishFormSelectStateChangedEvent(opened ? FormSelect.STATE.OPENED : FormSelect.STATE.CLOSED);
   }
 
-  openSelect() {
+  open() {
     if (!this.enabled) {
       return;
     }
@@ -221,7 +222,7 @@ class FormSelect {
     }
   }
 
-  closeSelect() {
+  close() {
     if (!this.enabled) {
       return;
     }
@@ -236,7 +237,7 @@ class FormSelect {
     }
   }
 
-  onOptionSelected(optionLabel, optionValue, executeCallback = true) {
+  onOptionSelected(optionLabel, optionValue, publishEvent = true) {
     if (!this.enabled) {
       return;
     }
@@ -254,12 +255,12 @@ class FormSelect {
     this.setSelectLabelValue(label);
     this.setSelectActiveOption(value);
 
-    if ((this.selectedOptionLabel !== undefined || this.selectedOptionValue !== undefined) && executeCallback) {
-      this.onChangeCallback(value);
-    }
-
     this.selectedOptionLabel = optionLabel;
     this.selectedOptionValue = optionValue;
+
+    if ((this.selectedOptionLabel !== undefined || this.selectedOptionValue !== undefined) && publishEvent) {
+      this.publishFormSelectOptionSelectedEvent(value);
+    }
   }
 
   setSelectValue(value) {
@@ -292,8 +293,8 @@ class FormSelect {
     this.onOptionSelected(label, optionValue, false);
   }
 
-  update(options, executeCallback = true) {
-    this.closeSelect();
+  update({options, publishEvent = true} = {}) {
+    this.close();
     this.destroy();
 
     if (options.length === 0) {
@@ -301,7 +302,7 @@ class FormSelect {
     }
 
     this.build(options);
-    this.onOptionSelected(options[0].label, options[0].value, executeCallback);
+    this.onOptionSelected(options[0].label, options[0].value, publishEvent);
   }
 
   destroy() {
@@ -405,7 +406,7 @@ class FormSelect {
       return;
     }
 
-    this.$selectOptionsContainer.animate({scrollTop: `${$optionView.offset().top - 100}px`}, 250);
+    $optionView[0].scrollIntoView({ behaviour: 'smooth' });
   }
 
   enable() {
@@ -414,6 +415,18 @@ class FormSelect {
 
   disable() {
     this.enabled = false;
+  }
+
+  publishFormSelectInitializedEvent() {
+    EventPublisher.publish(new FormSelectInitializedEvent(this));
+  }
+
+  publishFormSelectOptionSelectedEvent(value) {
+    EventPublisher.publish(new FormSelectOptionSelectedEvent(this, value));
+  }
+
+  publishFormSelectStateChangedEvent(state) {
+    EventPublisher.publish(new FormSelectStateChangedEvent(this, state));
   }
 }
 

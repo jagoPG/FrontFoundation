@@ -21,12 +21,11 @@ class GMapInitializedEventSubscriber extends EventSubscriber {
     this.domNode = domNode;
   }
 
-  isSubscribedTo(gmapInitializedEvent) {
+  isSubscribedTo(anEvent) {
     const event = new GMapInitializedEvent();
-    const gmapInstanceDomNode = gmapInitializedEvent.gmapInstance.domNode;
 
-    return gmapInitializedEvent.getName() === event.getName()
-      && (this.domNode === gmapInstanceDomNode || isDomNodeDescendantOfDomNode(gmapInstanceDomNode, this.domNode));
+    return anEvent.getName() === event.getName() && (this.domNode === anEvent.gmapInstance.domNode
+      || isDomNodeDescendantOfDomNode(anEvent.gmapInstance.domNode, this.domNode));
   }
 }
 

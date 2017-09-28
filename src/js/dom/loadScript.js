@@ -19,4 +19,4 @@ export default scriptPath => {
     script.onload = () => resolve();
     head.appendChild(script);
   });
-}
+};

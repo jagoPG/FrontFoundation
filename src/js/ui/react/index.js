@@ -23,4 +23,4 @@ export {
   FormSelect,
   FormGroupInput,
   FormGroupSelect
-}
+};

@@ -23,4 +23,4 @@ export {
   Parsley,
   Async,
   EventBus,
-}
+};

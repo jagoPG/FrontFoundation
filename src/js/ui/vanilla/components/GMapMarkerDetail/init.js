@@ -18,4 +18,4 @@ const initGMapMarkerDetails = () => {
   Array.from(gmapMarkerDetails).forEach(gmapMarkerDetail => new GMapMarkerDetail(gmapMarkerDetail));
 };
 
-onDomReady(initGMapMarkerDetails);
+onDomReady(initGMapMarkerDetails, -1);

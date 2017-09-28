@@ -14,45 +14,86 @@ import {EventPublisher} from 'lin3s-event-bus';
 import GMapInitializedEventSubscriber from './GMap/GMapInitializedEventSubscriber';
 import GMapMarkerSelectedEventSubscriber from './GMap/GMapMarkerSelectedEventSubscriber';
 import GMapGeocodeNoResultsEventSubscriber from './GMap/GMapGeocodeNoResultsEventSubscriber';
+import FormSelectInitializedEventSubscriber from './FormSelect/FormSelectInitializedEventSubscriber';
+import FormSelectOptionSelectedEventSubscriber from './FormSelect/FormSelectOptionSelectedEventSubscriber';
+import FormSelectStateChangedEventSubscriber from './FormSelect/FormSelectStateChangedEventSubscriber';
 
-const onGMapInitialized = (domNode, onGMapInitializedCallback, priority) => {
-  const gmapInitializedEventSubscriber = new GMapInitializedEventSubscriber(
-    domNode,
-    onGMapInitializedCallback,
-    new Priority(priority)
-  );
+const
+  onGMapInitialized = (domNode, onGMapInitializedCallback, priority) => {
+    const gmapInitializedEventSubscriber = new GMapInitializedEventSubscriber(
+      domNode,
+      onGMapInitializedCallback,
+      new Priority(priority)
+    );
 
-  EventPublisher.subscribe(gmapInitializedEventSubscriber);
+    EventPublisher.subscribe(gmapInitializedEventSubscriber);
 
-  return gmapInitializedEventSubscriber;
-};
+    return gmapInitializedEventSubscriber;
+  },
+  onGMapMarkerSelected = (domNode, onGMapMarkerSelectedCallback, priority) => {
+    const gmapMarkerSelectedEventSubscriber = new GMapMarkerSelectedEventSubscriber(
+      domNode,
+      onGMapMarkerSelectedCallback,
+      new Priority(priority)
+    );
 
-const onGMapMarkerSelected = (domNode, onGMapMarkerSelectedCallback, priority) => {
-  const gmapMarkerSelectedEventSubscriber = new GMapMarkerSelectedEventSubscriber(
-    domNode,
-    onGMapMarkerSelectedCallback,
-    new Priority(priority)
-  );
+    EventPublisher.subscribe(gmapMarkerSelectedEventSubscriber);
 
-  EventPublisher.subscribe(gmapMarkerSelectedEventSubscriber);
+    return gmapMarkerSelectedEventSubscriber;
+  },
+  onGMapGeocodeNoResults = (domNode, onGMapGeocodeNoResultsCallback, priority) => {
+    const gmapGeocodeNoResultsEventSubscriber = new GMapGeocodeNoResultsEventSubscriber(
+      domNode,
+      onGMapGeocodeNoResultsCallback,
+      new Priority(priority)
+    );
 
-  return gmapMarkerSelectedEventSubscriber;
-};
+    EventPublisher.subscribe(gmapGeocodeNoResultsEventSubscriber);
 
-const onGMapGeocodeNoResults = (domNode, onGMapGeocodeNoResultsCallback, priority) => {
-  const gmapGeocodeNoResultsEventSubscriber = new GMapGeocodeNoResultsEventSubscriber(
-    domNode,
-    onGMapGeocodeNoResultsCallback,
-    new Priority(priority)
-  );
+    return gmapGeocodeNoResultsEventSubscriber;
+  };
 
-  EventPublisher.subscribe(gmapGeocodeNoResultsEventSubscriber);
+const
+  onFormSelectInitialized = (domNode, onFormSelectInitializedCallback, priority) => {
+    const formSelectInitializedEventSubscriber = new FormSelectInitializedEventSubscriber(
+      domNode,
+      onFormSelectInitializedCallback,
+      new Priority(priority)
+    );
 
-  return gmapGeocodeNoResultsEventSubscriber;
-};
+    EventPublisher.subscribe(formSelectInitializedEventSubscriber);
+
+    return formSelectInitializedEventSubscriber;
+  },
+  onFormSelectOptionSelected = (domNode, onFormSelectOptionSelectedCallback, priority) => {
+    const formSelectOptionSelectedEventSubscriber = new FormSelectOptionSelectedEventSubscriber(
+      domNode,
+      onFormSelectOptionSelectedCallback,
+      new Priority(priority)
+    );
+
+    EventPublisher.subscribe(formSelectOptionSelectedEventSubscriber);
+
+    return formSelectOptionSelectedEventSubscriber;
+  },
+  onFormSelectStateChanged = (domNode, onFormSelectStateChangedCallback, priority) => {
+    const formSelectStateChangedEventSubscriber = new FormSelectStateChangedEventSubscriber(
+      domNode,
+      onFormSelectStateChangedCallback,
+      new Priority(priority)
+    );
+
+    EventPublisher.subscribe(formSelectStateChangedEventSubscriber);
+
+    return formSelectStateChangedEventSubscriber;
+  };
+
 
 export {
   onGMapInitialized,
   onGMapMarkerSelected,
-  onGMapGeocodeNoResults
-}
+  onGMapGeocodeNoResults,
+  onFormSelectInitialized,
+  onFormSelectOptionSelected,
+  onFormSelectStateChanged
+};

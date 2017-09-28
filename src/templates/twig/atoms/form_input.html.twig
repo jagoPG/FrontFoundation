@@ -12,16 +12,16 @@
 {##
     This atom will display a form input.
 
-    @param type             string='text'
-    @param class_name       string=null
-    @param modifiers        string=null
-    @param placeholder      string*
-    @param id               string=null
-    @param required         bool=false
+    @param input_type             string='text'
+    @param input_class_name       string=null
+    @param input_modifiers        string=null
+    @param input_placeholder      string*
+    @param input_id               string=null
+    @param input_required         bool=false
 
 #}
 
-<input class="form-input{{ modifiers }} {{ class_name }}"
-       type="{{ type|default('text') }}" placeholder="{{ placeholder }}" autocomplete="off"
-       {% if id|default %}id="{{ id }}" name="{{ id }}"{% endif %}
-       {% if required|default %} required{% endif %}/>
+<input class="form-input{{ input_modifiers }} {{ input_class_name }}"
+       type="{{ input_type|default('text') }}" placeholder="{{ input_placeholder }}" autocomplete="off"
+       {% if input_id|default %}id="{{ input_id }}" name="{{ input_id }}"{% endif %}
+       {% if input_required|default %} required{% endif %}/>

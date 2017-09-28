@@ -6,25 +6,27 @@ To get the diff for a specific change, go to https://github.com/LIN3S/FrontFound
 To get the diff between two versions, go to https://github.com/LIN3S/FrontFoundation/compare/v0.5.0...v0.6.0
 
 * 0.7.0
-    * Added React FormGroupInput component to Ui 'package'
-    * Added React FormGroupSelect component to Ui 'package'
-    * Added React FormSelect atom to Ui 'package'
-    * Added React Loader atom to Ui 'package'
-    * Added React ResizeAware HOC to Ui 'package'
-    * Added React ArrowDown svg to Ui 'package'
-    * Added FormError atom to Ui 'package'
-    * Added FormLabel atom to Ui 'package'
-    * Added FormInput atom to Ui 'package'
-    * Added FormSelect atom to Ui 'package'
-    * Added getHtmlLang to the Dom 'package'.
-    * Added GMap component to Ui 'package'.
-    * Added loadScript and waitImagesLoadInDomNode helper methods to Dom 'package'.
-    * Added isIE11 helper method to Browser 'package'.
-    * Added cancelablePromise Promise wrapper to Async 'package'.
+    * Added React FormGroupInput component to the *Ui* package
+    * Added React FormGroupSelect component to the *Ui* package
+    * Added React FormSelect atom to the *Ui* package
+    * Added React Loader atom to the *Ui* package
+    * Added React ResizeAware HOC to the *Ui* package
+    * Added React ArrowDown svg to the *Ui* package
+    * Added FormError atom to the *Ui* package
+    * Added FormLabel atom to the *Ui* package
+    * Added FormInput atom to the *Ui* package
+    * Added FormSelect atom to the *Ui* package
+    * Added GMap component to the *Ui* package.
+    * Added getHtmlLang method to the *Dom* package.
+    * Added injectScript helper method to the *Dom* package.
+    * Added loadScript helper method to the *Dom* package.
+    * Added waitImagesLoadInDomNode helper method to the *Dom* package.
+    * Added isIE11 helper method to *Browser* package.
+    * Added cancelablePromise Promise wrapper to *Async* package.
+    * Renamed the *app* package to *Ui*.
+    * Renamed the *promises* package to *Async*.
     * Added dynamic parsley locale modules loading by env configuration.
     * Updated distributable configuration.
-    * Renamed the *app* 'package' to *ui*.
-    * Renamed the *promises* 'package' to *async*.
 * 0.6.1
     * Made locale conditional based on HTML lang.
 * 0.6.0

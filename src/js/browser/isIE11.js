@@ -22,4 +22,4 @@ export default () => {
   }
 
   return result === 11;
-}
+};

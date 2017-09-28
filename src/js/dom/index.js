@@ -11,11 +11,15 @@
  */
 
 import loadScript from './loadScript';
+import injectScript from './injectScript';
 import waitImagesLoadInDomNode from './waitImagesLoadInDomNode';
 import getHtmlLang from './getHtmlLang';
+import isDomNodeDescendantOfDomNode from './isDomNodeDescendantOfDomNode';
 
 export {
   loadScript,
+  injectScript,
   waitImagesLoadInDomNode,
-  getHtmlLang
-}
+  getHtmlLang,
+  isDomNodeDescendantOfDomNode
+};

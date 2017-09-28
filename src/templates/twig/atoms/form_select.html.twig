@@ -12,35 +12,35 @@
 {##
     Form select
 
-    @param id                           string*
-    @param required                     bool=null
-    @param select_modifiers             string=null
-    @param select_standalone            bool=true      (If false, this atom will need a manual initialization through JS)
-    @param select_no_selection_label    string="--"
-    @param select_no_selection_value    string="--"
-    @param select_options               array*
-        - value                         string*
-        - label                         string*
-        - selected                      bool=false
-    @param select_max_height_mobile     int=260
-    @param select_max_height_desktop    int=420
-    @param select_is_filterable         int=1
-    @param select_filter_placeholder    string=null
-    @param select_filter_order_by       string='value' (or 'label')
-    @param select_mobile_breakpoint     int=1024
+    @param select_class_name                        string=null
+    @param select_id                                string*
+    @param select_required                          bool=false
+    @param select_modifiers                         string=null
+    @param select_no_selection_label                string="--"
+    @param select_no_selection_value                string="--"
+    @param select_options                           array*
+        - value                                     string*
+        - label                                     string*
+        - selected                                  bool=false
+    @param select_max_height_mobile                 int=260
+    @param select_max_height_desktop                int=420
+    @param select_is_filterable                     int=1
+    @param select_filter_placeholder                string=null
+    @param select_filter_order_by                   string='value' (or 'label')
+    @param select_mobile_breakpoint                 int=1024
 #}
 
 {% set select_no_selection_label = select_no_selection_label|default('--') %}
 {% set select_no_selection_value = select_no_selection_value|default('--') %}
 {% set select_filter_order_by = select_filter_order_by|default('value') %}
 
-<div class="form-select {{ select_modifiers }}{% if select_standalone|default(true) %} js-form-select{% endif %}"
+<div class="form-select js-form-select {{ select_modifiers }} {{ select_class_name }}"
     data-max-height-mobile="{{ select_max_height_mobile|default(260) }}"
     data-max-height-desktop="{{ select_max_height_desktop|default(420) }}"
     data-filterable="{{ select_is_filterable|default(1) }}"
     data-filter-order-by="{{ select_filter_order_by }}"
     data-mobile-breakpoint="{{ select_mobile_breakpoint|default(1024) }}">
-    <select class="form-select__select" name="{{ id }}" id="{{ id }}" {% if required|default %} required{% endif %}>
+    <select class="form-select__select" name="{{ select_id }}" id="{{ select_id }}" {% if select_required|default %} required{% endif %}>
         <option class="form-select__select-no-option" value="{{ select_no_selection_value }}">
             {{ select_no_selection_label }}
         </option>
@@ -56,8 +56,8 @@
     {% if select_is_filterable|default(1) %}
         <div class="form-select__input-container">
             {% include '@lin3s_front_foundation/atoms/form_input.html.twig' with {
-                class_name: 'form-select__input',
-                placeholder: select_filter_placeholder
+                input_class_name: 'form-select__input',
+                input_placeholder: select_filter_placeholder
             } %}
         </div>
     {% endif %}

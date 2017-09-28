@@ -18,7 +18,8 @@ import {
 } from 'lin3s-front-foundation';
 import {onDomReady} from 'lin3s-event-bus';
 
-import './src/js/GMapGeocoder';
+import './src/js/GMapGeocoderDemo';
+import './src/js/FormSelectDemo';
 import './src/js/React/init';
 
 import './app.scss';
@@ -69,6 +70,19 @@ const testDomLoadScript = () => {
   });
 };
 
+const testDomInjectScript = () => {
+  console.log('Testing Dom.injectScript');
+
+  const mainDomNode = document.querySelector('main');
+
+  const
+    testScriptA = `console.log('This is the injected script A');`,
+    testScriptB = `console.log('This is the injected script B');`;
+
+  Dom.injectScript(testScriptA);
+  Dom.injectScript(testScriptB, mainDomNode);
+};
+
 const testDomWaitImagesLoadInDomNode = () => {
   const imagesCollection = document.querySelector('.images__collection');
   const imagesLoadPromise = Dom.waitImagesLoadInDomNode(imagesCollection);
@@ -86,6 +100,7 @@ const onReady = () => {
   testAsyncCancelablePromise();
   testBrowserIsIE11();
   testDomLoadScript();
+  testDomInjectScript();
   testDomWaitImagesLoadInDomNode();
 };
 
