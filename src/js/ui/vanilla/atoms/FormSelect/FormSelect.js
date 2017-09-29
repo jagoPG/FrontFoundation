@@ -73,12 +73,34 @@ class FormSelect {
 
     this.debouncedFilter = debounce(() => this.filter(), 500);
 
+    this.needsParsleyValidation = this.$domNode.parents('form[data-parsley-validate]').length > 0;
+
+    this.addParsleyValidator();
     this.parseSelectOptions();
     this.bindListeners();
     this.setSelectOpened(this.opened);
     this.setInitiallySelectedOption();
 
     this.publishFormSelectInitializedEvent();
+  }
+
+  addParsleyValidator() {
+    const validatorName = 'notDefaultOption';
+
+    if (window.Parsley.hasValidator(validatorName)) {
+      return;
+    }
+
+    const noSelectionValue = this.$domNode.find('.form-select__select-no-option').val();
+
+    window.Parsley.addValidator(validatorName, {
+      validateString: value => value !== noSelectionValue,
+      messages: {
+        en: 'The selected option is the default one',
+        es: 'La opción seleccionada es la opción por defecto',
+        eu: 'Hautatutako aukera lehenetsiko aukera da'
+      }
+    });
   }
 
   parseSelectOptions() {
@@ -258,19 +280,17 @@ class FormSelect {
     this.selectedOptionLabel = optionLabel;
     this.selectedOptionValue = optionValue;
 
+    if (this.needsParsleyValidation) {
+      this.$select.parsley().validate();
+    }
+
     if ((this.selectedOptionLabel !== undefined || this.selectedOptionValue !== undefined) && publishEvent) {
       this.publishFormSelectOptionSelectedEvent(value);
     }
   }
 
   setSelectValue(value) {
-    this.$select.find('option').prop('selected', '');
-
-    if (value === undefined) {
-      return;
-    }
-
-    this.$select.find(`option[value="${value}"]`).attr('selected', 'selected');
+    this.$select.val(value);
   }
 
   setSelectLabelValue(value) {

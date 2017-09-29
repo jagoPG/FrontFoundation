@@ -40,16 +40,6 @@
     data-filterable="{{ select_is_filterable|default(1) }}"
     data-filter-order-by="{{ select_filter_order_by }}"
     data-mobile-breakpoint="{{ select_mobile_breakpoint|default(1024) }}">
-    <select class="form-select__select" name="{{ select_id }}" id="{{ select_id }}" {% if select_required|default %} required{% endif %}>
-        <option class="form-select__select-no-option" value="{{ select_no_selection_value }}">
-            {{ select_no_selection_label }}
-        </option>
-        {% for option in select_options %}
-            <option value="{{ option.value }}"{% if option.selected|default(false) %} selected="selected"{% endif %}>
-                {{ option.label }}
-            </option>
-        {% endfor %}
-    </select>
     <span class="form-select__dropdown-icon">
         {% include '@lin3s_front_foundation/svg/arrows_small_down.svg.twig' %}
     </span>
@@ -74,4 +64,16 @@
             {% endfor %}
         </div>
     </div>
+    <select class="form-select__select" name="{{ select_id }}" id="{{ select_id }}" {% if select_required|default %} required{% endif %}
+            data-parsley-not-default-option=""
+            data-parsley-trigger="change">
+        <option class="form-select__select-no-option" value="{{ select_no_selection_value }}">
+            {{ select_no_selection_label }}
+        </option>
+        {% for option in select_options %}
+            <option value="{{ option.value }}"{% if option.selected|default(false) %} selected="selected"{% endif %}>
+                {{ option.label }}
+            </option>
+        {% endfor %}
+    </select>
 </div>
