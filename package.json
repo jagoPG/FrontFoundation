@@ -1,6 +1,6 @@
 {
   "name": "lin3s-front-foundation",
-  "version": "0.7.0",
+  "version": "0.8.0",
   "author": "LIN3S",
   "license": "MIT",
   "description": "Library that provides a sort of commonly used front-end components in LIN3S projects",
@@ -14,6 +14,7 @@
   ],
   "main": "dist/js/index.js",
   "files": [
+    "config",
     "dist",
     "LICENSE",
     "README.md"
@@ -23,7 +24,11 @@
     "prebuild": "rimraf dist",
     "eslint": "node_modules/.bin/eslint src/js/**/*.js",
     "stylelint": "node_modules/.bin/stylelint src/scss/**/*.scss",
-    "build": "yarn prebuild && yarn eslint && yarn stylelint && node_modules/.bin/babel --copy-files --out-dir dist/js src/js && cp -R src/scss dist"
+    "cs": "yarn eslint && yarn stylelint",
+    "js-bundle": "node_modules/.bin/babel --copy-files --out-dir dist/js src/js",
+    "webpack-config-bundle": "node_modules/.bin/babel --copy-files --out-dir config src/config/webpack",
+    "styles-bundle": "cp -R src/scss dist",
+    "build": "yarn prebuild && yarn cs && yarn js-bundle && yarn styles-bundle && yarn webpack-config-bundle"
   },
   "babel": {
     "presets": [
@@ -58,6 +63,7 @@
     "lin3s-event-bus": ">=0.6",
     "prop-types": ">=15.0",
     "react": ">=15.0",
-    "react-dom": ">=15.0"
+    "react-dom": ">=15.0",
+    "webpack": "^3.6.0"
   }
 }

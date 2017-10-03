@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <link rel="stylesheet" href="./dist/main.css"/>
+    <link rel="stylesheet" href="./dist/app.css"/>
 </head>
 <body>
     <script src="./dist/app.js"></script>
@@ -10,26 +10,8 @@
         body{
             padding-bottom: 400px;
         }
-        .gmap {
-            position: relative;
-        }
-        .gmap__map {
-            height: 400px;
-        }
         .gmap-geocoder__filter {
             padding: 20px 30px;
-        }
-        .gmap-marker-detail {
-            background-color: #fff;
-            display: none;
-            left: 30px;
-            padding: 15px;
-            position: absolute;
-            top: 30px;
-            width: 320px;
-        }
-        .gmap-marker-detail--visible {
-            display: block;
         }
         .form-atoms,
         .form-components{
@@ -75,7 +57,7 @@
                 <input class="gmap-geocoder__filter" type="text" placeholder="Address, town, ZIP code, city..."/>
                 <label class="gmap-geocoder__error"></label>
             </div>
-            {% embed '@lin3s_front_foundation/components/gmap.html.twig' with {
+            {% include '@lin3s_front_foundation/components/gmap.html.twig' with {
                 gmap_api_key: 'AIzaSyDQaCE_7C5iAmpwr_y1C1DHbtZsqag74Sk',
                 gmap_center_lat: '43.2631394',
                 gmap_center_lng: '-2.9275847',
@@ -85,16 +67,12 @@
                 gmap_marker_selected_path: '/images/gmap/marker-default',
                 gmap_marker_group_path: '/images/gmap/marker-default'
             } %}
-                {% block gmap_marker_detail_close_button_content %}
-                    close
-                {% endblock %}
-            {% endembed %}
         </section>
 
         <section class="form-atoms">
             <div class="form-group">
                 {% include '@lin3s_front_foundation/atoms/form_label.html.twig' with {
-                    label_title: 'This is the form_label atom'
+                    label_content: 'This is the form_label atom'
                 } %}
             </div>
             <div class="form-group">
@@ -161,7 +139,7 @@
                 {% include '@lin3s_front_foundation/components/form_group_input.html.twig' with {
                     input_required: 1,
                     input_id: 'form-group-input',
-                    input_label_title: 'This is the form_group_input\'s label',
+                    input_label_content: 'This is the form_group_input\'s label',
                     input_error_content:  'This is the form_group_input\'s error',
                     input_placeholder: 'Enter some data...',
                     input_type: 'text'
@@ -171,7 +149,7 @@
                     select_id: 'form-select-2',
                     select_required: 1,
                     select_filter_placeholder: 'Type to filter...',
-                    select_label_title: 'This is the form_group_select\'s label',
+                    select_label_content: 'This is the form_group_select\'s label',
                     select_error_content:  'This is the form_group_select\'s error',
                     select_outside_click_to_close_enabled: 1,
                     select_options: [{

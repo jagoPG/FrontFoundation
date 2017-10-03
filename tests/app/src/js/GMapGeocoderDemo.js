@@ -45,6 +45,7 @@ class GMapGeocoder {
   }
 
   init() {
+    this.gmapInstance.setCenterOffsets({ x: 0, y: -100 });
     this.setupMarkers();
     this.bindListeners();
   }

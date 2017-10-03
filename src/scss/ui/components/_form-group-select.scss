@@ -13,4 +13,6 @@
 
 .form-group-select__error {
   padding-top: 10px;
+  position: relative;
+  z-index: -1;
 }

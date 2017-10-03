@@ -9,17 +9,19 @@
 
 @import './../../_definitions/animations';
 @import './../../_variables/transitions';
+@import './../atoms/loader';
+@import './../svg/triangle';
 
 $gmap-marker-detail-background-color: #fff !default;
-$gmap-marker-detail-animation: $animation-vertical-node-in;
-$gmap-marker-detail-transition: $transition-opacity, $transition-transform;
+$gmap-marker-detail-animation: $animation-vertical-node-in !default;
+$gmap-marker-detail-transition: $transition-opacity, $transition-transform !default;
 $gmap-marker-detail-box-shadow-color: #222 !default;
-$gmap-marker-detail-box-shadow: 0 5px 30px -10px rgba($gmap-marker-detail-box-shadow-color, .25);
-$gmap-marker-detail-close-button-side: 40px;
-$gmap-marker-detail-close-button-icon-stroke-color: #e1e1e1 !default;
+$gmap-marker-detail-box-shadow: 0 5px 30px -10px rgba($gmap-marker-detail-box-shadow-color, .25) !default;
+$gmap-marker-detail-close-button-side: 40px !default;
+$gmap-marker-detail-close-button-icon-stroke-color: #222 !default;
 $gmap-marker-detail-triangle-fill-color: $gmap-marker-detail-background-color;
-$gmap-marker-detail-triangle-width: 30px;
-$gmap-marker-detail-triangle-height: 30px;
+$gmap-marker-detail-triangle-width: 30px !default;
+$gmap-marker-detail-triangle-height: 30px !default;
 
 .gmap-marker-detail {
   background-color: $gmap-marker-detail-background-color;
@@ -89,6 +91,6 @@ $gmap-marker-detail-triangle-height: 30px;
 
 .gmap-marker-detail__content {
   animation: $gmap-marker-detail-animation;
-  display: flex;
+  display: block;
   padding-right: 20px;
 }

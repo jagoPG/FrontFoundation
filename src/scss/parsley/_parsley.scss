@@ -7,42 +7,23 @@
 //
 // @author Beñat Espiña <benatespina@gmail.com>
 // @author Andrés Montejo <andres@lin3s.com>
+// @author Mikel Tuesta <mikeltuesta@gmail.com>
 
-$parley-background-color: #f2b8c2 !default;
-$parley-color: #b20008 !default;
-$parley-transition-duration: .3s !default;
-$parley-transition-type: cubic-bezier(.94, .06, .32, .95) !default;
-$parley-transition-delay: 0s !default;
-$parsley-z-index: 1 !default;
+@import './../ui/atoms/form-error';
 
 .parsley-errors-list {
   list-style: none;
   margin-top: 0;
-  order: 2;
   padding-left: 0;
   position: relative;
-  transform: translateY(-45px);
-  transition: transform $parley-transition-duration $parley-transition-type $parley-transition-delay;
   width: 100%;
-  z-index: $parsley-z-index;
+  z-index: -1;
 
   [class*='parsley'] {
-    background-color: $parley-background-color;
-    color: $parley-color;
-    left: 0;
-    padding: 13px 10px 10px;
-    position: relative;
-    width: 100%;
-    z-index: $parsley-z-index;
+    @extend .form-error;
   }
 
   &.filled {
     transform: translateY(0);
   }
-}
-
-.parsley-error {
-  border: 1px solid $parley-color;
-  position: relative;
-  z-index: #{$parsley-z-index + 1};
 }

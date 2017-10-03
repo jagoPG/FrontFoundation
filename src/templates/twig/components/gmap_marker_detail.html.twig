@@ -9,14 +9,21 @@
 {% endset %}
 
 {% set gmap_marker_detail_close_button %}
-    {%- block gmap_marker_detail_close_button -%}{%- endblock -%}
+    {%- block gmap_marker_detail_close_button -%}
+        {% include '@lin3s_front_foundation/svg/close.svg.twig' %}
+    {%- endblock -%}
 {% endset %}
 
 {% set gmap_marker_detail_loader %}
-    {%- block gmap_marker_detail_loader -%}{%- endblock -%}
+    {%- block gmap_marker_detail_loader -%}
+        {% include '@lin3s_front_foundation/atoms/loader.svg.twig' %}
+    {%- endblock -%}
 {% endset %}
 
 <div class="gmap-marker-detail">
+    {% include '@lin3s_front_foundation/svg/triangle.svg.twig' with {
+        direction: 'bottom'
+    } %}
     <button class="gmap-marker-detail__close">
         {{ gmap_marker_detail_close_button|raw }}
     </button>
@@ -24,6 +31,6 @@
         {{ gmap_marker_detail_loader|raw }}
     </div>
     <div class="gmap-marker-detail__content">
-        {{ gmap_marker_detail_content|safe_raw }}
+        {{ gmap_marker_detail_content|raw }}
     </div>
 </div>

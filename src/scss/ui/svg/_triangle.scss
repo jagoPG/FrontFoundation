@@ -7,12 +7,23 @@
 //
 // @author Mikel Tuesta <mikeltuesta@gmail.com>
 
-.form-group-input__label {
-  margin-bottom: 10px;
+.triangle {
+  height: 10px;
+  width: 20px;
 }
 
-.form-group-input__error {
-  padding-top: 10px;
-  position: relative;
-  z-index: -1;
+.triangle--left {
+  transform: rotate(-90deg);
+}
+
+.triangle--right {
+  transform: rotate(90deg);
+}
+
+.triangle--top {
+  transform: rotate(0);
+}
+
+.triangle--bottom {
+  transform: rotate(180deg);
 }

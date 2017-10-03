@@ -1,7 +1,9 @@
 # LIN3S Front Foundation
+
 > Base CSS and JS files for building views in LIN3S way.
 
 ## Installation
+
 The recommended and the most suitable way to install is through *Yarn*:
 ```bash
 $ yarn add lin3s-front-foundation
@@ -18,6 +20,7 @@ $ bower install --save lin3s-front-foundation
 ## Usage - Available features
 
 ### Parsleyjs
+
 By setting an environment parameter (*--env.locales*) in out project's package.json file, in the build script, we will 
 specify which locale modules must load and inject in our output bundle.
 
@@ -30,6 +33,7 @@ required parameter this way:
 ```
 
 #### Parsley.setLocale( locale = null )
+
 This method will set the Parsley's instance's locale. If we don't provide a locale parameter, automatically the html 
 lang's attribute value will be used. For example: 
 ```js
@@ -39,6 +43,7 @@ Parsley.setLocale();
 ```
 
 #### Parsley.excludeFormFields( selector )
+
 This method will exclude the passed selectors from being validated by Parsley. For instance:
 ```js
 import {Parsley} from 'lin3s-front-foundation';
@@ -47,9 +52,11 @@ Parsley.excludeFormFields('.input--not-validated');
 ```
 
 ### Async
+
 This package will provide all asynchronous related implementations. For instance, Promise related ones.
 
 #### Async.cancelablePromise( promise )
+
 This method will wrap a Promise object and provide a cancel() method for canceling the inner Promise. We will access 
 the original promise throught the promise property.
 ```js
@@ -70,9 +77,11 @@ aCancelablePromise.cancel();
 ```
 
 ### Browser
+
 This package will provide all browser related implementations.
 
 #### Browser.isIE11()
+
 This method will tell us if the browser is Internet Explorer 11.
 
 ```js
@@ -82,6 +91,7 @@ const isIE11 = Browser.isIE11();
 ```
 
 ### Dom
+
 This package will provide all Dom related implementations.
 ```js
 import {Dom} from 'lin3s-front-foundation';
@@ -92,9 +102,11 @@ console.log(currentHtmlLang);
 ```
 
 #### Dom.getHtmlLang()
+
 This method will return the html tag's *lang* attribute.
 
 #### Dom.loadScript( scriptPath )
+
 This method will load an script by the provided scriptPath and return us a Promise object. This promise will be 
 resolved one the script has been loaded.
 
@@ -111,6 +123,7 @@ scriptLoadPromise.then(() => {
 ```
 
 #### Dom.injectScript( scriptCode, domNode = document.body )
+
 This method will inject the specified *scriptCode* at the passed *domNode*. *domNode* will be the document's body by 
 default. Provided *scriptCode* will be wrapped with an [IIFE][3]
 
@@ -127,6 +140,7 @@ Dom.injectScript(testScriptB, mainDomNode);
 ```
 
 #### Dom.waitImagesLoadInDomNode( domNode )
+
 This method will return us a Promise object that will be resolved once all the images contained in the provided domNode 
 have been loaded.
 
@@ -145,10 +159,21 @@ imagesLoadPromise.then(() => {
 ## Usage - Available UI components
 
 ### GMap
+
 This component will provide all the necessary implementations for displaying a Google Map, setting it's markers, setting 
 a clusterer, use the Google Map geocoding feature and displaying the MarkerDetail view.
 
+#### GMap - Styles
+
+The GMap component comes with some default styles. You must include them in order to correctly render it.
+
+```scss
+@import './node_modules/lin3s-front-foundation/dist/scss/ui/components/gmap';
+@import './node_modules/lin3s-front-foundation/dist/scss/ui/components/gmap-marker-detail';
+```
+
 #### GMap - Basic setup
+
 In order to setup the GMap component, we will define every required parameter while including the twig template. It 
 will automatically fetch the needed js files and will init the Google Maps map instance. 
 
@@ -190,6 +215,7 @@ This is a basic setup example:
 ```
 
 #### GMap - JS API
+
 These are the mostly used methods available on the GMap component's instance.
 
 | Name                           | Parameters            | Returned value    | Description |
@@ -202,6 +228,7 @@ These are the mostly used methods available on the GMap component's instance.
 | resetMapZoomAndCenterToDefault | -                     | undefined (void)  | This method will reset the instance's center and zoom to the default values. |
 
 #### GMap - EventBus events
+
 Each GMap instance will publish these events through the EventBus. We will subscribe to these events using some exported
 helper methods:
 
@@ -230,6 +257,7 @@ EventBus.onGMapMarkerSelected(domNode, gmapMarkerSelectedEvent => {
 | GMapGeocodeNoResultsEvent      | gmapInstance: GMap      |
 
 #### GMap - Advanced features
+
 If we need to work with the initialized GMap component instance, we must subscribe to the GMapInitializedEvent, that 
 will be published through the event-bus once the gmap component has been initialized.
 
@@ -311,9 +339,94 @@ onDomReady(() => {
 });
 ```
 
+### FormGroupInput
+
+The component is composed by the FormLabel, FormInput and the FormError atoms.
+
+#### FormGroupInput - Styles
+
+The FormGroupInput component and it's associated atoms come with some default styles. You must include them in order 
+to correctly render them.
+
+```scss
+@import './node_modules/lin3s-front-foundation/dist/scss/ui/atoms/form-label';
+@import './node_modules/lin3s-front-foundation/dist/scss/ui/atoms/form-error';
+@import './node_modules/lin3s-front-foundation/dist/scss/ui/atoms/form-input';
+@import './node_modules/lin3s-front-foundation/dist/scss/ui/components/form-group-input';
+@import './node_modules/lin3s-front-foundation/dist/scss/parsley/parsley';
+```
+
+#### FormGroupInput - Basic setup
+
+In order to setup the FormGroupInput component, we will define every required parameter while including the twig 
+template. 
+
+The list of the available parameters, their type and default values are as follows:
+
+| Parameter                | Type          | Required | Default value |
+|------------------------- |:--------------|:---------|:--------------|
+| input_id                 | string        | yes      |               |
+| input_required           | bool          | no       | false         |
+| input_type               | string        | no       | 'text'        |
+| input_placeholder        | string        | yes      | -             |
+| input_label_class_name   | string        | no       | null          |
+| input_label_modifiers    | string        | no       | null          |
+| input_label_content        | html          | no       | null          |
+| input_error_content      | string        | no       | null          |
+| input_error_modifiers    | array         | no       | null          |
+| input_class_name         | string        | no       | null          |
+| input_modifiers          | array         | no       | null          |
+
+
+This is a common setup example:
+
+```twig
+{% include '@lin3s_front_foundation/components/form_group_input.html.twig' with {
+    input_id: 'my-form-user-name',
+    input_required: 1,
+    input_type: 'text'
+    input_placeholder: 'Enter some data...',
+    input_label_content: 'Your user name'
+} %}
+```
+
 ### FormGroupSelect
+
 This component and it's associated FormSelect atom will build a custom rich select component. The component is composed 
 by the FormSelect, FormLabel, FormInput and the FormError atoms.
+
+#### FormGroupSelect / FormSelect - Parsley
+
+The FormGroupSelect component and the FormSelect atom has built in support for Parsleyjs validation. You must include 
+`data-parsley-validate` to the component's/atom's parent `<form>`.
+
+```twig
+<form action="/" novalidate data-parsley-validate>
+    {% include '@lin3s_front_foundation/components/form_group_select.html.twig' with {
+        {# Configuration parameters #}
+    } %}
+    
+    {# OR #}
+    
+    {% include '@lin3s_front_foundation/atoms/form_select.html.twig' with {
+        {# Configuration parameters #}
+    } %}
+</form>
+```
+
+#### FormGroupSelect / FormSelect - Styles
+
+The FormGroupSelect component and it's associated atoms come with some default styles. You must include them in order 
+to correctly render them.
+
+```scss
+@import './node_modules/lin3s-front-foundation/dist/scss/ui/atoms/form-label';
+@import './node_modules/lin3s-front-foundation/dist/scss/ui/atoms/form-error';
+@import './node_modules/lin3s-front-foundation/dist/scss/ui/atoms/form-input';
+@import './node_modules/lin3s-front-foundation/dist/scss/ui/atoms/form-select';
+@import './node_modules/lin3s-front-foundation/dist/scss/ui/components/form-group-select';
+@import './node_modules/lin3s-front-foundation/dist/scss/parsley/parsley';
+```
 
 #### FormGroupSelect - Basic setup
 
@@ -332,11 +445,11 @@ The list of the available parameters, their type and default values are as follo
 | select_is_filterable      | bool          | no       | true          |               |
 | select_filter_placeholder | string        | no       | null          |               |
 | select_filter_order_by    | string        | no       | 'value'       | If you set 'label' as this parameter, the component will order it's items by the 'label' while filtering it's options. |
-| select_label_modifiers    | array\|string | no       | null          |               |
-| select_label_title        | string        | no       | null          |               |
-| select_error_modifiers    | array\|string | no       | null          |               |
+| select_label_modifiers    | string        | no       | null          |               |
+| select_label_content        | html          | no       | null          |               |
+| select_error_modifiers    | string        | no       | null          |               |
 | select_error_content      | string        | no       | null          |               |
-| select_select_modifiers   | array\|string | no       | null          |               |
+| select_select_modifiers   | string        | no       | null          |               |
 | select_no_selection_label | string        | no       | '--'          |               |
 | select_no_selection_value | string        | no       | '--'          |               |
 | select_options            | array         | yes      |               | These are the component's options. Each option must have, at least, this shape: <br/>{<br/>&nbsp;&nbsp;&nbsp;&nbsp;value: string\*<br/>&nbsp;&nbsp;&nbsp;&nbsp;label: string\*<br/>&nbsp;&nbsp;&nbsp;&nbsp;selected: bool=false<br/>} |
@@ -363,7 +476,7 @@ This is a full setup example:
     select_filter_placeholder: 'Type to filter...',
     select_filter_order_by: 'label',
     select_label_modifiers: null,
-    select_label_title: 'My select\'s label',
+    select_label_content: 'My select\'s label',
     select_error_modifiers: null,
     select_error_content: 'This is the initial error\'s content.'
     select_select_modifiers: null,
@@ -374,6 +487,7 @@ This is a full setup example:
 ```
 
 #### FormSelect - JS API
+
 These are the mostly used methods available on the FormSelect atom's instance.
 
 | Name                           | Parameters            | Returned value    | Description |
@@ -385,6 +499,7 @@ These are the mostly used methods available on the FormSelect atom's instance.
 | disable                        | -                     | undefined (void)  | This method will disable the select |
 
 #### FormSelect - EventBus events
+
 Each FormSelect instance will publish these events through the EventBus. We will subscribe to these events using some 
 exported helper methods:
 
@@ -415,11 +530,199 @@ EventBus.onFormSelectStateChanged(domNode, formSelectStateChangedEvent => {
 ## Usage - Available UI (React) components
 
 ### FormGroupSelect (React) component
-This React component will build a FormGroupSelect (vanilla) equivalent. 
+
+This React component will build a FormGroupSelect (vanilla) counterpart. 
 
 #### FormGroupSelect (React) - Basic setup
 
 This is a [controlled component][4]. For a full initialization example, take a look at the provided example [initialization][5] and [FormGroupSelect use case][6].
+
+
+## Usage - Available UI atoms
+
+### FormLabel
+
+This atom will render an html `<label>` with some custom attributes.
+
+The list of the available parameters, their type and default values are as follows:
+
+| Parameter                 | Type          | Required | Default value |
+|-------------------------- |:--------------|:---------|:--------------|
+| label_for                 | string        | no       | null          | 
+| label_required            | bool          | no       | false         |
+| label_class_name          | string        | no       | null          |
+| label_modifiers           | string        | no       | null          |
+| label_content             | html          | yes      | -             |
+
+This is a common setup example:
+
+```twig
+{% include '@lin3s_front_foundation/atoms/form_label.html.twig' with {
+    label_for: 'user-email',
+    label_required: 1,
+    label_content: 'Email:'
+} %}
+```
+
+#### FormLabel - Customization
+
+In order to customize the atom's appearance, you should define these variables before importing the involved scss file.
+
+```scss
+$form-label-text-color: #222 !default;
+$form-label-text-color-required: #f00 !default;
+$form-label-font-family: sans-serif !default;
+$form-label-font-size: 16px !default;
+$form-label-font-weight: bold !default;
+$form-label-line-height: 20px !default;
+
+@import './node_modules/lin3s-front-foundation/dist/scss/ui/atoms/form-label';
+```
+
+### FormError
+
+This atom will render a form-input associated error.
+
+The list of the available parameters, their type and default values are as follows:
+
+| Parameter                 | Type          | Required | Default value |
+|-------------------------- |:--------------|:---------|:--------------|
+| error_content             | string        | yes      | -             | 
+| error_class_name          | string        | no       | null          |
+
+This is a common setup example:
+
+```twig
+{% include '@lin3s_front_foundation/atoms/form_error.html.twig' with {
+    error_content: 'This field is required.'
+} %}
+```
+
+#### FormError - Customization
+
+In order to customize the atom's appearance, you should define these variables before importing the involved scss file.
+
+```scss
+$form-error-background-color: #f2b8c2 !default;
+$form-error-text-color: #b20008 !default;
+$form-error-border-color: rgba($form-error-text-color, .5) !default;
+$form-error-animation: $animation-vertical-node-in !default;
+$form-error-font-family: sans-serif !default;
+$form-error-font-size: 14px !default;
+$form-error-font-weight: normal !default;
+$form-error-line-height: 18px !default;
+
+@import './node_modules/lin3s-front-foundation/dist/scss/ui/atoms/form-error';
+```
+
+### FormInput
+
+This atom will render a form input.
+
+The list of the available parameters, their type and default values are as follows:
+
+| Parameter                 | Type          | Required | Default value |
+|-------------------------- |:--------------|:---------|:--------------|
+| input_id                  | string        | no       | -             |
+| input_required            | bool          | no       | false         |
+| input_type                | string        | no       | 'text'        |
+| input_placeholder         | string        | yes      | -             |
+| input_class_name          | string        | no       | null          |
+| input_modifiers           | string        | no       | null          |
+
+This is a common setup example:
+
+```twig
+{% include '@lin3s_front_foundation/atoms/form_input.html.twig' with {
+    input_placeholder: 'Enter some data...'
+} %}
+```
+
+#### FormInput - Customization
+
+In order to customize the atom's appearance, you should define these variables before importing the involved scss file.
+
+```scss
+$form-input-border-color: #d1d1d1 !default;
+$form-input-border-color-hover: #0e8fff !default;
+$form-input-placeholder-text-color: rgba(#444, .8) !default;
+$form-input-font-family: sans-serif !default;
+$form-input-font-size: 16px !default;
+$form-input-font-size-small: 14px !default;
+$form-input-font-weight: normal !default;
+$form-input-line-height: 20px !default;
+$form-input-line-height-small: 18px !default;
+
+@import './node_modules/lin3s-front-foundation/dist/scss/ui/atoms/form-input';
+```
+
+### FormSelect
+
+This atom will render a custom rich form select.
+
+The list of the available parameters, their type and default values are as follows:
+
+| Parameter                 | Type          | Required | Default value |
+|-------------------------- |:--------------|:---------|:--------------|
+| select_id                 | string        | no       | -             |
+| select_required           | bool          | no       | false         |
+| select_class_name         | string        | no       | null          |
+| select_modifiers          | string        | no       | null          |
+| select_no_selection_label | string        | no       | '--'          |
+| select_no_selection_value | string        | no       | '--'          |
+| select_mobile_breakpoint  | int           | no       | 1024          |               |
+| select_max_height_mobile  | int           | no       | 260           |               |
+| select_max_height_desktop | int           | no       | 420           |               |
+| select_is_filterable      | bool          | no       | true          |               |
+| select_filter_placeholder | string        | no       | null          |               |
+| select_filter_order_by    | string        | no       | 'value'       | If you set 'label' as this parameter, the component will order it's items by the 'label' while filtering it's options. |
+| select_options            | array         | yes      |               | These are the atom's options. Each option must have, at least, this shape: <br/>{<br/>&nbsp;&nbsp;&nbsp;&nbsp;value: string\*<br/>&nbsp;&nbsp;&nbsp;&nbsp;label: string\*<br/>&nbsp;&nbsp;&nbsp;&nbsp;selected: bool=false<br/>} |
+
+This is a common setup example:
+
+```twig
+{% set my_select_options = [{
+    label: Male,
+    value: 0,
+    selected: true
+}, {
+    label: Female,
+    value: 1
+}] %}
+
+{% include '@lin3s_front_foundation/atoms/form_select.html.twig' with {
+    select_class_name: 'form-select-demo',
+    select_id: 'form-select-1',
+    select_required: 1,
+    select_filter_placeholder: 'Type to filter...',
+    select_outside_click_to_close_enabled: 1,
+    select_options: my_select_options
+} %}
+```
+
+#### FormSelect - Customization
+
+In order to customize the atom's appearance, you should define these variables before importing the involved scss file.
+
+```scss
+$form-select-background-color: #fff !default;
+$form-select-background-color-disabled: #eee !default;
+$form-select-border-color: #d1d1d1 !default;
+$form-select-font-family: sans-serif !default;
+$form-select-font-size: 16px !default;
+$form-select-font-weight: normal !default;
+$form-select-line-height: 20px !default;
+$form-select-label-text-color: #222 !default;
+$form-select-label-text-color-opened: rgba($form-select-label-text-color, .5) !default;
+$form-select-options-box-shadow: 0 5px 30px -10px rgba(#222, .25) !default;
+$form-select-option-text-color: #222 !default;
+$form-select-option-text-color-active: #fff !default;
+$form-select-option-background-color-active: #0e8fff !default;
+$form-select-option-background-color-hover: #eee !default;
+$form-select-option-background-color-hover-and-active: rgba($form-select-option-background-color-active, .8) !default;
+
+@import './node_modules/lin3s-front-foundation/dist/scss/ui/atoms/form-select';
+```
 
 [1]: https://github.com/LIN3S/FrontFoundation/blob/master/src/templates/twig/components/gmap.html.twig#L26
 [2]: https://snazzymaps.com/

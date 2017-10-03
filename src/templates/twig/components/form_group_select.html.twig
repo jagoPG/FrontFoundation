@@ -17,7 +17,7 @@
     @param select_id                                string=*
     @param select_outside_click_to_close_enabled    bool=true
     @param select_label_modifiers                   array|string=null
-    @param select_label_title                       string=null
+    @param select_label_content                     html=null
     @param select_error_content                     string=null
     @param select_error_modifiers                   array|string=null
     @param select_select_modifiers                  string=null
@@ -40,13 +40,13 @@
 {% set select_filter_order_by = select_filter_order_by|default('value') %}
 
 <div class="form-group-select">
-    {% if select_label_title|default %}
+    {% if select_label_content|default %}
         <div class="form-group-select__label">
             {% include '@lin3s_front_foundation/atoms/form_label.html.twig' with {
                 label_for: select_id,
                 label_required: select_required,
                 label_modifiers: select_label_modifiers,
-                label_title: select_label_title
+                label_content: select_label_content
             } %}
         </div>
     {% endif %}

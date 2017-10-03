@@ -9,8 +9,10 @@
 
 @import './../../_definitions/animations';
 
+$form-error-background-color: #f2b8c2 !default;
+$form-error-text-color: #b20008 !default;
+$form-error-border-color: rgba($form-error-text-color, .5) !default;
 $form-error-animation: $animation-vertical-node-in;
-$form-error-text-color: #f00 !default;
 $form-error-font-family: sans-serif !default;
 $form-error-font-size: 14px !default;
 $form-error-font-weight: normal !default;
@@ -18,11 +20,17 @@ $form-error-line-height: 18px !default;
 
 .form-error {
   animation: $form-error-animation;
+  background-color: $form-error-background-color;
+  border: 1px solid $form-error-border-color;
   color: $form-error-text-color;
   font-family: $form-error-font-family;
   font-size: $form-error-font-size;
   font-weight: $form-error-font-weight;
+  left: 0;
   line-height: $form-error-line-height;
+  padding: 13px 10px 10px;
+  position: relative;
+  width: 100%;
 }
 
 .form-error--hidden {

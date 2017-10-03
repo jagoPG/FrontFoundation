@@ -50,8 +50,8 @@ class GMapMarkerDetail {
   }
 
   setPosition({x = 0, y = 0} = {}) {
-    this.domNode.style.left = x;
-    this.domNode.style.top = y;
+    this.domNode.style.left = `${x}px`;
+    this.domNode.style.top = `${y}px`;
   }
 
   getRect() {

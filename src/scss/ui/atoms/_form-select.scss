@@ -9,33 +9,33 @@
 
 @import './../../_variables/transitions';
 
-$select-background-color: #fff !default;
-$select-background-color-disabled: #eee !default;
-$select-border-color: #d1d1d1 !default;
-$select-font-family: sans-serif !default;
-$select-font-size: 16px !default;
-$select-font-weight: normal !default;
-$select-line-height: 20px !default;
-$select-loader-side: 20px;
-$select-dropdown-icon-side: 20px;
-$select-dropdown-icon-transition: $transition-transform;
-$select-dropdown-icon-z-index: 2;
-$select-label-transition: $transition-color, $transition-background-color;
-$select-label-text-color: #222 !default;
-$select-label-text-color-opened: rgba(#222, .5) !default;
-$select-options-transition: $transition-height, $transition-transform, $transition-background-color;
-$select-options-box-shadow: 0 5px 30px -10px rgba(#222, .25) !default;
-$select-option-transition: $transition-background-color;
-$select-option-text-color: #222 !default;
-$select-option-text-color-active: #fff !default;
-$select-option-background-color-active: #0e8fff !default;
-$select-option-background-color-hover: #eee !default;
-$select-option-background-color-hover-and-active: rgba($select-option-background-color-active, .8) !default;
-$select-input-transition: $transition-opacity;
-$select-options-z-index: 2;
-$select-label-z-index: 3;
-$select-input-z-index: 4;
-$select-loader-z-index: 5;
+$form-select-background-color: #fff !default;
+$form-select-background-color-disabled: #eee !default;
+$form-select-border-color: #d1d1d1 !default;
+$form-select-font-family: sans-serif !default;
+$form-select-font-size: 16px !default;
+$form-select-font-weight: normal !default;
+$form-select-line-height: 20px !default;
+$form-select-loader-side: 20px;
+$form-select-dropdown-icon-side: 20px;
+$form-select-dropdown-icon-transition: $transition-transform;
+$form-select-dropdown-icon-z-index: 2;
+$form-select-label-transition: $transition-color, $transition-background-color;
+$form-select-label-text-color: #222 !default;
+$form-select-label-text-color-opened: rgba($form-select-label-text-color, .5) !default;
+$form-select-options-transition: $transition-height, $transition-transform, $transition-background-color;
+$form-select-options-box-shadow: 0 5px 30px -10px rgba(#222, .25) !default;
+$form-select-option-transition: $transition-background-color;
+$form-select-option-text-color: #222 !default;
+$form-select-option-text-color-active: #fff !default;
+$form-select-option-background-color-active: #0e8fff !default;
+$form-select-option-background-color-hover: #eee !default;
+$form-select-option-background-color-hover-and-active: rgba($form-select-option-background-color-active, .8) !default;
+$form-select-input-transition: $transition-opacity;
+$form-select-options-z-index: 2;
+$form-select-label-z-index: 3;
+$form-select-input-z-index: 4;
+$form-select-loader-z-index: 5;
 
 .form-select {
   position: relative;
@@ -48,11 +48,11 @@ $select-loader-z-index: 5;
   }
 
   .form-select__label {
-    color: $select-label-text-color-opened;
+    color: $form-select-label-text-color-opened;
   }
 
   .form-select__options-container {
-    box-shadow: $select-options-box-shadow;
+    box-shadow: $form-select-options-box-shadow;
     pointer-events: auto;
     transform: translateY(0);
   }
@@ -71,7 +71,7 @@ $select-loader-z-index: 5;
 .form-select--disabled {
   .form-select__label,
   .form-select__options-container {
-    background-color: $select-background-color-disabled;
+    background-color: $form-select-background-color-disabled;
   }
 
   .form-select__label,
@@ -89,12 +89,12 @@ $select-loader-z-index: 5;
 
 .form-select__loader {
   display: none;
-  height: $select-loader-side;
+  height: $form-select-loader-side;
   position: absolute;
   right: 20px;
   top: 10px;
-  width: $select-loader-side;
-  z-index: $select-loader-z-index;
+  width: $form-select-loader-side;
+  z-index: $form-select-loader-z-index;
 }
 
 .form-select__select {
@@ -103,24 +103,24 @@ $select-loader-z-index: 5;
 
 .form-select__dropdown-icon {
   display: block;
-  height: $select-dropdown-icon-side;
+  height: $form-select-dropdown-icon-side;
   pointer-events: none;
   position: absolute;
   right: 15px;
   top: 10px;
-  transition: $select-dropdown-icon-transition;
-  width: $select-dropdown-icon-side;
-  z-index: $select-dropdown-icon-z-index;
+  transition: $form-select-dropdown-icon-transition;
+  width: $form-select-dropdown-icon-side;
+  z-index: $form-select-dropdown-icon-z-index;
 }
 
 .form-select__label,
 .form-select__option,
 .form-select__input {
   cursor: pointer;
-  font-family: $select-font-family;
-  font-size: $select-font-size;
-  font-weight: $select-font-weight;
-  line-height: $select-line-height;
+  font-family: $form-select-font-family;
+  font-size: $form-select-font-size;
+  font-weight: $form-select-font-weight;
+  line-height: $form-select-line-height;
   padding: 10px 15px;
 }
 
@@ -131,9 +131,9 @@ $select-loader-z-index: 5;
   pointer-events: none;
   position: absolute;
   top: 0;
-  transition: $select-input-transition;
+  transition: $form-select-input-transition;
   width: 100%;
-  z-index: $select-input-z-index;
+  z-index: $form-select-input-z-index;
 }
 
 .form-select__input {
@@ -141,18 +141,18 @@ $select-loader-z-index: 5;
 }
 
 .form-select__label {
-  background-color: $select-background-color;
-  border: 1px solid $select-border-color;
+  background-color: $form-select-background-color;
+  border: 1px solid $form-select-border-color;
   position: relative;
-  transition: $select-label-transition;
-  z-index: $select-label-z-index;
+  transition: $form-select-label-transition;
+  z-index: $form-select-label-z-index;
 }
 
 .form-select__options-container {
-  background-color: $select-background-color;
-  border-bottom: 1px solid $select-border-color;
-  border-left: 1px solid $select-border-color;
-  border-right: 1px solid $select-border-color;
+  background-color: $form-select-background-color;
+  border-bottom: 1px solid $form-select-border-color;
+  border-left: 1px solid $form-select-border-color;
+  border-right: 1px solid $form-select-border-color;
   height: 0;
   left: 0;
   margin-top: -1px;
@@ -161,9 +161,9 @@ $select-loader-z-index: 5;
   pointer-events: none;
   position: absolute;
   transform: translateY(-30px);
-  transition: $select-options-transition;
+  transition: $form-select-options-transition;
   width: 100%;
-  z-index: $select-options-z-index;
+  z-index: $form-select-options-z-index;
 }
 
 .form-select__options-container--no-overflow {
@@ -176,21 +176,21 @@ $select-loader-z-index: 5;
 }
 
 .form-select__option {
-  color: $select-option-text-color;
-  transition: $select-option-transition;
+  color: $form-select-option-text-color;
+  transition: $form-select-option-transition;
 }
 
 .form-select__option--hover {
   &.form-select__option--active {
-    background-color: $select-option-background-color-hover-and-active;
+    background-color: $form-select-option-background-color-hover-and-active;
   }
 
   &:not(.form-select__option--active) {
-    background-color: $select-option-background-color-hover;
+    background-color: $form-select-option-background-color-hover;
   }
 }
 
 .form-select__option--active {
-  background-color: $select-option-background-color-active;
-  color: $select-option-text-color-active;
+  background-color: $form-select-option-background-color-active;
+  color: $form-select-option-text-color-active;
 }

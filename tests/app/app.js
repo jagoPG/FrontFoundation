@@ -9,9 +9,6 @@
  * @author Mikel Tuesta <mikeltuesta@gmail.com>
  */
 
-import $ from 'jquery';
-window.$ = $;
-
 import 'parsleyjs';
 import {
   Parsley,

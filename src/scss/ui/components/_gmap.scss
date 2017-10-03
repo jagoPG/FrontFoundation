@@ -7,10 +7,14 @@
 //
 // @author Mikel Tuesta <mikeltuesta@gmail.com>
 
-$gmap-marker-detail-z-index: 10;
+$gmap-marker-detail-z-index: 10 !default;
+$gmap-min-height: 400px !default;
 
 .gmap {
+  display: flex;
   height: 100%;
+  justify-content: stretch;
+  min-height: $gmap-min-height;
   position: relative;
 
   .gmap-marker-detail {
@@ -22,6 +26,5 @@ $gmap-marker-detail-z-index: 10;
 }
 
 .gmap__map {
-  height: 100%;
-  width: 100%;
+  flex: 1;
 }

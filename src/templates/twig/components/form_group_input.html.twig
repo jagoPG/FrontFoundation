@@ -16,8 +16,8 @@
     @param input_required           bool=false
     @param input_id                 string=*
     @param input_label_class_name   string=null
-    @param input_label_modifiers    array|string=null
-    @param input_label_title        atring=null
+    @param input_label_modifiers    string=null
+    @param input_label_content      html=null
     @param input_error_content      string=null
     @param input_error_modifiers    array|string=null
     @param input_class_name         string=null
@@ -27,14 +27,14 @@
 #}
 
 <div class="form-group-input">
-    {% if input_label_title|default %}
+    {% if input_label_content|default %}
         <div class="form-group-input__label">
             {% include '@lin3s_front_foundation/atoms/form_label.html.twig' with {
                 label_for: input_id,
                 label_required: input_required,
                 label_class_name: input_label_class_name,
                 label_modifiers: input_label_modifiers,
-                label_title: input_label_title
+                label_content: input_label_content
             } %}
         </div>
     {% endif %}

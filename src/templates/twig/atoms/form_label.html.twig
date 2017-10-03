@@ -12,11 +12,11 @@
 {##
     This atom will display a form label.
 
-    @param lable_class_name       string=null
-    @param lable_modifiers        array|string=null
-    @param lable_title            string*
-    @param lable_required         bool=false
-    @param lable_for              string=null
+    @param label_class_name       string=null
+    @param label_modifiers        string=null
+    @param label_content          string*
+    @param label_required         bool=false
+    @param label_for              string=null
 
 #}
 
@@ -24,5 +24,5 @@
     {% if label_required|default(false) %}
         <span class="form-label__required">*</span>
     {% endif %}
-    {{ label_title }}
+    {{ label_content|raw }}
 </label>
