@@ -9,7 +9,7 @@
  * @author Mikel Tuesta <mikeltuesta@gmail.com>
  */
 
-import {EventPublisher} from 'lin3s-event-bus';
+import {OneTimeEventPublisher, LifeTimeEventPublisher} from 'lin3s-event-bus';
 import {isIE11} from './../../../../browser';
 import GMapMarkerDetail from './../GMapMarkerDetail/GMapMarkerDetail';
 import GMapInitializedEvent from './../../../../event-bus/GMap/GMapInitializedEvent';
@@ -325,15 +325,15 @@ class GMap {
   }
 
   publishMapInstanceInitializedEvent() {
-    EventPublisher.publish(new GMapInitializedEvent(this));
+    OneTimeEventPublisher.publish(new GMapInitializedEvent(this));
   }
 
   publishMarkerSelectedEvent(marker) {
-    EventPublisher.publish(new GMapMarkerSelectedEvent(this, marker));
+    LifeTimeEventPublisher.publish(new GMapMarkerSelectedEvent(this, marker));
   }
 
   publishGeocodeNoResultsEvent() {
-    EventPublisher.publish(new GMapGeocodeNoResultsEvent(this));
+    LifeTimeEventPublisher.publish(new GMapGeocodeNoResultsEvent(this));
   }
 }
 

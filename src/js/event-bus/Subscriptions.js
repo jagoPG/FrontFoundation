@@ -10,7 +10,7 @@
  */
 
 import {Priority} from 'lin3s-event-bus';
-import {EventPublisher} from 'lin3s-event-bus';
+import {OneTimeEventPublisher, LifeTimeEventPublisher} from 'lin3s-event-bus';
 import GMapInitializedEventSubscriber from './GMap/GMapInitializedEventSubscriber';
 import GMapMarkerSelectedEventSubscriber from './GMap/GMapMarkerSelectedEventSubscriber';
 import GMapGeocodeNoResultsEventSubscriber from './GMap/GMapGeocodeNoResultsEventSubscriber';
@@ -26,7 +26,7 @@ const
       new Priority(priority)
     );
 
-    EventPublisher.subscribe(gmapInitializedEventSubscriber);
+    OneTimeEventPublisher.subscribe(gmapInitializedEventSubscriber);
 
     return gmapInitializedEventSubscriber;
   },
@@ -37,7 +37,7 @@ const
       new Priority(priority)
     );
 
-    EventPublisher.subscribe(gmapMarkerSelectedEventSubscriber);
+    LifeTimeEventPublisher.subscribe(gmapMarkerSelectedEventSubscriber);
 
     return gmapMarkerSelectedEventSubscriber;
   },
@@ -48,7 +48,7 @@ const
       new Priority(priority)
     );
 
-    EventPublisher.subscribe(gmapGeocodeNoResultsEventSubscriber);
+    LifeTimeEventPublisher.subscribe(gmapGeocodeNoResultsEventSubscriber);
 
     return gmapGeocodeNoResultsEventSubscriber;
   };
@@ -61,7 +61,7 @@ const
       new Priority(priority)
     );
 
-    EventPublisher.subscribe(formSelectInitializedEventSubscriber);
+    OneTimeEventPublisher.subscribe(formSelectInitializedEventSubscriber);
 
     return formSelectInitializedEventSubscriber;
   },
@@ -72,7 +72,7 @@ const
       new Priority(priority)
     );
 
-    EventPublisher.subscribe(formSelectOptionSelectedEventSubscriber);
+    LifeTimeEventPublisher.subscribe(formSelectOptionSelectedEventSubscriber);
 
     return formSelectOptionSelectedEventSubscriber;
   },
@@ -83,7 +83,7 @@ const
       new Priority(priority)
     );
 
-    EventPublisher.subscribe(formSelectStateChangedEventSubscriber);
+    LifeTimeEventPublisher.subscribe(formSelectStateChangedEventSubscriber);
 
     return formSelectStateChangedEventSubscriber;
   };

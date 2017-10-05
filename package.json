@@ -65,5 +65,8 @@
     "react": ">=15.0",
     "react-dom": ">=15.0",
     "webpack": "^3.6.0"
+  },
+  "dependencies": {
+    "lin3s-event-bus": "^0.6.1"
   }
 }

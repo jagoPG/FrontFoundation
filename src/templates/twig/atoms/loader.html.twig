@@ -2,4 +2,4 @@
     @param loader_modifiers     string=null
 #}
 
-<div class="loader{{ loader_modifiers) }}"></div>
+<div class="loader{% if loader_modifiers|default %} {{ loader_modifiers }}{% endif %}"></div>

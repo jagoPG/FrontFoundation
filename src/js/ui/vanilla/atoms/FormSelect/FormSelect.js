@@ -11,7 +11,7 @@
 
 import $ from 'jquery';
 import debounce from 'lodash.debounce';
-import {onWindowResized, EventPublisher} from 'lin3s-event-bus';
+import {onWindowResized, OneTimeEventPublisher, LifeTimeEventPublisher} from 'lin3s-event-bus';
 import {getHtmlLang} from './../../../../dom';
 import FormSelectInitializedEvent from './../../../../event-bus/FormSelect/FormSelectInitializedEvent';
 import FormSelectOptionSelectedEvent from './../../../../event-bus/FormSelect/FormSelectOptionSelectedEvent';
@@ -438,15 +438,15 @@ class FormSelect {
   }
 
   publishFormSelectInitializedEvent() {
-    EventPublisher.publish(new FormSelectInitializedEvent(this));
+    OneTimeEventPublisher.publish(new FormSelectInitializedEvent(this));
   }
 
   publishFormSelectOptionSelectedEvent(value) {
-    EventPublisher.publish(new FormSelectOptionSelectedEvent(this, value));
+    LifeTimeEventPublisher.publish(new FormSelectOptionSelectedEvent(this, value));
   }
 
   publishFormSelectStateChangedEvent(state) {
-    EventPublisher.publish(new FormSelectStateChangedEvent(this, state));
+    LifeTimeEventPublisher.publish(new FormSelectStateChangedEvent(this, state));
   }
 }
 
