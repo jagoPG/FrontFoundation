@@ -59,7 +59,7 @@
   "peerDependencies": {
     "foes-scrollproxy": ">=0.5",
     "jquery": ">=3.2",
-    "lin3s-event-bus": ">=0.6",
+    "lin3s-event-bus": ">=0.7",
     "prop-types": ">=15.0",
     "react": ">=15.0",
     "react-dom": ">=15.0",

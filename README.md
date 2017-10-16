@@ -12,10 +12,6 @@ or alternatively through *NPM*:
 ```bash
 $ npm install --save lin3s-front-foundation
 ```
-Also, you can install through *Bower*.
-```bash
-$ bower install --save lin3s-front-foundation
-```
 
 ## Usage - Available features
 

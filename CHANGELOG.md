@@ -8,6 +8,8 @@ To get the diff between two versions, go to https://github.com/LIN3S/FrontFounda
 * 0.8.1
     * Refactored Parsley locale catalog loading strategy.
 * 0.8.0
+    * Upgraded minor requirement to v0.7.0 from lin3s-event-bus.
+    * Removed Bower support.
     * Added `parsleyWebpackContextReplacementPlugin` Webpack plugin to `config`.
     * Exported bundle has been separated into `dist` and `config` directories. 
     * Refactored GMapMarkerDetail's style and it's associated view's DOM.
