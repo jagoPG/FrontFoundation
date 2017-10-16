@@ -21,25 +21,19 @@ $ bower install --save lin3s-front-foundation
 
 ### Parsleyjs
 
-By setting an environment parameter (*--env.locales*) in out project's package.json file, in the build script, we will 
-specify which locale modules must load and inject in our output bundle.
+We will expose through the `Parsley` package some helper methods for setting and loading the project's needed locales, 
+as well as a method for excluding some fields from Parsley validation. 
 
-For example, if we want to include the *es*, *en* and *fr* locale translation messages, we should include the 
-required parameter this way:
-```json
-"scripts": {
-    "build": "webpack --output-filename app.js --env.locales es,en,fr"
-}
-```
+#### Parsley.setLocale( locales = [], locale = null )
 
-#### Parsley.setLocale( locale = null )
-
-This method will set the Parsley's instance's locale. If we don't provide a locale parameter, automatically the html 
-lang's attribute value will be used. For example: 
+This method will set the Parsley's instance's locale, and will load the messages catalog from each passed `locales`. If 
+we  don't provide a locale parameter, automatically the html lang's attribute value will be used. For example: 
 ```js
 import {Parsley} from 'lin3s-front-foundation';
 
-Parsley.setLocale();
+Parsley.setLocale(['es', 'eu']);
+// or
+Parsley.setLocale(['es', 'eu'], 'es');
 ```
 
 #### Parsley.excludeFormFields( selector )

@@ -11,21 +11,6 @@
 
 import getHtmlLang from './../dom/getHtmlLang';
 
-/**
- *  In order to include the needed Parsley.js locale modules during compilation time, and prevent a ReferenceError
- *  during execution time, we must include the locales this way. By wrapping the require function with a conditional,
- *  we ensure that this error is not thrown and breaks the execution process.
- *
- *  We will provide the required locales by setting an env parameter in our project's package.json file.
- *
- *  More info: https://webpack.js.org/plugins/context-replacement-plugin/
- */
-/* eslint-disable no-undef */
-if (typeof WEBPACK_ENV_LOCALE !== 'undefined') {
-  require(`parsleyjs/dist/i18n/${WEBPACK_ENV_LOCALE}.js`);
-}
-/* eslint-enable no-undef */
-
 const getLang = (lang) => {
   if (null !== lang) {
     return lang;
@@ -34,7 +19,11 @@ const getLang = (lang) => {
   return getHtmlLang();
 };
 
-export default (lang = null) => {
+export default (locales = [], lang = null) => {
+  locales.forEach(locale => {
+    require(`parsleyjs/dist/i18n/${locale}.js`);
+  });
+
   const dividedLang = getLang(lang).split('_');
 
   let locale = lang;

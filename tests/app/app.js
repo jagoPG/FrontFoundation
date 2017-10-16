@@ -16,7 +16,7 @@ import {
   Browser,
   Dom
 } from 'lin3s-front-foundation';
-import * as Lin3sEventBus from 'lin3s-event-bus';
+import {onDomReady} from 'lin3s-event-bus';
 
 import './src/js/GMapGeocoderDemo';
 import './src/js/FormSelectDemo';
@@ -26,7 +26,7 @@ import './app.scss';
 
 const testParsleySetLocale = () => {
   console.log('Testing Parsley.setLocale');
-  Parsley.setLocale();
+  Parsley.setLocale(['es', 'eu']);
 };
 
 const testAsyncCancelablePromise = () => {
@@ -104,7 +104,4 @@ const onReady = () => {
   testDomWaitImagesLoadInDomNode();
 };
 
-console.log(Lin3sEventBus);
-
-Lin3sEventBus.onDomReady(onReady);
-Lin3sEventBus.init();
+onDomReady(onReady);

@@ -1,6 +1,6 @@
 {
   "name": "lin3s-front-foundation",
-  "version": "0.8.0",
+  "version": "0.8.1",
   "author": "LIN3S",
   "license": "MIT",
   "description": "Library that provides a sort of commonly used front-end components in LIN3S projects",
@@ -26,9 +26,8 @@
     "stylelint": "node_modules/.bin/stylelint src/scss/**/*.scss",
     "cs": "yarn eslint && yarn stylelint",
     "js-bundle": "node_modules/.bin/babel --copy-files --out-dir dist/js src/js",
-    "webpack-config-bundle": "node_modules/.bin/babel --copy-files --out-dir config src/config/webpack",
     "styles-bundle": "cp -R src/scss dist",
-    "build": "yarn prebuild && yarn cs && yarn js-bundle && yarn styles-bundle && yarn webpack-config-bundle"
+    "build": "yarn prebuild && yarn cs && yarn js-bundle && yarn styles-bundle"
   },
   "babel": {
     "presets": [
