@@ -8,7 +8,7 @@
     "build": "yarn eslint && node_modules/.bin/webpack --output-filename app.js",
     "build:prod": "yarn eslint && node_modules/.bin/webpack --output-filename app.js -p",
     "build:watch": "node_modules/.bin/webpack --output-filename app.js --watch",
-    "build:analyze": "node_modules/.bin/webpack --output-filename app.js --env.analyze"
+    "build:analyze": "node_modules/.bin/webpack --output-filename app.js -p --env.analyze"
   },
   "babel": {
     "presets": [
