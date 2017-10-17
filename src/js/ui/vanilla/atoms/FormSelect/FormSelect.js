@@ -91,7 +91,7 @@ class FormSelect {
       return;
     }
 
-    const noSelectionValue = this.$domNode.find('.form-select__select-no-option').val();
+    const noSelectionValue = this.$domNode.find('.form-select__select-no-selection').val();
 
     window.Parsley.addValidator(validatorName, {
       validateString: value => value !== noSelectionValue,
@@ -322,12 +322,13 @@ class FormSelect {
     }
 
     this.build(options);
-    this.onOptionSelected(options[0].label, options[0].value, publishEvent);
+    this.setSelectedOptionDefault(publishEvent);
   }
 
   destroy() {
-    this.$selectOptions.empty();
-    this.$select.find('option').not('.form-select__select-no-option').remove();
+    this.$selectOptions.find('.form-select__option').not('.form-select__option--select-no-selection').remove();
+    this.$select.find('option').not('.form-select__select-no-selection').remove();
+    this.$filterInput.val('');
   }
 
   build(options) {
@@ -340,7 +341,7 @@ class FormSelect {
   }
 
   filter() {
-    const noSelectionValue = this.$domNode.find('.form-select__select-no-option').val();
+    const noSelectionValue = this.$domNode.find('.form-select__select-no-selection').val();
     const filterValue = this.$filterInput.val();
     const filteredOptions = this.options.filter(option =>
       option.label.toLowerCase().includes(filterValue.toLowerCase())
@@ -400,12 +401,12 @@ class FormSelect {
     this.setOptionsContainerHeight(this.getOptionsContainerHeight());
 
     // select none
-    this.setSelectedOptionDefault();
+    this.setSelectedOptionDefault(false);
   }
 
-  setSelectedOptionDefault() {
-    const $noSelection = this.$domNode.find('.form-select__select-no-option');
-    this.onOptionSelected($noSelection.text().trim(), $noSelection.val().trim(), false);
+  setSelectedOptionDefault(publishEvent = true) {
+    const $noSelection = this.$domNode.find('.form-select__select-no-selection');
+    this.onOptionSelected($noSelection.text().trim(), $noSelection.val().trim(), publishEvent);
   }
 
   setSelectedOption($option) {

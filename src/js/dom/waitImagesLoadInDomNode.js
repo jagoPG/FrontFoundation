@@ -15,10 +15,13 @@ export default domNode => {
     promises = Array.from(images).map(image =>
       new Promise((resolve) => {
         const imageToLoad = new Image();
+
         imageToLoad.addEventListener('load', () => {
           resolve('Image successfully loaded');
         });
-        imageToLoad.src = image.src;
+
+        const imgParentNode = image.parentNode;
+        imageToLoad.src = imgParentNode.nodeName === 'PICTURE' ? imgParentNode.currentSrc : image.src;
       })
     );
 

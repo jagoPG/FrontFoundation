@@ -21,7 +21,9 @@
 
 #}
 
-<input class="form-input{% if input_modifiers|default %} {{ input_modifiers }}{% endif %} {{ input_class_name }}"
-       type="{{ input_type|default('text') }}" placeholder="{{ input_placeholder }}" autocomplete="off"
-       {% if input_id|default %}id="{{ input_id }}" name="{{ input_id }}"{% endif %}
-       {% if input_required|default %} required{% endif %}/>
+<input class="form-input
+{% if input_class_name|default %} {{ input_class_name }}{% endif %}
+{% if input_modifiers|default %} {{ input_modifiers }}{% endif %}"
+type="{{ input_type|default('text') }}" placeholder="{{ input_placeholder }}" autocomplete="off"
+{% if input_id|default %}id="{{ input_id }}" name="{{ input_id }}"{% endif %}
+{% if input_required|default %} required{% endif %}/>

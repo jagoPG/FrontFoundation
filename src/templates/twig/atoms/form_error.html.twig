@@ -14,7 +14,12 @@
 
     @param error_content        html*
     @param error_class_name     string=null
+    @param error_modifiers      string=null
 
 #}
 
-<p class="form-error{% if error_class_name|default %} {{ error_class_name }}{% endif %}">{{ error_content|raw }}</p>
+<p class="form-error
+{% if error_class_name|default %} {{ error_class_name }}{% endif %}
+{% if error_modifiers|default %} {{ error_modifiers }}{% endif %}">
+    {{ error_content|raw }}
+</p>

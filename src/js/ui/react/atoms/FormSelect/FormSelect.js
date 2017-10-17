@@ -45,7 +45,8 @@ class FormSelect extends React.Component {
     filterValue: '',
     filterable: false,
     loading: false,
-    onInputChanged: () => {},
+    onInputChanged: () => {
+    },
     outsideClickToCloseEnabled: true,
     required: false
   };
@@ -119,7 +120,7 @@ class FormSelect extends React.Component {
         hoveredOption: options[hoveredOptionIndex]
       });
 
-      this.optionNodesRefs[hoveredOptionIndex].scrollIntoView({ behaviour: 'smooth' });
+      this.optionNodesRefs[hoveredOptionIndex].scrollIntoView({behaviour: 'smooth'});
 
     } else if (keyCode === 38) { // up
       hoveredOptionIndex = hoveredOptionIndex < 0
@@ -131,7 +132,7 @@ class FormSelect extends React.Component {
         hoveredOption: options[hoveredOptionIndex]
       });
 
-      this.optionNodesRefs[hoveredOptionIndex].scrollIntoView({ behaviour: 'smooth' });
+      this.optionNodesRefs[hoveredOptionIndex].scrollIntoView({behaviour: 'smooth'});
 
     } else if (keyCode === 13) { // enter
       this.onOptionSelected(hoveredOption);
@@ -216,11 +217,14 @@ class FormSelect extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    const optionsAreEqual = this.props !== undefined && this.props.options.every(option =>
+      nextProps.options.find(nextPropsOption => nextPropsOption === option));
+
     this.setState(prevState => ({
-      dataRendered: false,
+      dataRendered: !optionsAreEqual,
       editingInput: nextProps.enabled && prevState.editingInput,
       opened: nextProps.enabled && prevState.opened,
-      selectedOption: nextProps.enabled ? prevState.selectedOption : nextProps.options[0],
+      selectedOption: optionsAreEqual && nextProps.enabled ? prevState.selectedOption : nextProps.options[0],
       hoveredOption: null
     }));
   }
@@ -271,14 +275,14 @@ class FormSelect extends React.Component {
 
     return (
       <div className={formSelectClassName}
-        onClick={this.onClick}
-        onKeyDown={this.onKeyDown}>
+           onClick={this.onClick}
+           onKeyDown={this.onKeyDown}>
         {filterable && <input className="form-select__select"
-          id={id}
-          name={id}
-          required={required}
-          type="hidden"
-          value={selectedOption !== undefined && selectedOption !== null ? selectedOption.value : ''}/>}
+                              id={id}
+                              name={id}
+                              required={required}
+                              type="hidden"
+                              value={selectedOption !== undefined && selectedOption !== null ? selectedOption.value : ''}/>}
         <div className="form-select__loader">
           <Loader/>
         </div>
@@ -289,16 +293,16 @@ class FormSelect extends React.Component {
         {filterable &&
         <div className="form-select__input-container">
           <input className="form-input form-select__input"
-            onChange={this.onInputChange}
-            placeholder={label}
-            ref={input => {
-              this.filterInput = input;
-            }}
-            type="text" value={filterValue}/>
+                 onChange={this.onInputChange}
+                 placeholder={label}
+                 ref={input => {
+                   this.filterInput = input;
+                 }}
+                 type="text" value={filterValue}/>
         </div>}
         <div className="form-select__label"
-          dangerouslySetInnerHTML={selectLabel}
-          onClick={this.onLabelClick}></div>
+             dangerouslySetInnerHTML={selectLabel}
+             onClick={this.onLabelClick}></div>
         <div className={optionsContainerClassName} style={{height: optionsContainerHeight}}>
           <div className="form-select__options">
             {options && options.map((option, index) => {
@@ -308,14 +312,13 @@ class FormSelect extends React.Component {
                   ? ' form-select__option--hover' : ''}`,
                 labelHtml = this.getDangerousHtml(option.label);
               return <div className={formOptionClassName}
-                dangerouslySetInnerHTML={labelHtml}
-                key={`form-select-view-${index}`}
-                onClick={this.onOptionSelected.bind(this, option)}
-                onMouseOver={this.onOptionMouseOver.bind(this, option)}
-                ref={optionNode => {
-                  this.optionNodesRefs[index] = optionNode;
-                }}>
-              </div>;
+                          dangerouslySetInnerHTML={labelHtml}
+                          key={`form-select-view-${index}`}
+                          onClick={this.onOptionSelected.bind(this, option)}
+                          onMouseOver={this.onOptionMouseOver.bind(this, option)}
+                          ref={optionNode => {
+                            this.optionNodesRefs[index] = optionNode;
+                          }}></div>;
             })}
           </div>
         </div>

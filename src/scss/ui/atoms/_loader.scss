@@ -10,9 +10,9 @@
 @import './../../_definitions/animations';
 
 $loader-background-color: #0e8fff !default;
-$loader-side: 30px !default;;
-$loader-side-big: 60px !default;;
-$loader-animation: $animation-infinite-scale-out !default;;
+$loader-side: 30px !default;
+$loader-side-big: 60px !default;
+$loader-animation: $animation-infinite-scale-out !default;
 
 .loader {
   animation: $loader-animation;

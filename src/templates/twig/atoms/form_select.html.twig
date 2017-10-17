@@ -54,7 +54,7 @@
     <div class="form-select__label">{{ select_no_selection_label }}</div>
     <div class="form-select__options-container">
         <div class="form-select__options">
-            <div class="form-select__option" data-label="{{ select_no_selection_label }}" data-value="{{ select_no_selection_value }}">
+            <div class="form-select__option form-select__option--select-no-selection" data-label="{{ select_no_selection_label }}" data-value="{{ select_no_selection_value }}">
                 {{ select_no_selection_label }}
             </div>
             {% for option in select_options %}
@@ -67,7 +67,7 @@
     <select class="form-select__select" name="{{ select_id }}" id="{{ select_id }}" {% if select_required|default %} required{% endif %}
             data-parsley-not-default-option=""
             data-parsley-trigger="change">
-        <option class="form-select__select-no-option" value="{{ select_no_selection_value }}">
+        <option class="form-select__select-no-selection" value="{{ select_no_selection_value }}">
             {{ select_no_selection_label }}
         </option>
         {% for option in select_options %}

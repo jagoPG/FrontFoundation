@@ -16,26 +16,26 @@ $form-select-font-family: sans-serif !default;
 $form-select-font-size: 16px !default;
 $form-select-font-weight: normal !default;
 $form-select-line-height: 20px !default;
-$form-select-loader-side: 20px;
-$form-select-dropdown-icon-side: 20px;
-$form-select-dropdown-icon-transition: $transition-transform;
-$form-select-dropdown-icon-z-index: 2;
-$form-select-label-transition: $transition-color, $transition-background-color;
+$form-select-loader-side: 20px !default;
+$form-select-dropdown-icon-side: 20px !default;
+$form-select-dropdown-icon-transition: $transition-transform !default;
+$form-select-label-transition: $transition-color, $transition-background-color !default;
 $form-select-label-text-color: #222 !default;
 $form-select-label-text-color-opened: rgba($form-select-label-text-color, .5) !default;
-$form-select-options-transition: $transition-height, $transition-transform, $transition-background-color;
+$form-select-options-transition: $transition-height, $transition-transform, $transition-background-color !default;
 $form-select-options-box-shadow: 0 5px 30px -10px rgba(#222, .25) !default;
-$form-select-option-transition: $transition-background-color;
+$form-select-option-transition: $transition-background-color !default;
 $form-select-option-text-color: #222 !default;
 $form-select-option-text-color-active: #fff !default;
 $form-select-option-background-color-active: #0e8fff !default;
 $form-select-option-background-color-hover: #eee !default;
 $form-select-option-background-color-hover-and-active: rgba($form-select-option-background-color-active, .8) !default;
-$form-select-input-transition: $transition-opacity;
-$form-select-options-z-index: 2;
-$form-select-label-z-index: 3;
-$form-select-input-z-index: 4;
-$form-select-loader-z-index: 5;
+$form-select-input-transition: $transition-opacity !default;
+$form-select-options-z-index: 2 !default;
+$form-select-label-z-index: 3 !default;
+$form-select-input-z-index: 4 !default;
+$form-select-loader-z-index: 5 !default;
+$form-select-dropdown-icon-z-index: $form-select-input-z-index !default;
 
 .form-select {
   position: relative;
@@ -177,7 +177,19 @@ $form-select-loader-z-index: 5;
 
 .form-select__option {
   color: $form-select-option-text-color;
+  position: relative;
   transition: $form-select-option-transition;
+  z-index: 0;
+
+  &::after {
+    content: '';
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    z-index: 1;
+  }
 }
 
 .form-select__option--hover {
