@@ -35,6 +35,7 @@ class FormSelect {
   maxHeightMobile;
   maxHeightDesktop;
   mobileBreakpoint;
+  mouseOverListenerEnabled;
 
   domNode;
   $domNode;
@@ -61,6 +62,7 @@ class FormSelect {
     this.isFilterable = parseInt(domNode.dataset.filterable, 10) === 1;
     this.filterBy = domNode.dataset.filterOrderBy;
     this.mobileBreakpoint = parseInt(domNode.dataset.mobileBreakpoint, 10);
+    this.mouseOverListenerEnabled = true;
 
     if (this.isFilterable) {
       this.$filterInput = this.$domNode.find('.form-select__input');
@@ -166,8 +168,16 @@ class FormSelect {
     });
 
     this.$domNode.on('mouseover.form_select_option', '.form-select__option', event => {
+      if (!this.mouseOverListenerEnabled) {
+        return;
+      }
+
       this.setKeyboardControlledSelectedOptionView(this.$domNode.find('.form-select__option'), $(event.currentTarget));
       this.keyboardControlledSelectedOptionIndex = $(event.currentTarget).index();
+    });
+
+    this.$domNode.on('mousemove.form_select_option', '.form-select__option', () => {
+      this.mouseOverListenerEnabled = true;
     });
 
     this.$domNode.on('keydown.form_select', event => {
@@ -176,6 +186,7 @@ class FormSelect {
       }
 
       event.preventDefault();
+      this.mouseOverListenerEnabled = false;
 
       const $selectOptionViews = this.$domNode.find('.form-select__option');
 

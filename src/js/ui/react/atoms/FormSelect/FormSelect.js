@@ -61,7 +61,8 @@ class FormSelect extends React.Component {
       editingInput: false,
       opened: false,
       selectedOption: props.options[0],
-      hoveredOption: null
+      hoveredOption: null,
+      mouseOverListenerEnabled: true
     };
 
     // bre-bind method's context
@@ -70,6 +71,7 @@ class FormSelect extends React.Component {
     this.onLabelClick = this.onLabelClick.bind(this);
     this.onInputChange = this.onInputChange.bind(this);
     this.onKeyDown = this.onKeyDown.bind(this);
+    this.onOptionMouseMove = this.onOptionMouseMove.bind(this);
   }
 
   onInputChange(event) {
@@ -117,7 +119,8 @@ class FormSelect extends React.Component {
           ? options.length - 1 : hoveredOptionIndex + 1;
 
       this.setState({
-        hoveredOption: options[hoveredOptionIndex]
+        hoveredOption: options[hoveredOptionIndex],
+        mouseOverListenerEnabled: false
       });
 
       this.optionNodesRefs[hoveredOptionIndex].scrollIntoView({behaviour: 'smooth'});
@@ -129,7 +132,8 @@ class FormSelect extends React.Component {
           ? 0 : hoveredOptionIndex - 1;
 
       this.setState({
-        hoveredOption: options[hoveredOptionIndex]
+        hoveredOption: options[hoveredOptionIndex],
+        mouseOverListenerEnabled: false
       });
 
       this.optionNodesRefs[hoveredOptionIndex].scrollIntoView({behaviour: 'smooth'});
@@ -151,6 +155,16 @@ class FormSelect extends React.Component {
     this.props.onOptionSelected(option);
 
     this.closeSelect();
+  }
+
+  onOptionMouseMove() {
+    if (this.state.mouseOverListenerEnabled) {
+      return;
+    }
+
+    this.setState({
+      mouseOverListenerEnabled: true
+    });
   }
 
   onOptionMouseOver(option) {
@@ -258,7 +272,7 @@ class FormSelect extends React.Component {
   render() {
     /* eslint-disable react/no-danger */
 
-    const {dataRendered, editingInput, opened, selectedOption, hoveredOption} = this.state;
+    const {dataRendered, editingInput, opened, selectedOption, hoveredOption, mouseOverListenerEnabled} = this.state;
     const {enabled, filterable, filterValue, id, label, loading, options, required} = this.props;
     const
       formSelectClassName = `form-select
@@ -307,6 +321,7 @@ class FormSelect extends React.Component {
           <div className="form-select__options">
             {options && options.map((option, index) => {
               const
+                onOptionMouseOver = mouseOverListenerEnabled ? this.onOptionMouseOver.bind(this, option) : null,
                 formOptionClassName = `form-select__option${option === selectedOption
                   ? ' form-select__option--active' : ''}${option === hoveredOption
                   ? ' form-select__option--hover' : ''}`,
@@ -315,7 +330,8 @@ class FormSelect extends React.Component {
                           dangerouslySetInnerHTML={labelHtml}
                           key={`form-select-view-${index}`}
                           onClick={this.onOptionSelected.bind(this, option)}
-                          onMouseOver={this.onOptionMouseOver.bind(this, option)}
+                          onMouseMove={this.onOptionMouseMove}
+                          onMouseOver={onOptionMouseOver}
                           ref={optionNode => {
                             this.optionNodesRefs[index] = optionNode;
                           }}></div>;
