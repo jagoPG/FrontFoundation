@@ -20,8 +20,11 @@ export default domNode => {
           resolve('Image successfully loaded');
         });
 
-        const imgParentNode = image.parentNode;
-        imageToLoad.src = imgParentNode.nodeName === 'PICTURE' ? imgParentNode.currentSrc : image.src;
+        imageToLoad.addEventListener('error', () => {
+          resolve('Image loading error');
+        });
+
+        imageToLoad.src = image.currentSrc || image.src;
       })
     );
 
