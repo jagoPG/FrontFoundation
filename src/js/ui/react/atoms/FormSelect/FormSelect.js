@@ -257,13 +257,21 @@ class FormSelect extends React.Component {
     const optionsAreEqual = this.props !== undefined && this.props.options.every(option =>
       nextProps.options.find(nextPropsOption => nextPropsOption === option));
 
-    this.setState(prevState => ({
-      dataRendered: !optionsAreEqual,
-      editingInput: nextProps.enabled && prevState.editingInput,
-      opened: nextProps.enabled && prevState.opened,
-      selectedOption: optionsAreEqual && nextProps.enabled ? prevState.selectedOption : nextProps.options[0],
-      hoveredOption: null
-    }));
+    this.setState(prevState => {
+      const
+        selectedOption = optionsAreEqual && nextProps.enabled ? prevState.selectedOption : nextProps.options[0],
+        hoveredOption = optionsAreEqual && nextProps.enabled
+          ? prevState.selectedOption !== null ? prevState.selectedOption : prevState.hoveredOption
+          : nextProps.options[0];
+
+      return {
+        dataRendered: !optionsAreEqual,
+        editingInput: nextProps.enabled && prevState.editingInput,
+        opened: nextProps.enabled && prevState.opened,
+        selectedOption,
+        hoveredOption
+      };
+    });
   }
 
   componentDidMount() {
@@ -317,11 +325,13 @@ class FormSelect extends React.Component {
            onClick={this.onClick}
            onFocus={this.onFocus}
            onBlur={this.onBlur}
-           onKeyDown={this.onKeyDown}>
+           onKeyDown={this.onKeyDown}
+           tabIndex={0}>
         {filterable && <input className="form-select__select"
                               id={id}
                               name={id}
                               required={required}
+                              tabindex="-1"
                               type="hidden"
                               value={selectedOption !== undefined && selectedOption !== null ? selectedOption.value : ''}/>}
         <div className="form-select__loader">
@@ -339,6 +349,7 @@ class FormSelect extends React.Component {
                  ref={input => {
                    this.filterInput = input;
                  }}
+                 tabindex="-1"
                  type="text" value={filterValue}/>
         </div>}
         <div className="form-select__label"

@@ -42,6 +42,10 @@ $form-select-dropdown-icon-z-index: $form-select-input-z-index !default;
 .form-select {
   position: relative;
   z-index: 0;
+
+  &:focus {
+    outline: 0;
+  }
 }
 
 .form-select--opened {
