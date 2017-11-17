@@ -6,7 +6,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @author Beñat Espiña <benatespina@gmail.com>
+ * @author Mikel Tuesta <mikel@gmail.com>
  */
 
 import React from 'react';
@@ -18,12 +18,14 @@ class FormGroup extends React.Component {
     id: PropTypes.string.isRequired,
     label: PropTypes.string.isRequired,
     onChanged: PropTypes.func,
-    required: PropTypes.bool
+    required: PropTypes.bool,
+    type: PropTypes.string,
   };
 
   static defaultProps = {
     onChanged: () => {},
-    required: false
+    required: false,
+    type: 'text'
   };
 
   constructor(props) {
@@ -39,7 +41,7 @@ class FormGroup extends React.Component {
   }
 
   render() {
-    const {id, label, required} = this.props;
+    const {id, label, required, type} = this.props;
 
     return (<div className="form-group-input">
       <div className="form-group-input__label">
@@ -55,7 +57,7 @@ class FormGroup extends React.Component {
         name={id}
         onChange={this.onInputChange}
         placeholder={label}
-        type="text" />
+        type={type} />
     </div>);
   }
 
