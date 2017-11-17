@@ -46,6 +46,7 @@ class FormSelect {
   $filterInput;
   options;
   opened;
+  focused;
   enabled;
   selectedOptionLabel;
   selectedOptionValue;
@@ -55,6 +56,7 @@ class FormSelect {
     this.domNode = domNode;
     this.$domNode = $(domNode);
     this.opened = this.$domNode.hasClass('form-select--opened');
+    this.focused = false;
     this.enabled = true;
 
     this.maxHeightDesktop = parseInt(domNode.dataset.maxHeightDesktop, 10);
@@ -157,6 +159,8 @@ class FormSelect {
 
     $(window).on('click.form_select', this.close.bind(this));
 
+    this.$domNode.on('focus.form_select', () => this.setSelectFocused(true));
+
     this.$domNode.on('click.form_select', event => {
       event.stopPropagation();
 
@@ -181,7 +185,15 @@ class FormSelect {
     });
 
     this.$domNode.on('keydown.form_select', event => {
-      if (!(this.opened) || !(event.which === 40 || event.which === 38 || event.which === 13)) {
+      if (!(event.which === 40 || event.which === 38 || event.which === 13 || event.which === 9)) {
+        return;
+      }
+
+      if (!this.opened && this.focused && event.which === 13) {
+        this.open();
+        return;
+      } else if (event.which === 9) {
+        this.close();
         return;
       }
 
@@ -240,6 +252,11 @@ class FormSelect {
     this.publishFormSelectStateChangedEvent(opened ? FormSelect.STATE.OPENED : FormSelect.STATE.CLOSED);
   }
 
+  setSelectFocused(focused) {
+    this.focused = focused;
+    this.$domNode.toggleClass('form-select--focused', focused);
+  }
+
   open() {
     if (!this.enabled) {
       return;
@@ -249,6 +266,7 @@ class FormSelect {
     this.$domNode.addClass('form-select--editing-input', this.isFilterable);
     this.setOptionsContainerHeight(this.getOptionsContainerHeight());
     this.opened = true;
+    this.setSelectFocused(false);
 
     if (this.isFilterable) {
       this.$filterInput.focus();
@@ -264,6 +282,7 @@ class FormSelect {
     this.$domNode.removeClass('form-select--editing-input');
     this.setOptionsContainerHeight(0);
     this.opened = false;
+    this.setSelectFocused(false);
 
     if (this.isFilterable) {
       this.$filterInput.blur();

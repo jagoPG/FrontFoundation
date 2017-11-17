@@ -331,7 +331,7 @@ class FormSelect extends React.Component {
                               id={id}
                               name={id}
                               required={required}
-                              tabindex="-1"
+                              tabIndex="-1"
                               type="hidden"
                               value={selectedOption !== undefined && selectedOption !== null ? selectedOption.value : ''}/>}
         <div className="form-select__loader">
@@ -349,7 +349,7 @@ class FormSelect extends React.Component {
                  ref={input => {
                    this.filterInput = input;
                  }}
-                 tabindex="-1"
+                 tabIndex="-1"
                  type="text" value={filterValue}/>
         </div>}
         <div className="form-select__label"
