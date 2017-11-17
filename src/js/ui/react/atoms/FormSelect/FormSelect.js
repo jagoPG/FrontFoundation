@@ -59,6 +59,7 @@ class FormSelect extends React.Component {
     this.state = {
       dataRendered: true,
       editingInput: false,
+      focused: false,
       opened: false,
       selectedOption: props.options[0],
       hoveredOption: null,
@@ -66,12 +67,24 @@ class FormSelect extends React.Component {
     };
 
     // bre-bind method's context
+    this.onFocus = this.onFocus.bind(this);
+    this.onBlur = this.onBlur.bind(this);
     this.onClick = this.onClick.bind(this);
     this.onOutsideClick = this.onOutsideClick.bind(this);
     this.onLabelClick = this.onLabelClick.bind(this);
     this.onInputChange = this.onInputChange.bind(this);
     this.onKeyDown = this.onKeyDown.bind(this);
     this.onOptionMouseMove = this.onOptionMouseMove.bind(this);
+  }
+
+  onFocus() {
+    this.setState({
+      focused: true
+    });
+  }
+
+  onBlur() {
+    this.closeSelect();
   }
 
   onInputChange(event) {
@@ -103,11 +116,16 @@ class FormSelect extends React.Component {
   onKeyDown(event) {
     const keyCode = event.which;
 
-    if (!(this.state.opened) || !(keyCode === 40 || keyCode === 38 || keyCode === 13)) {
+    if (!(keyCode === 40 || keyCode === 38 || keyCode === 13)) {
       return;
     }
 
-    const {hoveredOption} = this.state;
+    if (!this.state.opened && this.state.focused && keyCode === 13) {
+      this.openSelect();
+      return;
+    }
+
+    let {hoveredOption} = this.state;
     const {options} = this.props;
 
     let hoveredOptionIndex = options.indexOf(hoveredOption);
@@ -182,13 +200,17 @@ class FormSelect extends React.Component {
       return;
     }
 
+    const {hoveredOption, selectedOption} = this.state;
+    const {options} = this.props;
+
     if (this.props.filterable) {
       this.filterInput.focus();
     }
 
     this.setState({
       opened: true,
-      editingInput: this.props.filterable
+      editingInput: this.props.filterable,
+      hoveredOption: selectedOption !== null ? selectedOption : hoveredOption !== null ? hoveredOption : options[0]
     });
   }
 
@@ -199,6 +221,7 @@ class FormSelect extends React.Component {
 
     this.setState({
       editingInput: false,
+      focused: false,
       opened: false
     });
   }
@@ -272,14 +295,16 @@ class FormSelect extends React.Component {
   render() {
     /* eslint-disable react/no-danger */
 
-    const {dataRendered, editingInput, opened, selectedOption, hoveredOption, mouseOverListenerEnabled} = this.state;
+    const {dataRendered, editingInput, opened, focused, selectedOption, hoveredOption, mouseOverListenerEnabled}
+      = this.state;
     const {enabled, filterable, filterValue, id, label, loading, options, required} = this.props;
     const
       formSelectClassName = `form-select
         ${(opened && enabled) ? ' form-select--opened' : ''}
         ${loading ? ' form-select--loading' : ''}
         ${!enabled ? ' form-select--disabled' : ''}
-        ${filterable && editingInput ? ' form-select--editing-input' : ''}`,
+        ${filterable && editingInput ? ' form-select--editing-input' : ''}
+        ${focused ? ' form-select--focused' : ''}`,
       selectLabel = selectedOption !== undefined && selectedOption !== null
         ? this.getDangerousHtml(selectedOption.label) : this.getDangerousHtml(options[0].label),
       optionsContainerHeight = (opened && !dataRendered) ? this.getOptionsContainerHeight() : 0,
@@ -290,6 +315,8 @@ class FormSelect extends React.Component {
     return (
       <div className={formSelectClassName}
            onClick={this.onClick}
+           onFocus={this.onFocus}
+           onBlur={this.onBlur}
            onKeyDown={this.onKeyDown}>
         {filterable && <input className="form-select__select"
                               id={id}
@@ -322,9 +349,9 @@ class FormSelect extends React.Component {
             {options && options.map((option, index) => {
               const
                 onOptionMouseOver = mouseOverListenerEnabled ? this.onOptionMouseOver.bind(this, option) : null,
-                formOptionClassName = `form-select__option${option === selectedOption
-                  ? ' form-select__option--active' : ''}${option === hoveredOption
-                  ? ' form-select__option--hover' : ''}`,
+                formOptionClassName = `form-select__option
+                  ${option === selectedOption ? ' form-select__option--active' : ''}
+                  ${option === hoveredOption ? ' form-select__option--hover' : ''}`,
                 labelHtml = this.getDangerousHtml(option.label);
               return <div className={formOptionClassName}
                           dangerouslySetInnerHTML={labelHtml}

@@ -9,9 +9,11 @@
 
 @import './../../_variables/transitions';
 
+$form-select-main-color: #0e8fff;
 $form-select-background-color: #fff !default;
 $form-select-background-color-disabled: #eee !default;
 $form-select-border-color: #d1d1d1 !default;
+$form-select-border-color-focused: $form-select-main-color !default;
 $form-select-font-family: sans-serif !default;
 $form-select-font-size: 16px !default;
 $form-select-font-weight: normal !default;
@@ -27,7 +29,7 @@ $form-select-options-box-shadow: 0 5px 30px -10px rgba(#222, .25) !default;
 $form-select-option-transition: $transition-background-color !default;
 $form-select-option-text-color: #222 !default;
 $form-select-option-text-color-active: #fff !default;
-$form-select-option-background-color-active: #0e8fff !default;
+$form-select-option-background-color-active: $form-select-main-color !default;
 $form-select-option-background-color-hover: #eee !default;
 $form-select-option-background-color-hover-and-active: rgba($form-select-option-background-color-active, .8) !default;
 $form-select-input-transition: $transition-opacity !default;
@@ -84,6 +86,12 @@ $form-select-dropdown-icon-z-index: $form-select-input-z-index !default;
   .form-select__input-container {
     opacity: 1;
     pointer-events: auto;
+  }
+}
+
+.form-select--focused {
+  .form-select__label {
+    border-color: $form-select-border-color-focused;
   }
 }
 
