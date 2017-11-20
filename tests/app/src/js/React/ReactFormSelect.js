@@ -14,7 +14,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {Ui} from 'lin3s-front-foundation';
 
-const FormGroupSelect = Ui.React.FormGroupSelect;
+const defaultValueMessages = {
+  en: 'The selected option is the default one',
+  es: 'La opción seleccionada es la opción por defecto',
+  eu: 'Hautatutako aukera lehenetsiko aukera da'
+};
 
 class ReactFormSelect extends React.Component {
 
@@ -63,24 +67,23 @@ class ReactFormSelect extends React.Component {
 
     const parentForms = $(domNode).parents('form[data-parsley-validate]');
 
-    return <div>
-      <FormGroupSelect
-        enabled={true}
-        filterValue={filterValue}
-        filterable={true}
-        id="react-form-group-select"
-        label="This is the (react) form-group-select's label"
-        loading={false}
-        onInputChanged={this.onFormSelectInputChanged}
-        onOptionSelected={this.onFormSelectOptionSelected}
-        options={filteredOptions}
-        outsideClickToCloseEnabled={true}
-        parsleyValidationEnabled={true}
-        parsleyValidationForm={parentForms[0]}
-        parsleyValidationNotValidValue="--"
-        renderFormInput={true}
-        required={true}/>
-    </div>;
+    return <Ui.React.FormGroupSelect
+      enabled={true}
+      filterValue={filterValue}
+      filterable={true}
+      id="react-form-group-select"
+      label="Month:"
+      loading={false}
+      onInputChanged={this.onFormSelectInputChanged}
+      onOptionSelected={this.onFormSelectOptionSelected}
+      options={filteredOptions}
+      outsideClickToCloseEnabled={true}
+      parsleyValidationDefaultValueMessages={defaultValueMessages}
+      parsleyValidationEnabled={true}
+      parsleyValidationForm={parentForms[0]}
+      parsleyValidationNotValidValue="--"
+      renderFormInput={true}
+      required={true}/>;
   }
 }
 

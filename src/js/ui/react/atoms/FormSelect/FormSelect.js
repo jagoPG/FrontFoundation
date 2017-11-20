@@ -38,6 +38,7 @@ class FormSelect extends React.Component {
       value: PropTypes.string
     })),
     outsideClickToCloseEnabled: PropTypes.bool,
+    parsleyValidationDefaultValueMessages: PropTypes.object,
     parsleyValidationEnabled: PropTypes.bool,
     parsleyValidationForm: PropTypes.any,
     parsleyValidationNotValidValue: PropTypes.string,
@@ -49,9 +50,9 @@ class FormSelect extends React.Component {
     filterValue: '',
     filterable: false,
     loading: false,
-    onInputChanged: () => {
-    },
+    onInputChanged: () => {},
     outsideClickToCloseEnabled: true,
+    parsleyValidationDefaultValueMessages: undefined,
     parsleyValidationEnabled: false,
     parsleyValidationForm: undefined,
     parsleyValidationNotValidValue: '',
@@ -99,11 +100,7 @@ class FormSelect extends React.Component {
 
     window.Parsley.addValidator(NO_DEFAULT_VALUE_VALIDATOR, {
       validateString: value => value !== this.props.parsleyValidationNotValidValue,
-      messages: {
-        en: 'The selected option is the default one',
-        es: 'La opción seleccionada es la opción por defecto',
-        eu: 'Hautatutako aukera lehenetsiko aukera da'
-      }
+      messages: this.props.parsleyValidationDefaultValueMessages
     });
   }
 
@@ -370,7 +367,8 @@ class FormSelect extends React.Component {
       <div className={formSelectClassName}
            onClick={this.onClick}
            onFocus={this.onFocus}
-           onKeyDown={this.onKeyDown}>
+           onKeyDown={this.onKeyDown}
+           tabIndex={0}>
         <div className="form-select__loader">
           <Loader/>
         </div>

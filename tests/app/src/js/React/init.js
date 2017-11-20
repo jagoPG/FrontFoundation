@@ -13,6 +13,8 @@ import {onDomReady} from 'lin3s-event-bus';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import ReactFormSelect from './ReactFormSelect';
+import ReactEmailInput from './ReactEmailInput';
+import ReactPhoneInput from './ReactPhoneInput';
 
 const
   formSelectOptions = [{
@@ -61,10 +63,27 @@ const
       mountNode
     );
   },
+  renderFormEmail = mountNode => {
+    ReactDOM.render(
+      <ReactEmailInput domNode={mountNode} />,
+      mountNode
+    );
+  },
+  renderFormPhone = mountNode => {
+    ReactDOM.render(
+      <ReactPhoneInput domNode={mountNode} />,
+      mountNode
+    );
+  },
   onReady = () => {
-    const domNodes = document.querySelectorAll('.form-select-mount-node');
+    const
+      selectDomNodes = document.querySelectorAll('.form-select-mount-node'),
+      emailDomNodes = document.querySelectorAll('.form-email-mount-node'),
+      phoneDomNodes = document.querySelectorAll('.form-phone-mount-node');
 
-    Array.from(domNodes).forEach(mountNode => renderFormSelect(mountNode));
+    Array.from(selectDomNodes).forEach(mountNode => renderFormSelect(mountNode));
+    Array.from(emailDomNodes).forEach(mountNode => renderFormEmail(mountNode));
+    Array.from(phoneDomNodes).forEach(mountNode => renderFormPhone(mountNode));
   };
 
 onDomReady(onReady);
