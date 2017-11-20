@@ -80,6 +80,7 @@ class FormSelect extends React.Component {
 
     // bre-bind method's context
     this.onFocus = this.onFocus.bind(this);
+    this.onBlur = this.onBlur.bind(this);
     this.onClick = this.onClick.bind(this);
     this.onOutsideClick = this.onOutsideClick.bind(this);
     this.onLabelClick = this.onLabelClick.bind(this);
@@ -108,6 +109,12 @@ class FormSelect extends React.Component {
   onFocus() {
     this.setState({
       focused: true
+    });
+  }
+
+  onBlur() {
+    this.setState({
+      focused: false
     });
   }
 
@@ -367,6 +374,7 @@ class FormSelect extends React.Component {
     return (
       <div className={formSelectClassName}
            onClick={this.onClick}
+           onBlur={this.onBlur}
            onFocus={this.onFocus}
            onKeyDown={this.onKeyDown}
            tabIndex={0}>
