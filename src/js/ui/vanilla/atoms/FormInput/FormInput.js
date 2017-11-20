@@ -17,8 +17,6 @@ class FormInput {
   domNode;
 
   constructor(domNode) {
-    console.log(domNode);
-
     this.$domNode = $(domNode);
 
     this.addPhoneValidator();
