@@ -10,37 +10,34 @@
  */
 
 import $ from 'jquery';
+import {phoneValidator} from './../../../../parsley/validators';
 
 class FormInput {
 
   domNode;
 
   constructor(domNode) {
+    console.log(domNode);
+
     this.$domNode = $(domNode);
 
     this.addPhoneValidator();
   }
 
   addPhoneValidator() {
-    const messages = JSON.parse(this.$domNode.attr('data-parsley-phone-validation-messages'));
-
     if (!(this.$domNode.attr('type') === 'tel' && this.$domNode.attr('data-parsley-phone'))) {
       return;
     }
 
-    const PHONE_VALUE_VALIDATOR = 'phone';
+    const
+      PHONE_VALUE_VALIDATOR = 'phone',
+      parsleyValidationMessages = JSON.parse(this.$domNode.attr('data-parsley-phone-validation-messages'));
 
     if (window.Parsley.hasValidator(PHONE_VALUE_VALIDATOR)) {
       return;
     }
 
-    window.Parsley.addValidator(PHONE_VALUE_VALIDATOR, {
-      validateString: value => {
-        const re = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{3,6}$/im; // eslint-disable-line no-useless-escape
-        return re.test(value);
-      },
-      messages
-    });
+    window.Parsley.addValidator(PHONE_VALUE_VALIDATOR, phoneValidator(parsleyValidationMessages));
   }
 }
 

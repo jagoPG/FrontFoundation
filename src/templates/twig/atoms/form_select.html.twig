@@ -28,6 +28,8 @@
     @param select_filter_placeholder                string=null
     @param select_filter_order_by                   string='value' (or 'label')
     @param select_mobile_breakpoint                 int=1024
+    @param select_parsley_validation_enabled        bool=false
+    @param select_parsley_validation_messages       array=null
 #}
 
 {% set select_no_selection_label = select_no_selection_label|default('--') %}
@@ -40,7 +42,11 @@
     data-filterable="{{ select_is_filterable|default(1) }}"
     data-filter-order-by="{{ select_filter_order_by }}"
     data-mobile-breakpoint="{{ select_mobile_breakpoint|default(1024) }}"
-    tabindex="0">
+    tabindex="0"
+    {% if select_parsley_validation_enabled %}
+        data-parsley-validation-enabled="true"
+        data-parsley-validation-messages={{ select_parsley_validation_messages|json_encode }}
+    {% endif %}>
     <span class="form-select__dropdown-icon">
         {% include '@lin3s_front_foundation/svg/arrows_small_down.svg.twig' %}
     </span>
@@ -66,8 +72,7 @@
         </div>
     </div>
     <select class="form-select__select" name="{{ select_id }}" id="{{ select_id }}" {% if select_required|default %} required{% endif %}
-            data-parsley-not-default-option=""
-            data-parsley-trigger="change">
+            {% if select_parsley_validation_enabled %}data-parsley-not-default-option="true" data-parsley-trigger="change"{% endif %}>
         <option class="form-select__select-no-selection" value="{{ select_no_selection_value }}">
             {{ select_no_selection_label }}
         </option>

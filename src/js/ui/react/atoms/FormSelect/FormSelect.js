@@ -14,6 +14,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import ArrowDown from './../../svg/ArrowDown';
 import Loader from './../Loader/Loader';
+import {defaultValueValidator} from './../../../../parsley/validators';
 
 const isMobile = viewportWidth => {
   return viewportWidth < 1024;
@@ -98,10 +99,10 @@ class FormSelect extends React.Component {
       return;
     }
 
-    window.Parsley.addValidator(NO_DEFAULT_VALUE_VALIDATOR, {
-      validateString: value => value !== this.props.parsleyValidationNotValidValue,
-      messages: this.props.parsleyValidationDefaultValueMessages
-    });
+    window.Parsley.addValidator(
+      NO_DEFAULT_VALUE_VALIDATOR,
+      defaultValueValidator(this.props.parsleyValidationNotValidValue, this.props.parsleyValidationDefaultValueMessages)
+    );
   }
 
   onFocus() {

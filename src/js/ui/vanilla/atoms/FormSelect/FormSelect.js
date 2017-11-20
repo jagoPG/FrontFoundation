@@ -16,6 +16,7 @@ import {getHtmlLang} from './../../../../dom';
 import FormSelectInitializedEvent from './../../../../event-bus/FormSelect/FormSelectInitializedEvent';
 import FormSelectOptionSelectedEvent from './../../../../event-bus/FormSelect/FormSelectOptionSelectedEvent';
 import FormSelectStateChangedEvent from './../../../../event-bus/FormSelect/FormSelectStateChangedEvent';
+import {defaultValueValidator} from '../../../../parsley/validators';
 
 const renderSelectOption = (optionValue, optionLabel) =>
     `<option value="${optionValue}">${optionLabel}</option>`,
@@ -77,7 +78,8 @@ class FormSelect {
 
     this.debouncedFilter = debounce(() => this.filter(), 500);
 
-    this.needsParsleyValidation = this.$domNode.parents('form[data-parsley-validate]').length > 0;
+    this.needsParsleyValidation = this.$domNode.parents('form[data-parsley-validate]').length > 0
+      || this.$domNode.attr('data-parsley-validation-enabled');
 
     this.addParsleyValidator();
     this.parseSelectOptions();
@@ -99,16 +101,11 @@ class FormSelect {
       return;
     }
 
-    const noSelectionValue = this.$domNode.find('.form-select__select-no-selection').val();
+    const
+      noSelectionValue = this.$domNode.find('.form-select__select-no-selection').val(),
+      parsleyValidationMessages = JSON.parse(this.$domNode.attr('data-parsley-validation-messages'));
 
-    window.Parsley.addValidator(validatorName, {
-      validateString: value => value !== noSelectionValue,
-      messages: {
-        en: 'The selected option is the default one',
-        es: 'La opción seleccionada es la opción por defecto',
-        eu: 'Hautatutako aukera lehenetsiko aukera da'
-      }
-    });
+    window.Parsley.addValidator(validatorName, defaultValueValidator(noSelectionValue, parsleyValidationMessages));
   }
 
   parseSelectOptions() {

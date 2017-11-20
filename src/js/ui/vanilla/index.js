@@ -16,6 +16,7 @@ import FormSelect from './atoms/FormSelect/FormSelect';
 // Ui Components initialization
 import './components/GMap/init';
 import './atoms/FormSelect/init';
+import './atoms/FormInput/init';
 
 export {
   GMap,
