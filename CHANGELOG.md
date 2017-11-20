@@ -7,6 +7,7 @@ To get the diff between two versions, go to https://github.com/LIN3S/FrontFounda
 
 * 0.11.0
     * Added parsleyjs validation both to the `FormSelect` react and vanilla atoms implementations.
+    * Added parsleyjs validation to the `FormGroupInput` react component (required, email, phone).
     * Added required prop to the `FormGroupInput` react component.
 * 0.10.0
     * Added full keyboard integration to the `FormSelect` vanilla js atom.

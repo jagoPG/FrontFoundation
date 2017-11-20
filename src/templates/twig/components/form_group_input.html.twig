@@ -13,17 +13,19 @@
     This componenet will display a form group composed by an @atoms/form_label, an @atom/form_input and an
     @atoms/form_error.
 
-    @param input_required           bool=false
-    @param input_id                 string=*
-    @param input_label_class_name   string=null
-    @param input_label_modifiers    string=null
-    @param input_label_content      html=null
-    @param input_error_content      string=null
-    @param input_error_modifiers    array|string=null
-    @param input_class_name         string=null
-    @param input_modifiers          array|string=null
-    @param input_placeholder        string*
-    @param input_type               string='text'
+    @param input_required                           bool=false
+    @param input_id                                 string=*
+    @param input_label_class_name                   string=null
+    @param input_label_modifiers                    string=null
+    @param input_label_content                      html=null
+    @param input_error_content                      string=null
+    @param input_error_modifiers                    array|string=null
+    @param input_class_name                         string=null
+    @param input_modifiers                          array|string=null
+    @param input_placeholder                        string*
+    @param input_type                               string='text'
+    @param input_parsley_phone_validation_messages  array=null
+    @param input_parsley_validation_enabled         bool=false
 #}
 
 <div class="form-group-input">
@@ -45,7 +47,9 @@
         input_class_name: input_class_name,
         input_modifiers: input_modifiers,
         input_placeholder: input_placeholder,
-        input_required: input_required
+        input_required: input_required,
+        input_parsley_validation_enabled: input_parsley_validation_enabled,
+        input_parsley_phone_validation_messages: input_parsley_phone_validation_messages
     } %}
 
     {% if input_error_content|default %}
