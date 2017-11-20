@@ -14,10 +14,11 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import ReactFormSelect from './ReactFormSelect';
 
-const onReady = () => {
-  const domNode = document.querySelector('.form-select-mount-node');
-
-  const formSelectOptions = [{
+const
+  formSelectOptions = [{
+    label: '--',
+    value: '--'
+  }, {
     label: 'Enero',
     value: '0'
   }, {
@@ -53,12 +54,17 @@ const onReady = () => {
   }, {
     label: 'Diciembre',
     value: '11'
-  }];
+  }],
+  renderFormSelect = mountNode => {
+    ReactDOM.render(
+      <ReactFormSelect domNode={mountNode} options={formSelectOptions}/>,
+      mountNode
+    );
+  },
+  onReady = () => {
+    const domNodes = document.querySelectorAll('.form-select-mount-node');
 
-  ReactDOM.render(
-    <ReactFormSelect options={formSelectOptions}/>,
-    domNode
-  );
-};
+    Array.from(domNodes).forEach(mountNode => renderFormSelect(mountNode));
+  };
 
 onDomReady(onReady);

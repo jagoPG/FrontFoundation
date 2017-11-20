@@ -140,7 +140,6 @@
                     input_required: 1,
                     input_id: 'form-group-input',
                     input_label_content: 'This is the form_group_input\'s label',
-                    input_error_content:  'This is the form_group_input\'s error',
                     input_placeholder: 'Enter some data...',
                     input_type: 'text'
                 } %}
@@ -150,7 +149,6 @@
                     select_required: 1,
                     select_filter_placeholder: 'Type to filter...',
                     select_label_content: 'This is the form_group_select\'s label',
-                    select_error_content:  'This is the form_group_select\'s error',
                     select_outside_click_to_close_enabled: 1,
                     select_options: [{
                         value: 0,
@@ -195,8 +193,16 @@
             </form>
         </section>
 
-        <section class="react-components">
+        <section class="react-components" style="position: relative; z-index: 80;">
             <div class="form-select-mount-node"></div>
+        </section>
+
+        <section class="form-components" style="position: relative; z-index: 70;">
+            <form action="/" novalidate data-parsley-validate style="border: 1px solid #d1d1d1; padding: 20px 30px; margin-bottom: 30px;">
+                <div class="form-select-mount-node"></div>
+
+                <input type="submit" value="Submit!"/>
+            </form>
         </section>
     </main>
 </body>

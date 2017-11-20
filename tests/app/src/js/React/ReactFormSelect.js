@@ -9,6 +9,7 @@
  * @author Mikel Tuesta <mikeltuesta@gmail.com>
  */
 
+import $ from 'jquery';
 import React from 'react';
 import PropTypes from 'prop-types';
 import {Ui} from 'lin3s-front-foundation';
@@ -18,6 +19,7 @@ const FormGroupSelect = Ui.React.FormGroupSelect;
 class ReactFormSelect extends React.Component {
 
   static propTypes = {
+    domNode: PropTypes.any.isRequired,
     options: PropTypes.arrayOf(PropTypes.shape({
       label: PropTypes.string,
       value: PropTypes.string
@@ -37,7 +39,7 @@ class ReactFormSelect extends React.Component {
   }
 
   onFormSelectOptionSelected(selectedOption) {
-    console.log(selectedOption);
+    console.log('This is the selected value:', selectedOption);
   }
 
   onFormSelectInputChanged(inputValue) {
@@ -57,6 +59,9 @@ class ReactFormSelect extends React.Component {
 
   render() {
     const {filterValue, filteredOptions} = this.state;
+    const {domNode} = this.props;
+
+    const parentForms = $(domNode).parents('form[data-parsley-validate]');
 
     return <div>
       <FormGroupSelect
@@ -70,6 +75,9 @@ class ReactFormSelect extends React.Component {
         onOptionSelected={this.onFormSelectOptionSelected}
         options={filteredOptions}
         outsideClickToCloseEnabled={true}
+        parsleyValidationEnabled={true}
+        parsleyValidationForm={parentForms[0]}
+        parsleyValidationNotValidValue="--"
         renderFormInput={true}
         required={true}/>
     </div>;

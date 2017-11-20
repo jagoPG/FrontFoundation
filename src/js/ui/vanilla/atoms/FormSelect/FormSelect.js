@@ -89,6 +89,10 @@ class FormSelect {
   }
 
   addParsleyValidator() {
+    if (!this.needsParsleyValidation) {
+      return;
+    }
+
     const validatorName = 'notDefaultOption';
 
     if (window.Parsley.hasValidator(validatorName)) {

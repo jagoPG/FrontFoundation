@@ -57,6 +57,7 @@ class FormGroup extends React.Component {
         name={id}
         onChange={this.onInputChange}
         placeholder={label}
+        required={required}
         type={type} />
     </div>);
   }

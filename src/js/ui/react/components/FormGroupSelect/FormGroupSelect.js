@@ -30,6 +30,8 @@ class FormGroupSelect extends React.Component {
       value: PropTypes.string
     })),
     outsideClickToCloseEnabled: PropTypes.bool,
+    parsleyValidationEnabled: PropTypes.bool,
+    parsleyValidationNotValidValue: PropTypes.string,
     required: PropTypes.bool
   };
 
@@ -39,6 +41,8 @@ class FormGroupSelect extends React.Component {
     filterable: false,
     loading: false,
     outsideClickToCloseEnabled: true,
+    parsleyValidationEnabled: false,
+    parsleyValidationNotValidValue: '',
     required: false
   };
 
