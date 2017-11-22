@@ -11,6 +11,12 @@
 
 import getHtmlLang from './../dom/getHtmlLang';
 
+/* eslint-disable no-undef */
+if (typeof WEBPACK_ENV_LOCALE !== 'undefined') {
+  require(`parsleyjs/dist/i18n/${WEBPACK_ENV_LOCALE}.js`);
+}
+/* eslint-enable no-undef */
+
 const getLang = (lang) => {
   if (null !== lang) {
     return lang;
@@ -19,11 +25,7 @@ const getLang = (lang) => {
   return getHtmlLang();
 };
 
-export default (locales = [], lang = null) => {
-  locales.forEach(locale => {
-    require(`parsleyjs/dist/i18n/${locale}.js`);
-  });
-
+export default (lang = null) => {
   const dividedLang = getLang(lang).split('_');
 
   let locale = lang;

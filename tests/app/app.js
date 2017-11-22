@@ -26,7 +26,7 @@ import './app.scss';
 
 const testParsleySetLocale = () => {
   console.log('Testing Parsley.setLocale');
-  Parsley.setLocale(['es', 'eu']);
+  Parsley.setLocale('es');
 };
 
 const testAsyncCancelablePromise = () => {

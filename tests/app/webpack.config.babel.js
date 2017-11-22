@@ -10,6 +10,7 @@
  */
 
 import {Webpack} from 'lin3s-distribution';
+import parsleyWebpackContextReplacementPlugin from 'lin3s-front-foundation/config/parsleyWebpackContextReplacementPlugin';
 
 const options = {
   entry: {
@@ -36,4 +37,8 @@ const options = {
   }
 };
 
-export default Webpack(options);
+const plugins = [
+  parsleyWebpackContextReplacementPlugin(['es', 'en'])
+];
+
+export default Webpack(options, plugins);

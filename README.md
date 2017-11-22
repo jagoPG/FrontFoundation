@@ -15,21 +15,44 @@ $ npm install --save lin3s-front-foundation
 
 ## Usage - Available features
 
+### Config
+
+This bundle will expose some configuration associated scripts or helpers. For the time being we are just exposing a 
+plugin for Webpack.
+
+#### Config - parsleyWebpackContextReplacementPlugin
+
+This plugin will load the `parsleyjs` messages catalog from each passed `locales` on compilation time. In order to 
+properly setup the plugin, we will import it and pass to the `Webpack` method (`webpack.config.babel.js` file of our 
+project).
+```js
+import {Webpack} from 'lin3s-distribution';
+import parsleyWebpackContextReplacementPlugin from 'lin3s-front-foundation/config/parsleyWebpackContextReplacementPlugin';
+
+const options = {
+  // ...
+};
+
+const plugins = [
+  parsleyWebpackContextReplacementPlugin(['es', 'en', 'eu' /*, ...*/])
+];
+
+export default Webpack(options, plugins);
+```
+
 ### Parsleyjs
 
-We will expose through the `Parsley` package some helper methods for setting and loading the project's needed locales, 
+We will expose through the `Parsley` package some helper methods for setting and loading the project's needed locale, 
 as well as a method for excluding some fields from Parsley validation. 
 
-#### Parsley.setLocale( locales = [], locale = null )
+#### Parsley.setLocale( locale = null )
 
-This method will set the Parsley's instance's locale, and will load the messages catalog from each passed `locales`. If 
-we  don't provide a locale parameter, automatically the html lang's attribute value will be used. For example: 
+This method will set the Parsley's instance's locale. If we  don't provide a locale parameter, automatically the html 
+lang's attribute value will be used. For example: 
 ```js
 import {Parsley} from 'lin3s-front-foundation';
 
-Parsley.setLocale(['es', 'eu']);
-// or
-Parsley.setLocale(['es', 'eu'], 'es');
+Parsley.setLocale('es');
 ```
 
 #### Parsley.excludeFormFields( selector )
