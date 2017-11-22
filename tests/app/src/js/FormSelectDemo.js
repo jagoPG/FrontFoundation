@@ -32,6 +32,11 @@ class FormSelectDemo {
     setTimeout(() => {
       this.formSelectInstance.open();
     }, 2000);
+
+    setTimeout(() => {
+      const options = [{label: 'one', value: 1}, {label: 'two', value: 2}, {label: 'three', value: 3}];
+      this.formSelectInstance.update({options});
+    }, 5000);
   }
 
   bindListeners() {

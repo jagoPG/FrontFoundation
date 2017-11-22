@@ -9,10 +9,10 @@
  * @author Mikel Tuesta <mikeltuesta@gmail.com>
  */
 
-import $ from 'jquery';
 import React from 'react';
 import PropTypes from 'prop-types';
 import {Ui} from 'lin3s-front-foundation';
+import isDomNodeDescendantOfDomNode from '../../../../../src/js/dom/isDomNodeDescendantOfDomNode';
 
 const defaultValueMessages = {
   en: 'The selected option is the default one',
@@ -63,9 +63,10 @@ class ReactFormSelect extends React.Component {
 
   render() {
     const {filterValue, filteredOptions} = this.state;
-    const {domNode} = this.props;
 
-    const parentForms = $(domNode).parents('form[data-parsley-validate]');
+    const parsleyValidateParentForm = Array.from(document.querySelectorAll('form[data-parsley-validate]')).find(
+      form => isDomNodeDescendantOfDomNode(this.props.domNode, form)
+    );
 
     return <Ui.React.FormGroupSelect
       enabled={true}
@@ -80,7 +81,7 @@ class ReactFormSelect extends React.Component {
       outsideClickToCloseEnabled={true}
       parsleyValidationDefaultValueMessages={defaultValueMessages}
       parsleyValidationEnabled={true}
-      parsleyValidationForm={parentForms[0]}
+      parsleyValidationForm={parsleyValidateParentForm}
       parsleyValidationNotValidValue="--"
       renderFormInput={true}
       required={true}/>;

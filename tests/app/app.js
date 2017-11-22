@@ -9,7 +9,7 @@
  * @author Mikel Tuesta <mikeltuesta@gmail.com>
  */
 
-import 'parsleyjs';
+//import 'parsleyjs';
 import {
   Parsley,
   Async,
@@ -20,7 +20,7 @@ import {onDomReady} from 'lin3s-event-bus';
 
 import './src/js/GMapGeocoderDemo';
 import './src/js/FormSelectDemo';
-import './src/js/React/init';
+//import './src/js/React/init';
 
 import './app.scss';
 

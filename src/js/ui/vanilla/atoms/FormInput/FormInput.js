@@ -9,7 +9,6 @@
  * @author Beñat Espiña <benatespina@gmail.com>
  */
 
-import $ from 'jquery';
 import {phoneValidator} from './../../../../parsley/validators';
 
 class FormInput {
@@ -17,19 +16,18 @@ class FormInput {
   domNode;
 
   constructor(domNode) {
-    this.$domNode = $(domNode);
-
+    this.domNode = domNode;
     this.addPhoneValidator();
   }
 
   addPhoneValidator() {
-    if (!(this.$domNode.attr('type') === 'tel' && this.$domNode.attr('data-parsley-phone'))) {
+    if (!(this.domNode.getAttribute('type') === 'tel' && this.domNode.getAttribute('data-parsley-phone'))) {
       return;
     }
 
     const
       PHONE_VALUE_VALIDATOR = 'phone',
-      parsleyValidationMessages = JSON.parse(this.$domNode.attr('data-parsley-phone-validation-messages'));
+      parsleyValidationMessages = JSON.parse(this.domNode.getAttribute('data-parsley-phone-validation-messages'));
 
     if (window.Parsley.hasValidator(PHONE_VALUE_VALIDATOR)) {
       return;

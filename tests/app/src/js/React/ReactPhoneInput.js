@@ -9,10 +9,10 @@
  * @author Mikel Tuesta <mikeltuesta@gmail.com>
  */
 
-import $ from 'jquery';
 import React from 'react';
 import PropTypes from 'prop-types';
 import {Ui} from 'lin3s-front-foundation';
+import isDomNodeDescendantOfDomNode from '../../../../../src/js/dom/isDomNodeDescendantOfDomNode';
 
 const notValidPhoneMessages = {
   en: 'Entered phone is not valid.',
@@ -27,13 +27,15 @@ class ReactFormInput extends React.PureComponent {
   };
 
   render() {
-    const parentForms = $(this.props.domNode).parents('form[data-parsley-validate]');
+    const parsleyValidateParentForm = Array.from(document.querySelectorAll('form[data-parsley-validate]')).find(
+      form => isDomNodeDescendantOfDomNode(this.props.domNode, form)
+    );
 
     return <Ui.React.FormGroupInput
       id="react-form-group-input-phone"
       label="Phone:"
       parsleyValidationEnabled={true}
-      parsleyValidationForm={parentForms[0]}
+      parsleyValidationForm={parsleyValidateParentForm}
       parsleyValidationPhoneMessages={notValidPhoneMessages}
       required={true}
       type="tel"/>;

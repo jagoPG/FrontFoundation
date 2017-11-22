@@ -169,6 +169,34 @@ imagesLoadPromise.then(() => {
 });
 ```
 
+### Dom - Utilities / Helpers
+
+#### Dom.isDomNodeDescendantOfDomNode( needleDomNode, mainDomNode )
+
+This method will return true if the passed `needleDomNode` y a descendant of the `mainDomNode`.
+
+#### Dom.getDomNodeIndex( domNode, selector = null )
+
+This method will return the index of the provided `domNode`, optinally filtered by a css selector. It is a native
+alternative to the jQuery's [`.index()`][7] method.
+
+#### Dom.removeDomNodes( domNodes )
+
+This method will remove the passed `domNodes` from their parents. It will work with a single node as well. It is a
+native alternative to the jQuery's [`.remove()`][8] method.
+
+#### Dom.addSelectorFilteredEventListener( domNode, eventName, selector, event => {} )
+
+This method will add an event listener for the `eventName` to the passed `domNode`, filtering the event.target with the
+defined `selector`. It is a native alternative to the jQuery's [`.on(eventName, selector, callback)`][9] method when
+filtering it's targets by a selector.
+
+#### Dom.dispatchNativeEvent( domNode, eventName )
+
+This method will dispatch a DOMElement native event. It's a native alternative to the jQuery's
+[`.trigger(eventName)`][10] method.
+
+
 ## Usage - Available UI components
 
 ### GMap
@@ -411,7 +439,8 @@ by the FormSelect, FormLabel, FormInput and the FormError atoms.
 #### FormGroupSelect / FormSelect - Parsley
 
 The FormGroupSelect component and the FormSelect atom has built in support for Parsleyjs validation. You must include 
-`data-parsley-validate` to the component's/atom's parent `<form>`.
+`data-parsley-validate` to the component's/atom's parent `<form>`, or pass the `input_parsley_validation_enabled` flag
+as `true` to the component.
 
 ```twig
 <form action="/" novalidate data-parsley-validate>
@@ -743,3 +772,7 @@ $form-select-option-background-color-hover-and-active: rgba($form-select-option-
 [4]: https://facebook.github.io/react/docs/forms.html#controlled-components
 [5]: https://github.com/LIN3S/FrontFoundation/blob/master/tests/app/src/js/React/init.js
 [6]: https://github.com/LIN3S/FrontFoundation/blob/master/tests/app/src/js/React/ReactFormSelect.js
+[7]: https://api.jquery.com/index/
+[8]: https://api.jquery.com/remove/
+[9]: http://api.jquery.com/on/
+[10]: http://api.jquery.com/trigger/

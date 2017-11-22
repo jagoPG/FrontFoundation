@@ -9,9 +9,10 @@
  * @author Mikel Tuesta <mikel@gmail.com>
  */
 
-import $ from 'jquery';
+//import $ from 'jquery';
 import React from 'react';
 import PropTypes from 'prop-types';
+import {phoneValidator} from './../../../../parsley/validators';
 
 class FormGroup extends React.Component {
 
@@ -47,6 +48,7 @@ class FormGroup extends React.Component {
     // bre-bind method's context
     this.onInputChange = this.onInputChange.bind(this);
     this.onInputFocus = this.onInputFocus.bind(this);
+    this.onParentFormSubmit = this.onParentFormSubmit.bind(this);
   }
 
   addParsleyValidator() {
@@ -60,13 +62,7 @@ class FormGroup extends React.Component {
       return;
     }
 
-    window.Parsley.addValidator(PHONE_VALUE_VALIDATOR, {
-      validateString: value => {
-        const re = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{3,6}$/im; // eslint-disable-line no-useless-escape
-        return re.test(value);
-      },
-      messages: this.props.parsleyValidationPhoneMessages
-    });
+    window.Parsley.addValidator(PHONE_VALUE_VALIDATOR, phoneValidator(this.props.parsleyValidationPhoneMessages));
   }
 
   onInputChange(event) {
@@ -81,10 +77,16 @@ class FormGroup extends React.Component {
   }
 
   validate() {
-    return $(this.input).parsley().validate();
+//    return $(this.input).parsley().validate();
   }
 
-  componentDidUpdate(prevProps) {
+  onParentFormSubmit(event) {
+    if (this.validate() !== true) {
+      event.preventDefault();
+    }
+  }
+
+  componentDidUpdate() {
     if (this.state.touched) {
       this.validate();
     }
@@ -92,17 +94,13 @@ class FormGroup extends React.Component {
 
   componentDidMount() {
     if (this.props.parsleyValidationForm !== undefined) {
-      $(this.props.parsleyValidationForm).on('submit.form_input', event => {
-        if (this.validate() !== true) {
-          event.preventDefault();
-        }
-      });
+      this.props.parsleyValidationForm.addEventListener('submit', this.onParentFormSubmit);
     }
   }
 
   componentWillUnmount() {
     if (this.props.parsleyValidationForm !== undefined) {
-      $(this.props.parsleyValidationForm).off('submit.form_input');
+      this.props.parsleyValidationForm.removeEventListener('submit', this.onParentFormSubmit);
     }
   }
 

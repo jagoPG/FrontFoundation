@@ -7,6 +7,7 @@
  * file that was distributed with this source code.
  *
  * @author Beñat Espiña <benatespina@gmail.com>
+ * @author Mikel Tuesta <mikeltuesta@gmail.com>
  */
 
 import getHtmlLang from './../dom/getHtmlLang';

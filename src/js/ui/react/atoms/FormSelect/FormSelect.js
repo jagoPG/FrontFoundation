@@ -9,7 +9,6 @@
  * @author Mikel Tuesta <mikel@lin3s.com>
  */
 
-import $ from 'jquery';
 import React from 'react';
 import PropTypes from 'prop-types';
 import ArrowDown from './../../svg/ArrowDown';
@@ -87,6 +86,7 @@ class FormSelect extends React.Component {
     this.onInputChange = this.onInputChange.bind(this);
     this.onKeyDown = this.onKeyDown.bind(this);
     this.onOptionMouseMove = this.onOptionMouseMove.bind(this);
+    this.onParentFormSubmit = this.onParentFormSubmit.bind(this);
   }
 
   addParsleyValidator() {
@@ -282,7 +282,13 @@ class FormSelect extends React.Component {
   }
 
   validate() {
-    return $(this.hiddenInput).parsley().validate();
+//    return $(this.hiddenInput).parsley().validate();
+  }
+
+  onParentFormSubmit(event) {
+    if (this.validate() !== true) {
+      event.preventDefault();
+    }
   }
 
   getDangerousHtml(rawHtml) {
@@ -316,11 +322,7 @@ class FormSelect extends React.Component {
     }
 
     if (this.props.parsleyValidationForm !== undefined) {
-      $(this.props.parsleyValidationForm).on('submit.form_select', event => {
-        if (this.validate() !== true) {
-          event.preventDefault();
-        }
-      });
+      this.props.parsleyValidationForm.addEventListener('submit', this.onParentFormSubmit);
     }
 
     /* eslint-disable react/no-did-mount-set-state */
@@ -331,9 +333,12 @@ class FormSelect extends React.Component {
   }
 
   componentWillUnmount() {
-    window.removeEventListener('click', this.onOutsideClick);
+    if (this.props.outsideClickToCloseEnabled) {
+      window.removeEventListener('click', this.onOutsideClick);
+    }
+
     if (this.props.parsleyValidationForm !== undefined) {
-      $(this.props.parsleyValidationForm).off('submit.form_select');
+      this.props.parsleyValidationForm.removeEventListener('submit', this.onParentFormSubmit);
     }
   }
 
