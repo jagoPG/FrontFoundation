@@ -9,17 +9,17 @@
  * @author Mikel Tuesta <mikeltuesta@gmail.com>
  */
 
-class FormInput {
+const VALIDATOR_TYPE = {
+  PATTERN: 'PATTERN'
+};
 
-  domNode;
-
-  constructor(domNode) {
-    this.domNode = domNode;
-
-    this.domNode.addEventListener('focus', () => {
-      this.domNode.focus();
-    });
+const getFormElementValidatorType = formElementDomNode => {
+  if (formElementDomNode.hasAttribute('data-validation-pattern')) {
+    return VALIDATOR_TYPE.PATTERN;
   }
-}
+};
 
-export default FormInput;
+export {
+  VALIDATOR_TYPE,
+  getFormElementValidatorType
+};

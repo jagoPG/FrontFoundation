@@ -6,13 +6,11 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @author Beñat Espiña <benatespina@gmail.com>
+ * @author Mikel Tuesta <mikeltuesta@gmail.com>
  */
 
-import excludeFormFields from './excludeFormFields';
-import setLocale from './setLocale';
+import {STATE_DATA_ATTRIBUTE_VALUE} from './../core/FormValidatorState';
 
-export {
-  excludeFormFields,
-  setLocale
+export default (domNode, validatorState) => {
+  domNode.dataset.validationState = STATE_DATA_ATTRIBUTE_VALUE[validatorState];
 };

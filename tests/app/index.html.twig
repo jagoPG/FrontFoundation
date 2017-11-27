@@ -22,6 +22,20 @@
         .form-group-select {
             margin-bottom: 30px;
         }
+
+        .form {
+            border: 1px solid #d1d1d1;
+            margin-bottom: 30px;
+            padding: 20px 30px;
+        }
+        .form[data-validation-state="not-filled"],
+        .form[data-validation-state="not-valid"] {
+            border-color: #b20008;
+        }
+        .form[data-validation-state="valid"] {
+            border-color: #00d44c;
+        }
+
     </style>
 
     <h1>Lin3s Front Foundation</h1>
@@ -133,98 +147,86 @@
             </div>
         </section>
 
-        <section class="form-components" style="position: relative; z-index: 90;">
-            <form action="/" novalidate data-parsley-validate style="border: 1px solid #d1d1d1; padding: 20px 30px; margin-bottom: 30px;">
-                <h2>This is a form integrated component test. It will validate the form using ParsleyJs.</h2>
-                {% include '@lin3s_front_foundation/components/form_group_input.html.twig' with {
-                    input_required: 1,
-                    input_id: 'form-group-input',
-                    input_label_content: 'This is a validation enabled phone input',
-                    input_placeholder: 'Your phone...',
-                    input_type: 'tel',
-                    input_parsley_validation_enabled: 1,
-                    input_parsley_phone_validation_messages: {
-                        en: 'Entered phone is not valid.',
-                        es: 'El teléfono introducido no es válido.',
-                        eu: 'Sartutako telefonoa ez du balio.'
-                    }
-                } %}
-
-                {% include '@lin3s_front_foundation/components/form_group_input.html.twig' with {
-                    input_required: 1,
-                    input_id: 'form-group-input',
-                    input_label_content: 'This is a validation enabled email input',
-                    input_placeholder: 'Your email...',
-                    input_type: 'email',
-                    input_parsley_validation_enabled: 1
-                } %}
-
-                {% include '@lin3s_front_foundation/components/form_group_select.html.twig' with {
-                    select_id: 'form-select-2',
-                    select_required: 1,
-                    select_filter_placeholder: 'Type to filter...',
-                    select_label_content: 'This is the form_group_select\'s label',
-                    select_outside_click_to_close_enabled: 1,
-                    select_parsley_validation_enabled: 1,
-                    select_parsley_validation_messages: {
-                        en: 'Selected option is not valid.',
-                        es: 'La opción seleccionada no es válida.',
-                        eu: 'Hautatutako aukera ez du balio'
-                    },
-                    select_options: [{
-                        value: 0,
-                        label: 'Enero'
-                    }, {
-                        value: 1,
-                        label: 'Febrero'
-                    }, {
-                        value: 2,
-                        label: 'Marzo'
-                    }, {
-                        value: 3,
-                        label: 'Abril'
-                    }, {
-                        value: 4,
-                        label: 'Mayo'
-                    }, {
-                        value: 5,
-                        label: 'Junio'
-                    }, {
-                        value: 6,
-                        label: 'Julio'
-                    }, {
-                        value: 7,
-                        label: 'Agosto'
-                    }, {
-                        value: 8,
-                        label: 'Septiembre'
-                    }, {
-                        value: 9,
-                        label: 'Octubre'
-                    }, {
-                        value: 10,
-                        label: 'Noviembre'
-                    }, {
-                        value: 11,
-                        label: 'Diciembre'
-                    }]
-                } %}
-
-                <input type="submit" value="Submit!"/>
-            </form>
-        </section>
-
         <section class="react-components" style="position: relative; z-index: 80;">
             <div class="form-select-mount-node"></div>
         </section>
 
         <section class="form-components" style="position: relative; z-index: 70;">
-            <form action="/" novalidate data-parsley-validate style="border: 1px solid #d1d1d1; padding: 20px 30px; margin-bottom: 30px;">
+            <form action="/" class="form" novalidate data-validate>
                 <div class="form-phone-mount-node"></div>
                 <div class="form-email-mount-node"></div>
                 <div class="form-select-mount-node"></div>
 
                 <input type="submit" value="Submit!"/>
+            </form>
+        </section>
+
+        <section class="form-components" style="position: relative; z-index: 60;">
+            <form class="form" novalidate data-validate>
+                <h2>Form Validator</h2>
+                <h3>This is a form integrated component test. It will validate the form using the <i>FormValidator</i> library.</h3>
+
+                {% import '@lin3s_front_foundation/macro/validation_patterns.html.twig' as validation_patterns %}
+
+                {% include '@lin3s_front_foundation/components/form_group_input.html.twig' with {
+                    input_id: 'email',
+                    input_label_content: 'Email',
+                    input_type: 'email',
+                    input_validate: 1,
+                    input_validation_pattern: validation_patterns.email(),
+                    input_required: 1,
+                    input_placeholder: 'Enter an email...',
+                    input_errors: [{
+                        content: 'This field is required.',
+                        modifiers: 'form-error--not-filled',
+                    }, {
+                        content: 'Entered email does not match the required pattern.',
+                        modifiers: 'form-error--not-valid',
+                    }]
+                } %}
+
+                {% include '@lin3s_front_foundation/components/form_group_input.html.twig' with {
+                    input_id: 'phone',
+                    input_label_content: 'Phone',
+                    input_type: 'tel',
+                    input_validate: 1,
+                    input_validation_pattern: validation_patterns.phone(),
+                    input_required: 1,
+                    input_placeholder: 'Enter a 9 digit phone...',
+                    input_errors: [{
+                        content: 'This field is required.',
+                        modifiers: 'form-error--not-filled',
+                    }, {
+                        content: 'Entered phone does not match the required pattern.',
+                        modifiers: 'form-error--not-valid',
+                    }]
+                } %}
+
+                {% include '@lin3s_front_foundation/components/form_group_select.html.twig' with {
+                    select_id: 'genre',
+                    select_filter_placeholder: 'Type to filter...',
+                    select_label_content: 'Genre',
+                    select_outside_click_to_close_enabled: 1,
+                    select_options: [{
+                        value: 0,
+                        label: 'Male'
+                    }, {
+                        value: 1,
+                        label: 'Female'
+                    }],
+                    select_validate: 1,
+                    select_required: 1,
+                    select_validation_pattern: validation_patterns.not_value('--'),
+                    select_errors: [{
+                        content: 'This field is required.',
+                        modifiers: 'form-error--not-filled',
+                    }, {
+                        content: 'The selection option is not valid.',
+                        modifiers: 'form-error--not-valid',
+                    }]
+                } %}
+
+                <input type="submit" value="submit"/>
             </form>
         </section>
     </main>

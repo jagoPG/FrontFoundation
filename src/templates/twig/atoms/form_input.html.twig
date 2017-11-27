@@ -18,6 +18,10 @@
     @param input_placeholder                        string*
     @param input_id                                 string=null
     @param input_required                           bool=false
+
+    @param input_validate                           bool=false
+    @param input_validation_pattern                 string=null
+
     @param input_parsley_phone_validation_messages  array=null
     @param input_parsley_validation_enabled         bool=false
 
@@ -29,7 +33,5 @@
 type="{{ input_type|default('text') }}" placeholder="{{ input_placeholder }}" autocomplete="off"
 {% if input_id|default %}id="{{ input_id }}" name="{{ input_id }}"{% endif %}
 {% if input_required|default %} required{% endif %}
-{% if input_type == 'tel' and input_parsley_validation_enabled %}
-    data-parsley-phone
-    data-parsley-phone-validation-messages={{ input_parsley_phone_validation_messages|json_encode }}
-{% endif %}/>
+{% if input_validate|default %} data-validate{% endif %}
+{% if input_validation_pattern|default %} data-validation-pattern="{{- input_validation_pattern -}}"{% endif %}/>

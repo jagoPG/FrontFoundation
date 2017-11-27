@@ -6,7 +6,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @author Beñat Espiña <benatespina@gmail.com>
+ * @author Mikel Tuesta <mikeltuesta@gmail.com>
  */
 
 import debounce from 'lodash.debounce';
@@ -15,11 +15,10 @@ import {getHtmlLang} from './../../../../dom';
 import FormSelectInitializedEvent from './../../../../event-bus/FormSelect/FormSelectInitializedEvent';
 import FormSelectOptionSelectedEvent from './../../../../event-bus/FormSelect/FormSelectOptionSelectedEvent';
 import FormSelectStateChangedEvent from './../../../../event-bus/FormSelect/FormSelectStateChangedEvent';
-import {defaultValueValidator} from '../../../../parsley/validators';
-import isDomNodeDescendantOfDomNode from '../../../../dom/isDomNodeDescendantOfDomNode';
 import addSelectorFilteredEventListener from '../../../../dom/addSelectorFilteredEventListener';
 import getDomNodeIndex from '../../../../dom/getDomNodeIndex';
 import removeDomNodes from '../../../../dom/removeDomNodes';
+import dispatchNativeEvent from '../../../../dom/dispatchNativeEvent';
 
 const renderSelectOption = (optionValue, optionLabel) => {
     const option = document.createElement('option');
@@ -45,26 +44,6 @@ class FormSelect {
     CLOSED: 'CLOSED'
   };
 
-  windowWidth;
-  maxHeightMobile;
-  maxHeightDesktop;
-  mobileBreakpoint;
-  mouseOverListenerEnabled;
-
-  domNode;
-  select;
-  selectOptions;
-  selectOptionsContainer;
-  selectLabel;
-  filterInput;
-  options;
-  opened;
-  focused;
-  enabled;
-  selectedOptionLabel;
-  selectedOptionValue;
-  keyboardControlledSelectedOptionIndex = -1;
-
   constructor(domNode) {
     this.domNode = domNode;
     this.opened = this.domNode.classList.contains('form-select--opened');
@@ -77,6 +56,7 @@ class FormSelect {
     this.filterBy = this.domNode.dataset.filterOrderBy;
     this.mobileBreakpoint = parseInt(this.domNode.dataset.mobileBreakpoint, 10);
     this.mouseOverListenerEnabled = true;
+    this.keyboardControlledSelectedOptionIndex = -1;
 
     if (this.isFilterable) {
       this.filterInput = this.domNode.querySelector('.form-select__input');
@@ -89,41 +69,12 @@ class FormSelect {
 
     this.debouncedFilter = debounce(() => this.filter(), 500);
 
-    this.needsParsleyValidation = this.needsValidation();
-
-    this.addParsleyValidator();
     this.parseSelectOptions();
     this.bindListeners();
     this.setSelectOpened(this.opened);
     this.setInitiallySelectedOption();
 
     this.publishFormSelectInitializedEvent();
-  }
-
-  needsValidation() {
-    const hasParsleyValidateParentForm = Array.from(document.querySelectorAll('form[data-parsley-validate]')).some(
-      form => isDomNodeDescendantOfDomNode(this.domNode, form)
-    );
-
-    return hasParsleyValidateParentForm || this.domNode.getAttribute('data-parsley-validation-enabled');
-  }
-
-  addParsleyValidator() {
-    if (!this.needsParsleyValidation) {
-      return;
-    }
-
-    const validatorName = 'notDefaultOption';
-
-    if (window.Parsley.hasValidator(validatorName)) {
-      return;
-    }
-
-    const
-      noSelectionValue = this.domNode.querySelector('.form-select__select-no-selection').value,
-      parsleyValidationMessages = JSON.parse(this.domNode.getAttribute('data-parsley-validation-messages'));
-
-    window.Parsley.addValidator(validatorName, defaultValueValidator(noSelectionValue, parsleyValidationMessages));
   }
 
   parseSelectOptions() {
@@ -175,7 +126,10 @@ class FormSelect {
 
     window.addEventListener('click', this.close.bind(this));
 
-    this.domNode.addEventListener('focus', () => this.setSelectFocused(true));
+    this.domNode.addEventListener('focus', () => {
+      this.open();
+      this.setSelectFocused(true);
+    });
 
     this.domNode.addEventListener('click', event => {
       event.stopPropagation();
@@ -183,29 +137,36 @@ class FormSelect {
       this.setSelectOpened(!this.opened);
     });
 
-    addSelectorFilteredEventListener(this.domNode, 'click', '.form-select__option', event =>
-      this.setSelectedOption(event.target));
+    addSelectorFilteredEventListener(this.domNode, 'click', '.form-select__option', this.onClick.bind(this));
 
-    addSelectorFilteredEventListener(this.domNode, 'mouseover', '.form-select__option', event => {
-      if (!this.mouseOverListenerEnabled) {
-        return;
-      }
+    addSelectorFilteredEventListener(this.domNode, 'mouseover', '.form-select__option', this.onMouseOver.bind(this));
 
-      this.setKeyboardControlledSelectedOptionView(
-        this.domNode.querySelectorAll('.form-select__option'),
-        event.currentTarget
-      );
-
-      this.keyboardControlledSelectedOptionIndex = getDomNodeIndex(event.currentTarget);
-    });
-
-    addSelectorFilteredEventListener(this.domNode, 'mousemove', '.form-select__option', () => {
-      this.mouseOverListenerEnabled = true;
-    });
+    addSelectorFilteredEventListener(this.domNode, 'mousemove', '.form-select__option', this.onMouseMove.bind(this));
 
     this.domNode.addEventListener('keydown', this.onKeyDown.bind(this));
 
     onWindowResized(this.onResize.bind(this));
+  }
+
+  onClick(event) {
+    this.setSelectedOption(event.target);
+  }
+
+  onMouseOver(event) {
+    if (!this.mouseOverListenerEnabled) {
+      return;
+    }
+
+    this.setKeyboardControlledSelectedOptionView(
+      this.domNode.querySelectorAll('.form-select__option'),
+      event.target
+    );
+
+    this.keyboardControlledSelectedOptionIndex = getDomNodeIndex(event.target);
+  }
+
+  onMouseMove(event) {
+    this.mouseOverListenerEnabled = true;
   }
 
   onKeyDown(event) {
@@ -294,7 +255,9 @@ class FormSelect {
     this.setSelectFocused(false);
 
     if (this.isFilterable) {
-      this.filterInput.focus();
+      setTimeout(() => {
+        this.filterInput.focus();
+      }, 100);
     }
   }
 
@@ -335,10 +298,6 @@ class FormSelect {
     this.selectedOptionLabel = optionLabel;
     this.selectedOptionValue = optionValue;
 
-    if (this.needsParsleyValidation) {
-//      $(this.select).parsley().validate();
-    }
-
     if ((this.selectedOptionLabel !== undefined || this.selectedOptionValue !== undefined) && publishEvent) {
       this.publishFormSelectOptionSelectedEvent(value);
     }
@@ -346,6 +305,8 @@ class FormSelect {
 
   setSelectValue(value) {
     this.select.value = value;
+
+    dispatchNativeEvent(this.select, 'input');
   }
 
   setSelectLabelValue(value) {
@@ -410,8 +371,8 @@ class FormSelect {
     // Remove unnecessary ones
     this.options.forEach(option => {
       if (filteredOptions.indexOf(option) === -1) {
-        const option = this.selectOptions.querySelector(`[data-value="${option.value}"]`);
-        removeDomNodes(option);
+        const optionView = this.selectOptions.querySelectorAll(`[data-value="${option.value}"]`);
+        removeDomNodes(optionView);
       }
     });
 
@@ -419,10 +380,10 @@ class FormSelect {
     filteredOptions.forEach(filteredOption => {
       const selectOption = this.domNode.querySelector(`.form-select__option[data-value="${filteredOption.value}"]`);
 
-      if (selectOption !== undefined) {
+      if (selectOption === null) {
         // Find place to inject
         const
-          currentSelectOptionViews = Array.from(this.domNode.querySelectorAll('.form-select__option:not(:first)')),
+          currentSelectOptionViews = Array.from(this.domNode.querySelectorAll('.form-select__option + .form-select__option')), // eslint-disable-line max-len
           newSelectOption = renderSelectOption(filteredOption.value, filteredOption.label),
           newSelectOptionView = renderSelectOptionView(filteredOption.value, filteredOption.label);
         let
@@ -448,7 +409,7 @@ class FormSelect {
 
         if (found) {
           Array.from(this.select.querySelectorAll('option'))[index].insertAdjacentHTML('beforebegin', newSelectOption);
-          Array.from(this.domNode.querySelectorAll('.form-select__option'))[index]
+          Array.from(this.domNode.querySelector('.form-select__option'))[index]
             .insertAdjacentHTML('beforebegin', newSelectOptionView);
         } else {
           this.select.appendChild(newSelectOption);

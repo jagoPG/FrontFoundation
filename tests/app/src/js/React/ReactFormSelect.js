@@ -11,14 +11,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Ui} from 'lin3s-front-foundation';
-import isDomNodeDescendantOfDomNode from '../../../../../src/js/dom/isDomNodeDescendantOfDomNode';
-
-const defaultValueMessages = {
-  en: 'The selected option is the default one',
-  es: 'La opción seleccionada es la opción por defecto',
-  eu: 'Hautatutako aukera lehenetsiko aukera da'
-};
+import {Ui, FormValidator} from 'lin3s-front-foundation';
 
 class ReactFormSelect extends React.Component {
 
@@ -64,10 +57,6 @@ class ReactFormSelect extends React.Component {
   render() {
     const {filterValue, filteredOptions} = this.state;
 
-    const parsleyValidateParentForm = Array.from(document.querySelectorAll('form[data-parsley-validate]')).find(
-      form => isDomNodeDescendantOfDomNode(this.props.domNode, form)
-    );
-
     return <Ui.React.FormGroupSelect
       enabled={true}
       filterValue={filterValue}
@@ -79,12 +68,12 @@ class ReactFormSelect extends React.Component {
       onOptionSelected={this.onFormSelectOptionSelected}
       options={filteredOptions}
       outsideClickToCloseEnabled={true}
-      parsleyValidationDefaultValueMessages={defaultValueMessages}
-      parsleyValidationEnabled={true}
-      parsleyValidationForm={parsleyValidateParentForm}
-      parsleyValidationNotValidValue="--"
       renderFormInput={true}
-      required={true}/>;
+      required={true}
+      validationEnabled={true}
+      validationMessageNotValid="Selected option is not valid"
+      validationMessageRequired="This field is required"
+      validationPattern={FormValidator.Patterns.notValue('--')}/>;
   }
 }
 

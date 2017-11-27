@@ -1,12 +1,12 @@
 /*
- * This file is part of the Euskaltel project.
+ * This file is part of the Front Foundation package.
  *
- * Copyright (c) 2017 LIN3S <info@lin3s.com>
+ * Copyright (c) 2017-present LIN3S <info@lin3s.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @author Mikel Tuesta <mikel@lin3s.com>
+ * @author Mikel Tuesta <mikeltuesta@gmail.com>
  */
 
 import React from 'react';
@@ -30,10 +30,11 @@ class FormGroupSelect extends React.Component {
       value: PropTypes.string
     })),
     outsideClickToCloseEnabled: PropTypes.bool,
-    parsleyValidationDefaultValueMessages: PropTypes.object,
-    parsleyValidationEnabled: PropTypes.bool,
-    parsleyValidationNotValidValue: PropTypes.string,
-    required: PropTypes.bool
+    required: PropTypes.bool,
+    validationEnabled: PropTypes.bool,
+    validationPattern: PropTypes.string,
+    validationMessageRequired: PropTypes.string,
+    validationMessageNotValid: PropTypes.string
   };
 
   static defaultProps = {
@@ -42,10 +43,11 @@ class FormGroupSelect extends React.Component {
     filterable: false,
     loading: false,
     outsideClickToCloseEnabled: true,
-    parsleyValidationDefaultValueMessages: undefined,
-    parsleyValidationEnabled: false,
-    parsleyValidationNotValidValue: '',
-    required: false
+    required: false,
+    validationEnabled: false,
+    validationMessageRequired: '',
+    validationMessageNotValid: '',
+    validationPattern: ''
   };
 
   constructor(props) {
@@ -53,7 +55,7 @@ class FormGroupSelect extends React.Component {
   }
 
   render() {
-    const {label, id, required} = this.props;
+    const {label, id, required, validationMessageRequired, validationMessageNotValid} = this.props;
 
     return (
       <div className="form-group-select">
@@ -67,6 +69,10 @@ class FormGroupSelect extends React.Component {
         <ResizeAware render={(props) =>
           <FormSelect windowHeight={props.windowHeight} windowWidth={props.windowWidth} {...this.props} />
         } />
+        <div className="form-group-input__errors">
+          <p className="form-error form-error--not-filled">{validationMessageRequired}</p>
+          <p className="form-error form-error--not-valid">{validationMessageNotValid}</p>
+        </div>
       </div>
     );
   }

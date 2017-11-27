@@ -9,60 +9,38 @@
  * @author Mikel Tuesta <mikel@gmail.com>
  */
 
-//import $ from 'jquery';
 import React from 'react';
 import PropTypes from 'prop-types';
-import {phoneValidator} from './../../../../parsley/validators';
 
-class FormGroup extends React.Component {
+class FormGroup extends React.PureComponent {
 
   static propTypes = {
     id: PropTypes.string.isRequired,
     label: PropTypes.string.isRequired,
     onChanged: PropTypes.func,
-    parsleyValidationEnabled: PropTypes.bool,
-    parsleyValidationForm: PropTypes.any,
-    parsleyValidationPhoneMessages: PropTypes.object,
+    validationEnabled: PropTypes.bool,
+    validationPattern: PropTypes.string,
+    validationMessageRequired: PropTypes.string,
+    validationMessageNotValid: PropTypes.string,
     required: PropTypes.bool,
     type: PropTypes.string,
   };
 
   static defaultProps = {
     onChanged: () => {},
-    parsleyValidationEnabled: false,
-    parsleyValidationForm: undefined,
-    parsleyValidationPhoneMessages: undefined,
     required: false,
-    type: 'text'
+    type: 'text',
+    validationEnabled: false,
+    validationMessageRequired: '',
+    validationMessageNotValid: '',
+    validationPattern: '',
   };
 
   constructor(props) {
     super(props);
 
-    this.state = {
-      touched: false
-    };
-
-    this.addParsleyValidator();
-
     // bre-bind method's context
     this.onInputChange = this.onInputChange.bind(this);
-    this.onInputFocus = this.onInputFocus.bind(this);
-    this.onParentFormSubmit = this.onParentFormSubmit.bind(this);
-  }
-
-  addParsleyValidator() {
-    if (!this.props.parsleyValidationEnabled || this.props.type !== 'tel') {
-      return;
-    }
-
-    const PHONE_VALUE_VALIDATOR = 'phone';
-
-    if (window.Parsley.hasValidator(PHONE_VALUE_VALIDATOR)) {
-      return;
-    }
-
-    window.Parsley.addValidator(PHONE_VALUE_VALIDATOR, phoneValidator(this.props.parsleyValidationPhoneMessages));
   }
 
   onInputChange(event) {
@@ -70,44 +48,17 @@ class FormGroup extends React.Component {
     this.props.onChanged(event.target.value);
   }
 
-  onInputFocus() {
-    this.setState({
-      touched: true
-    });
-  }
-
-  validate() {
-//    return $(this.input).parsley().validate();
-  }
-
-  onParentFormSubmit(event) {
-    if (this.validate() !== true) {
-      event.preventDefault();
-    }
-  }
-
-  componentDidUpdate() {
-    if (this.state.touched) {
-      this.validate();
-    }
-  }
-
-  componentDidMount() {
-    if (this.props.parsleyValidationForm !== undefined) {
-      this.props.parsleyValidationForm.addEventListener('submit', this.onParentFormSubmit);
-    }
-  }
-
-  componentWillUnmount() {
-    if (this.props.parsleyValidationForm !== undefined) {
-      this.props.parsleyValidationForm.removeEventListener('submit', this.onParentFormSubmit);
-    }
-  }
-
   render() {
-    const {id, label, required, type, parsleyValidationEnabled} = this.props;
-
-    const needsPhoneValidation = parsleyValidationEnabled && type === 'tel' ? true : null;
+    const {
+      id,
+      label,
+      required,
+      type,
+      validationEnabled,
+      validationPattern,
+      validationMessageRequired,
+      validationMessageNotValid
+    } = this.props;
 
     return (<div className="form-group-input">
       <div className="form-group-input__label">
@@ -119,7 +70,8 @@ class FormGroup extends React.Component {
       <input
         autoComplete="off"
         className="form-input"
-        data-parsley-phone={needsPhoneValidation}
+        data-validate={validationEnabled ? true : null}
+        data-validation-pattern={validationEnabled ? validationPattern : null}
         id={id}
         name={id}
         onChange={this.onInputChange}
@@ -130,6 +82,10 @@ class FormGroup extends React.Component {
         }}
         required={required}
         type={type} />
+      <div className="form-group-input__errors">
+        <p className="form-error form-error--not-filled">{validationMessageRequired}</p>
+        <p className="form-error form-error--not-valid">{validationMessageNotValid}</p>
+      </div>
     </div>);
   }
 

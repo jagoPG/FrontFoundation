@@ -13,13 +13,14 @@
     This component will display a form group composed by an @atoms/form_label, an @atom/form_select and an
     @atoms/form_error.
 
-    @param select_required                          bool=false
     @param select_id                                string=*
     @param select_outside_click_to_close_enabled    bool=true
     @param select_label_modifiers                   array|string=null
     @param select_label_content                     html=null
-    @param select_error_content                     string=null
-    @param select_error_modifiers                   array|string=null
+    @param select_label_class_name                  string=null
+    @param input_errors                             array=null
+        - content                                   string=null
+        - modifiers                                 array|string=null
     @param select_select_modifiers                  string=null
     @param select_no_selection_label                string="--"
     @param select_no_selection_value                string="--"
@@ -33,8 +34,10 @@
     @param select_filter_placeholder                string=null
     @param select_filter_order_by                   string='value' (or 'label')
     @param select_mobile_breakpoint                 int=1024
-    @param select_parsley_validation_enabled        bool=false
-    @param select_parsley_validation_messages       array=null
+    @param select_required                          bool=false
+    @param select_required                          bool=false
+    @param select_validate                          bool=false
+    @param select_validation_pattern                string=null
 #}
 
 {% set select_no_selection_label = select_no_selection_label|default('--') %}
@@ -47,6 +50,7 @@
             {% include '@lin3s_front_foundation/atoms/form_label.html.twig' with {
                 label_for: select_id,
                 label_required: select_required,
+                label_class_name: select_label_class_name,
                 label_modifiers: select_label_modifiers,
                 label_content: select_label_content
             } %}
@@ -56,7 +60,6 @@
     {% include '@lin3s_front_foundation/atoms/form_select.html.twig' with {
         select_id: select_id,
         select_modifiers: select_select_modifiers,
-        select_required: select_required,
         select_no_selection_label: select_no_selection_label,
         select_no_selection_value: select_no_selection_value,
         select_options: select_options,
@@ -67,16 +70,19 @@
         select_filter_order_by: select_filter_order_by,
         select_mobile_breakpoint: select_mobile_breakpoint|default(1024),
         select_outside_click_to_close_enabled: select_outside_click_to_close_enabled|default(1),
-        select_parsley_validation_enabled: select_parsley_validation_enabled|default(0),
-        select_parsley_validation_messages: select_parsley_validation_messages
+        select_required: select_required,
+        select_validate: select_validate,
+        select_validation_pattern: select_validation_pattern
     } %}
 
-    {% if select_error_content|default %}
-        <div class="form-group-select__error">
-            {% include '@lin3s_front_foundation/atoms/form_error.html.twig' with {
-                error_content: select_error_content,
-                error_modifiers: select_error_modifiers
-            } %}
+    {% if select_errors|default %}
+        <div class="form-group-select__errors">
+            {% for error in select_errors %}
+                {% include '@lin3s_front_foundation/atoms/form_error.html.twig' with {
+                    error_content: error.content,
+                    error_modifiers: error.modifiers
+                } %}
+            {% endfor %}
         </div>
     {% endif %}
 </div>

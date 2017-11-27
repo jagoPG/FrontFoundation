@@ -11,8 +11,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Ui} from 'lin3s-front-foundation';
-import isDomNodeDescendantOfDomNode from '../../../../../src/js/dom/isDomNodeDescendantOfDomNode';
+import {Ui, FormValidator} from 'lin3s-front-foundation';
 
 class ReactEmailInput extends React.PureComponent {
 
@@ -21,17 +20,15 @@ class ReactEmailInput extends React.PureComponent {
   };
 
   render() {
-    const parsleyValidateParentForm = Array.from(document.querySelectorAll('form[data-parsley-validate]')).find(
-      form => isDomNodeDescendantOfDomNode(this.props.domNode, form)
-    );
-
     return <Ui.React.FormGroupInput
       id="react-form-group-input-email"
       label="Email:"
-      parsleyValidationEnabled={true}
-      parsleyValidationForm={parsleyValidateParentForm}
       required={true}
-      type="email"/>;
+      type="email"
+      validationEnabled={true}
+      validationMessageNotValid="The entered email is not valid"
+      validationMessageRequired="This field is required"
+      validationPattern={FormValidator.Patterns.email}/>;
   }
 }
 

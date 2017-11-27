@@ -9,17 +9,4 @@
  * @author Mikel Tuesta <mikeltuesta@gmail.com>
  */
 
-class FormInput {
-
-  domNode;
-
-  constructor(domNode) {
-    this.domNode = domNode;
-
-    this.domNode.addEventListener('focus', () => {
-      this.domNode.focus();
-    });
-  }
-}
-
-export default FormInput;
+import './classListToggle';

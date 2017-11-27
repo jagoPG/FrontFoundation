@@ -6,14 +6,24 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @author Beñat Espiña <benatespina@gmail.com>
  * @author Mikel Tuesta <mikeltuesta@gmail.com>
  */
 
-import * as React from './react/index';
-import * as Vanilla from './vanilla/index';
+const STATE = {
+  NOT_VALIDATED: 0,
+  NOT_FILLED: 1,
+  NOT_VALID: 2,
+  VALID: 3
+};
+
+const STATE_DATA_ATTRIBUTE_VALUE = {
+  [STATE.NOT_VALIDATED]: 'not-validated',
+  [STATE.NOT_FILLED]: 'not-filled',
+  [STATE.NOT_VALID]: 'not-valid',
+  [STATE.VALID]: 'valid',
+};
 
 export {
-  React,
-  Vanilla
+  STATE,
+  STATE_DATA_ATTRIBUTE_VALUE
 };

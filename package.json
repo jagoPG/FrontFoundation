@@ -25,10 +25,10 @@
     "eslint": "node_modules/.bin/eslint src/js/**/*.js",
     "stylelint": "node_modules/.bin/stylelint src/scss/**/*.scss",
     "cs": "yarn eslint && yarn stylelint",
-    "js-bundle": "node_modules/.bin/babel --copy-files --out-dir dist/js src/js",
     "webpack-config-bundle": "node_modules/.bin/babel --copy-files --out-dir config src/config/webpack",
+    "js-bundle": "cp -R src/js dist",
     "styles-bundle": "cp -R src/scss dist",
-    "build": "yarn prebuild && yarn cs && yarn js-bundle && yarn styles-bundle && yarn webpack-config-bundle"
+    "build": "yarn prebuild && mkdirp dist && yarn cs && yarn styles-bundle && yarn js-bundle && yarn webpack-config-bundle"
   },
   "babel": {
     "presets": [

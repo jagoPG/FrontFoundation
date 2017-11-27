@@ -10,6 +10,7 @@
  */
 
 import {Webpack} from 'lin3s-distribution';
+import UglifyJsPlugin from 'uglifyjs-webpack-plugin';
 import parsleyWebpackContextReplacementPlugin from 'lin3s-front-foundation/config/parsleyWebpackContextReplacementPlugin';
 
 const options = {
@@ -18,7 +19,8 @@ const options = {
   },
   input: {
     base: '',
-    scss: `scss`
+    scss: `scss`,
+    includedNodeModules: ['lin3s-front-foundation']
   },
   output: {
     jsPath: './dist',
@@ -38,7 +40,13 @@ const options = {
 };
 
 const plugins = [
-  parsleyWebpackContextReplacementPlugin(['es', 'en'])
+  parsleyWebpackContextReplacementPlugin(['es']),
+  new UglifyJsPlugin({
+    test: /\.jsx?$/,
+    cache: true,
+    parallel: true,
+    sourceMap: true
+  })
 ];
 
-export default Webpack(options, plugins);
+export default Webpack(options);

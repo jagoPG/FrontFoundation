@@ -11,14 +11,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Ui} from 'lin3s-front-foundation';
-import isDomNodeDescendantOfDomNode from '../../../../../src/js/dom/isDomNodeDescendantOfDomNode';
-
-const notValidPhoneMessages = {
-  en: 'Entered phone is not valid.',
-  es: 'El teléfono introducido no es válido.',
-  eu: 'Sartutako telefonoa ez du balio'
-};
+import {Ui, FormValidator} from 'lin3s-front-foundation';
 
 class ReactFormInput extends React.PureComponent {
 
@@ -27,18 +20,15 @@ class ReactFormInput extends React.PureComponent {
   };
 
   render() {
-    const parsleyValidateParentForm = Array.from(document.querySelectorAll('form[data-parsley-validate]')).find(
-      form => isDomNodeDescendantOfDomNode(this.props.domNode, form)
-    );
-
     return <Ui.React.FormGroupInput
       id="react-form-group-input-phone"
       label="Phone:"
-      parsleyValidationEnabled={true}
-      parsleyValidationForm={parsleyValidateParentForm}
-      parsleyValidationPhoneMessages={notValidPhoneMessages}
       required={true}
-      type="tel"/>;
+      type="tel"
+      validationEnabled={true}
+      validationMessageNotValid="The entered phone is not valid"
+      validationMessageRequired="This field is required"
+      validationPattern={FormValidator.Patterns.phone}/>;
   }
 }
 

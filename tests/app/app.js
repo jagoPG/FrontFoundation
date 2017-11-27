@@ -11,23 +11,23 @@
 
 //import 'parsleyjs';
 import {
-  Parsley,
   Async,
   Browser,
-  Dom
+  Dom,
+  FormValidator
 } from 'lin3s-front-foundation';
 import {onDomReady} from 'lin3s-event-bus';
 
 import './src/js/GMapGeocoderDemo';
 import './src/js/FormSelectDemo';
-//import './src/js/React/init';
+import './src/js/React/init';
 
 import './app.scss';
 
-const testParsleySetLocale = () => {
-  console.log('Testing Parsley.setLocale');
-  Parsley.setLocale('es');
-};
+FormValidator.init({
+  formSelector: 'form',
+  formElementSelector: 'input, select, textarea'
+});
 
 const testAsyncCancelablePromise = () => {
   console.log('Testing Promise.cancelablePromise');
@@ -96,7 +96,7 @@ const testDomWaitImagesLoadInDomNode = () => {
 };
 
 const onReady = () => {
-  testParsleySetLocale();
+//  testParsleySetLocale();
   testAsyncCancelablePromise();
   testBrowserIsIE11();
   testDomLoadScript();

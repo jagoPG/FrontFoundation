@@ -1,19 +1,19 @@
 /*
- * This file is part of the Euskaltel project.
+ * This file is part of the Front Foundation package.
  *
- * Copyright (c) 2017 LIN3S <info@lin3s.com>
+ * Copyright (c) 2017-present LIN3S <info@lin3s.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @author Mikel Tuesta <mikel@lin3s.com>
+ * @author Mikel Tuesta <mikeltuesta@gmail.com>
  */
 
 import React from 'react';
 import PropTypes from 'prop-types';
 import ArrowDown from './../../svg/ArrowDown';
 import Loader from './../Loader/Loader';
-import {defaultValueValidator} from './../../../../parsley/validators';
+import dispatchNativeEvent from '../../../../dom/dispatchNativeEvent';
 
 const isMobile = viewportWidth => {
   return viewportWidth < 1024;
@@ -38,10 +38,8 @@ class FormSelect extends React.Component {
       value: PropTypes.string
     })),
     outsideClickToCloseEnabled: PropTypes.bool,
-    parsleyValidationDefaultValueMessages: PropTypes.object,
-    parsleyValidationEnabled: PropTypes.bool,
-    parsleyValidationForm: PropTypes.any,
-    parsleyValidationNotValidValue: PropTypes.string,
+    validationEnabled: PropTypes.bool,
+    validationPattern: PropTypes.string,
     required: PropTypes.bool
   };
 
@@ -52,10 +50,8 @@ class FormSelect extends React.Component {
     loading: false,
     onInputChanged: () => {},
     outsideClickToCloseEnabled: true,
-    parsleyValidationDefaultValueMessages: undefined,
-    parsleyValidationEnabled: false,
-    parsleyValidationForm: undefined,
-    parsleyValidationNotValidValue: '',
+    validationEnabled: false,
+    validationPattern: '',
     required: false
   };
 
@@ -75,8 +71,6 @@ class FormSelect extends React.Component {
       mouseOverListenerEnabled: true
     };
 
-    this.addParsleyValidator();
-
     // bre-bind method's context
     this.onFocus = this.onFocus.bind(this);
     this.onBlur = this.onBlur.bind(this);
@@ -86,24 +80,6 @@ class FormSelect extends React.Component {
     this.onInputChange = this.onInputChange.bind(this);
     this.onKeyDown = this.onKeyDown.bind(this);
     this.onOptionMouseMove = this.onOptionMouseMove.bind(this);
-    this.onParentFormSubmit = this.onParentFormSubmit.bind(this);
-  }
-
-  addParsleyValidator() {
-    if (!this.props.parsleyValidationEnabled) {
-      return;
-    }
-
-    const NO_DEFAULT_VALUE_VALIDATOR = 'notDefaultOption';
-
-    if (window.Parsley.hasValidator(NO_DEFAULT_VALUE_VALIDATOR)) {
-      return;
-    }
-
-    window.Parsley.addValidator(
-      NO_DEFAULT_VALUE_VALIDATOR,
-      defaultValueValidator(this.props.parsleyValidationNotValidValue, this.props.parsleyValidationDefaultValueMessages)
-    );
   }
 
   onFocus() {
@@ -281,16 +257,6 @@ class FormSelect extends React.Component {
       !isMobile(windowWidth) && optionsContainerHeight >= FormSelect.OPTIONS_CONTAINER_MAX_HEIGHT_DESKTOP;
   }
 
-  validate() {
-//    return $(this.hiddenInput).parsley().validate();
-  }
-
-  onParentFormSubmit(event) {
-    if (this.validate() !== true) {
-      event.preventDefault();
-    }
-  }
-
   getDangerousHtml(rawHtml) {
     return {__html: rawHtml};
   }
@@ -321,10 +287,6 @@ class FormSelect extends React.Component {
       window.addEventListener('click', () => this.onOutsideClick());
     }
 
-    if (this.props.parsleyValidationForm !== undefined) {
-      this.props.parsleyValidationForm.addEventListener('submit', this.onParentFormSubmit);
-    }
-
     /* eslint-disable react/no-did-mount-set-state */
     this.setState({
       dataRendered: false
@@ -336,23 +298,19 @@ class FormSelect extends React.Component {
     if (this.props.outsideClickToCloseEnabled) {
       window.removeEventListener('click', this.onOutsideClick);
     }
-
-    if (this.props.parsleyValidationForm !== undefined) {
-      this.props.parsleyValidationForm.removeEventListener('submit', this.onParentFormSubmit);
-    }
   }
 
-  componentDidUpdate(prevProps) {
-    if (!this.state.opened && this.state.touched) {
-      this.validate();
-    }
-
+  componentDidUpdate(prevProps, prevState) {
     if (this.props.options !== prevProps.options) {
       /* eslint-disable react/no-did-update-set-state */
       this.setState({
         dataRendered: false
       });
       /* eslint-enable react/no-did-update-set-state */
+    }
+
+    if (prevState.selectedOption !== this.state.selectedOption) {
+      dispatchNativeEvent(this.hiddenInput, 'input');
     }
   }
 
@@ -361,9 +319,21 @@ class FormSelect extends React.Component {
 
     const {dataRendered, editingInput, opened, focused, selectedOption, hoveredOption, mouseOverListenerEnabled}
       = this.state;
-    const {enabled, filterable, filterValue, id, label, loading, options, required} = this.props;
+    const {
+      enabled,
+      filterable,
+      filterValue,
+      id,
+      label,
+      loading,
+      options,
+      required,
+      validationEnabled,
+      validationPattern
+    } = this.props;
     const
-      formSelectClassName = `form-select
+      formSelectBaseClassName = 'form-select',
+      formSelectClassName = `${formSelectBaseClassName}
         ${(opened && enabled) ? ' form-select--opened' : ''}
         ${loading ? ' form-select--loading' : ''}
         ${!enabled ? ' form-select--disabled' : ''}
@@ -429,9 +399,11 @@ class FormSelect extends React.Component {
         <input className="form-select__select"
                id={id}
                name={id}
-               data-parsley-not-default-option
-               ref={input => {
-                 this.hiddenInput = input;
+               data-validate={validationEnabled ? true : null}
+               data-validation-pattern={validationEnabled ? validationPattern : null}
+               data-validation-state-reference-selector={validationEnabled ? `.${formSelectBaseClassName}` : null}
+               ref={ref => {
+                 this.hiddenInput = ref;
                }}
                required={required}
                tabIndex="-1"

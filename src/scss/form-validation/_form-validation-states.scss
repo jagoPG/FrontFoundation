@@ -7,11 +7,9 @@
 //
 // @author Mikel Tuesta <mikeltuesta@gmail.com>
 
-@import './../../_placeholders/form-group';
-@import './../../_mixins/form-validation';
-
-.form-group-select__label {
-  @extend %form-group__label;
+[data-validation-state="not-validated"],
+[data-validation-state="not-filled"],
+[data-validation-state="not-valid"],
+[data-validation-state="valid"] {
+  color: inherit;
 }
-
-@include form_group_validation_errors('.form-group-select__errors');

@@ -14,7 +14,6 @@
 
     @param select_class_name                        string=null
     @param select_id                                string*
-    @param select_required                          bool=false
     @param select_modifiers                         string=null
     @param select_no_selection_label                string="--"
     @param select_no_selection_value                string="--"
@@ -28,8 +27,9 @@
     @param select_filter_placeholder                string=null
     @param select_filter_order_by                   string='value' (or 'label')
     @param select_mobile_breakpoint                 int=1024
-    @param select_parsley_validation_enabled        bool=false
-    @param select_parsley_validation_messages       array=null
+    @param select_required                          bool=false
+    @param select_validate                          bool=false
+    @param select_validation_pattern                string=null
 #}
 
 {% set select_no_selection_label = select_no_selection_label|default('--') %}
@@ -71,8 +71,10 @@
             {% endfor %}
         </div>
     </div>
-    <select class="form-select__select" name="{{ select_id }}" id="{{ select_id }}" {% if select_required|default %} required{% endif %}
-            {% if select_parsley_validation_enabled %}data-parsley-not-default-option="true" data-parsley-trigger="change"{% endif %}>
+    <select class="form-select__select" name="{{ select_id }}" id="{{ select_id }}"
+            {% if select_required|default %} required{% endif %}
+            {% if select_validate|default %} data-validate data-validation-state-reference-selector=".form-select"{% endif %}
+            {% if select_validation_pattern|default %} data-validation-pattern="{{- select_validation_pattern -}}"{% endif %}>
         <option class="form-select__select-no-selection" value="{{ select_no_selection_value }}">
             {{ select_no_selection_label }}
         </option>
