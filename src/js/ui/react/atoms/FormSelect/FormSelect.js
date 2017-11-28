@@ -86,12 +86,16 @@ class FormSelect extends React.Component {
     this.setState({
       focused: true
     });
+
+    this.openSelect();
   }
 
   onBlur() {
     this.setState({
       focused: false
     });
+
+    this.closeSelect();
   }
 
   onInputChange(event) {
