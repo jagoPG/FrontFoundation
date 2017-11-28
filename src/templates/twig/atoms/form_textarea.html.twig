@@ -1,0 +1,34 @@
+{##
+    This file is part of the Front Foundation package.
+
+    Copyright (c) 2017-present LIN3S <info@lin3s.com>
+
+    For the full copyright and license information, please view the LICENSE
+    file that was distributed with this source code.
+
+    @author Mikel Tuesta <mikeltuesta@gmail.com>
+#}
+
+{##
+    This atom will display a form textarea.
+
+    @param textarea_class_name                         string=null
+    @param textarea_modifiers                          string=null
+    @param textarea_placeholder                        string=null
+    @param textarea_id                                 string=null
+    @param textarea_required                           bool=false
+    @param textarea_value                              string=null
+    @param textarea_validate                           bool=false
+    @param textarea_validation_pattern                 string=null
+    @param textarea_validation_type                    string=null
+#}
+
+{% set id = textarea_id|default ? 'id=' ~ textarea_id ~ ' name=' ~ textarea_id %}
+{% set class = 'class="form-textarea js-form-textarea ' ~ textarea_class_name|default ~ ' ' ~ textarea_modifiers|default ~ '"' %}
+{% set placeholder = textarea_placeholder|default ? 'placeholder="' ~ textarea_placeholder ~ '"' %}
+{% set required = textarea_required|default ? 'required' %}
+{% set validation = textarea_validate|default ? 'data-validate' ~ (textarea_validation_pattern|default ? ' data-validation-pattern=' ~ textarea_validation_pattern) ~ (textarea_validation_type|default ? ' data-validate-' ~ textarea_validation_type) %}
+
+<textarea {{ id }} {{ class|raw }} {{ placeholder|raw }} {{ required }} {{ validation }} autocomplete="off">
+    {{- textarea_value|default -}}
+</textarea>

@@ -12,7 +12,7 @@
     } %}
 {% endmacro %}
 
-{% macro requiredAndNot(not_valid_value, id, filter_placeholder, label, options, errors) %}
+{% macro requiredAndNot(id, filter_placeholder, label, not_valid_value, options, errors) %}
     {% include '@lin3s_front_foundation/components/form_group_select.html.twig' with {
         select_id: id,
         select_filter_placeholder: filter_placeholder,

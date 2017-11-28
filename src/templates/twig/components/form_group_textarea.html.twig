@@ -1,0 +1,69 @@
+{##
+    This file is part of the Front Foundation package.
+
+    Copyright (c) 2017-present LIN3S <info@lin3s.com>
+
+    For the full copyright and license information, please view the LICENSE
+    file that was distributed with this source code.
+
+    @author Mikel Tuesta <mikeltuesta@gmail.com>
+#}
+
+{##
+    This componenet will display a form group composed by an @atoms/form_label, an @atom/form_textarea and an
+    @atoms/form_error.
+
+    @param class_name                                   string=null
+    @param textarea_id                                  string=*
+    @param textarea_label_class_name                    string=null
+    @param textarea_label_modifiers                     string=null
+    @param textarea_label_content                       html=null
+    @param textarea_errors                              array=null
+        - content                                       string=null
+        - modifiers                                     array|string=null
+    @param textarea_class_name                          string=null
+    @param textarea_modifiers                           array|string=null
+    @param textarea_placeholder                         string*
+    @param textarea_required                            bool=false
+    @param textarea_validate                            bool=false
+    @param textarea_validation_pattern                  string=null
+    @param textarea_validation_type                     string=null
+#}
+
+{% set class = 'class="form-group-textarea ' ~ class_name|default ~ ' ' ~ modifiers|default ~ '"' %}
+
+<div {{ class|raw }}>
+    {% if textarea_label_content|default %}
+        <div class="form-group-textarea__label">
+            {% include '@lin3s_front_foundation/atoms/form_label.html.twig' with {
+                label_for: textarea_id,
+                label_required: textarea_required|default(0),
+                label_class_name: textarea_label_class_name|default,
+                label_modifiers: textarea_label_modifiers|default,
+                label_content: textarea_label_content
+            } %}
+        </div>
+    {% endif %}
+
+    {% include '@lin3s_front_foundation/atoms/form_textarea.html.twig' with {
+        textarea_id: textarea_id,
+        textarea_class_name: textarea_class_name|default,
+        textarea_modifiers: textarea_modifiers|default,
+        textarea_placeholder: textarea_placeholder,
+        textarea_required: textarea_required|default(0),
+        textarea_validate: textarea_validate|default(0),
+        textarea_validation_pattern: textarea_validation_pattern|default,
+        textarea_validation_type: textarea_validation_type|default
+    } %}
+
+    {% if textarea_errors|default %}
+        <div class="form-group-textarea__errors">
+            {% for error in textarea_errors %}
+                {% include '@lin3s_front_foundation/atoms/form_error.html.twig' with {
+                    error_content: error.content,
+                    error_modifiers: error.modifiers
+                } %}
+            {% endfor %}
+        </div>
+    {% endif %}
+</div>

@@ -14,6 +14,7 @@
     @atoms/form_error.
 
     @param class_name                               string=null
+    @param modifiers                                string=null
     @param input_id                                 string=*
     @param input_label_class_name                   string=null
     @param input_label_modifiers                    string=null
@@ -53,7 +54,7 @@
         input_modifiers: input_modifiers|default,
         input_placeholder: input_placeholder,
         input_required: input_required|default(0),
-        input_validate: 1,
+        input_validate: input_validate|default(0),
         input_validation_pattern: input_validation_pattern|default,
         input_validation_type: input_validation_type|default
     } %}
