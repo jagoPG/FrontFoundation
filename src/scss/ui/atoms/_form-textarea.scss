@@ -22,7 +22,6 @@ $form-textarea-font-size-small: 14px !default;
 $form-textarea-font-weight: normal !default;
 $form-textarea-line-height: 20px !default;
 $form-textarea-line-height-small: 18px !default;
-$form-textarea-min-height: 120px !default;
 
 .form-textarea {
   appearance: none;
@@ -36,8 +35,8 @@ $form-textarea-min-height: 120px !default;
   font-weight: $form-textarea-font-weight;
   line-height: $form-textarea-line-height;
   max-width: 100%;
-  min-height: $form-textarea-min-height;
   padding: 10px 15px;
+  resize: none;
   transition: $form-textarea-transition;
   width: 100%;
 

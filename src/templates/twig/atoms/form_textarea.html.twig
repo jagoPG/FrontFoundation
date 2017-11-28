@@ -12,15 +12,18 @@
 {##
     This atom will display a form textarea.
 
-    @param textarea_class_name                         string=null
-    @param textarea_modifiers                          string=null
-    @param textarea_placeholder                        string=null
-    @param textarea_id                                 string=null
-    @param textarea_required                           bool=false
-    @param textarea_value                              string=null
-    @param textarea_validate                           bool=false
-    @param textarea_validation_pattern                 string=null
-    @param textarea_validation_type                    string=null
+    @param textarea_class_name                  string=null
+    @param textarea_modifiers                   string=null
+    @param textarea_placeholder                 string=null
+    @param textarea_id                          string=null
+    @param textarea_required                    bool=false
+    @param textarea_value                       string=null
+    @param textarea_validate                    bool=false
+    @param textarea_validation_pattern          string=null
+    @param textarea_validation_type             string=null
+    @param textarea_autogrow                    bool=true
+    @param textarea_autogrow_max_lines          number=15
+    @param textarea_initial_rows                number=5
 #}
 
 {% set id = textarea_id|default ? 'id=' ~ textarea_id ~ ' name=' ~ textarea_id %}
@@ -28,7 +31,9 @@
 {% set placeholder = textarea_placeholder|default ? 'placeholder="' ~ textarea_placeholder ~ '"' %}
 {% set required = textarea_required|default ? 'required' %}
 {% set validation = textarea_validate|default ? 'data-validate' ~ (textarea_validation_pattern|default ? ' data-validation-pattern=' ~ textarea_validation_pattern) ~ (textarea_validation_type|default ? ' data-validate-' ~ textarea_validation_type) %}
+{% set autogrow = textarea_autogrow|default(1) ? 'data-autogrow data-autogrow-max-lines=' ~ textarea_autogrow_max_lines|default(15) %}
+{% set rows = 'rows=' ~ textarea_initial_rows|default(5) %}
 
-<textarea {{ id }} {{ class|raw }} {{ placeholder|raw }} {{ required }} {{ validation }} autocomplete="off">
+<textarea {{ id }} {{ class|raw }} {{ placeholder|raw }} {{ autogrow }} {{ rows }} {{ required }} {{ validation }} autocomplete="off">
     {{- textarea_value|default -}}
 </textarea>

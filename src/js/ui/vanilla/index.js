@@ -18,6 +18,7 @@ import FormSelect from './atoms/FormSelect/FormSelect';
 import './components/GMap/init';
 import './atoms/FormSelect/init';
 import './atoms/FormInput/init';
+import './atoms/FormTextarea/init';
 
 export {
   GMap,
