@@ -14,7 +14,11 @@ import isDomNodeDescendantOfDomNode from '../../dom/isDomNodeDescendantOfDomNode
 import FormElementPatternValidator from './FormElementPatternValidator';
 import {STATE} from './FormValidatorState';
 import setDomNodeDataAttributeByValidatorState from '../dom/setDomNodeDataAttributeByValidatorState';
-import {getFormElementValidatorType, VALIDATOR_TYPE} from './FormElementValidatorTypes';
+import {
+  preProcessFormElementValidationPattern,
+  getFormElementValidatorType,
+  VALIDATOR_TYPE
+} from './FormElementValidatorTypes';
 
 class FormValidator {
 
@@ -54,16 +58,12 @@ class FormValidator {
   }
 
   initFormElement(formElementDomNode) {
-    const formElementValidatorType = getFormElementValidatorType(formElementDomNode);
-    let validator;
+    preProcessFormElementValidationPattern(formElementDomNode);
 
-    switch (formElementValidatorType) {
-      case VALIDATOR_TYPE.PATTERN:
-        validator = new FormElementPatternValidator({
-          formElementDomNode,
-          onFormElementStateChangedCallback: this.validateOnFormElementStateChanged
-        });
-        break;
+    const validator = this.getFormElementValidatorInstance(formElementDomNode);
+
+    if (validator === null) {
+      return;
     }
 
     this.formElements.push(validator);
@@ -97,6 +97,20 @@ class FormValidator {
     const isValid = this.formElements.every(formElement => formElement.state === STATE.VALID);
 
     this.setState(isValid ? STATE.VALID : STATE.NOT_VALID);
+  }
+
+  getFormElementValidatorInstance(formElementDomNode) {
+    const formElementValidatorType = getFormElementValidatorType(formElementDomNode);
+
+    switch (formElementValidatorType) {
+      case VALIDATOR_TYPE.PATTERN:
+        return new FormElementPatternValidator({
+          formElementDomNode,
+          onFormElementStateChangedCallback: this.validateOnFormElementStateChanged
+        });
+    }
+
+    return null;
   }
 }
 

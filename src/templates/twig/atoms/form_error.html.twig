@@ -18,8 +18,8 @@
 
 #}
 
-<p class="form-error
-{% if error_class_name|default %} {{ error_class_name }}{% endif %}
-{% if error_modifiers|default %} {{ error_modifiers }}{% endif %}">
+{% set class = 'class="form-error ' ~ error_class_name|default ~ ' ' ~ error_modifiers|default ~ '"' %}
+
+<p {{ class|raw }}>
     {{ error_content|raw }}
 </p>

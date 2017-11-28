@@ -59,10 +59,11 @@ class AbstractFormElementValidator {
 
   validate({isOutsideCalled = true} = {}) {
     const
-      isRequiredAndNotFilled = this.required ? this.formElementDomNode.value === '' : false,
-      isValid = !isRequiredAndNotFilled && this.validateValue(this.formElementDomNode.value);
+      isEmpty = this.formElementDomNode.value === '',
+      isValidValue = this.validateValue(this.formElementDomNode.value),
+      isValid = !this.required && isEmpty || this.required && !isEmpty && isValidValue;
 
-    this.setState(isRequiredAndNotFilled ? STATE.NOT_FILLED : isValid ? STATE.VALID : STATE.NOT_VALID);
+    this.setState(this.required && isEmpty ? STATE.NOT_FILLED : isValid ? STATE.VALID : STATE.NOT_VALID);
 
     if (!isValid && isOutsideCalled) {
       this.focusFormElement();

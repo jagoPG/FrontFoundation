@@ -14,21 +14,19 @@
   ],
   "main": "dist/js/index.js",
   "files": [
-    "config",
     "dist",
     "LICENSE",
     "README.md"
   ],
   "scripts": {
     "phoenix": "rimraf node_modules && yarn install",
-    "prebuild": "rimraf dist && rimraf config",
+    "prebuild": "rimraf dist",
     "eslint": "node_modules/.bin/eslint src/js/**/*.js",
     "stylelint": "node_modules/.bin/stylelint src/scss/**/*.scss",
     "cs": "yarn eslint && yarn stylelint",
-    "webpack-config-bundle": "node_modules/.bin/babel --copy-files --out-dir config src/config/webpack",
     "js-bundle": "cp -R src/js dist",
     "styles-bundle": "cp -R src/scss dist",
-    "build": "yarn prebuild && mkdirp dist && yarn cs && yarn styles-bundle && yarn js-bundle && yarn webpack-config-bundle"
+    "build": "yarn prebuild && mkdirp dist && yarn cs && yarn styles-bundle && yarn js-bundle"
   },
   "babel": {
     "presets": [

@@ -36,17 +36,15 @@
 {% set select_no_selection_value = select_no_selection_value|default('--') %}
 {% set select_filter_order_by = select_filter_order_by|default('value') %}
 
-<div class="form-select js-form-select{% if select_modifiers|default %} {{ select_modifiers }}{% endif %} {{ select_class_name }}"
+{% set class = 'class="form-select js-form-select ' ~ select_class_name|default ~ ' ' ~ select_modifiers|default ~ '"' %}
+
+<div {{ class|raw }}
     data-max-height-mobile="{{ select_max_height_mobile|default(260) }}"
     data-max-height-desktop="{{ select_max_height_desktop|default(420) }}"
     data-filterable="{{ select_is_filterable|default(1) }}"
     data-filter-order-by="{{ select_filter_order_by }}"
     data-mobile-breakpoint="{{ select_mobile_breakpoint|default(1024) }}"
-    tabindex="0"
-    {% if select_parsley_validation_enabled %}
-        data-parsley-validation-enabled="true"
-        data-parsley-validation-messages={{ select_parsley_validation_messages|json_encode }}
-    {% endif %}>
+    tabindex="0">
     <span class="form-select__dropdown-icon">
         {% include '@lin3s_front_foundation/svg/arrows_small_down.svg.twig' %}
     </span>

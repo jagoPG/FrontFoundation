@@ -20,10 +20,10 @@
 
 #}
 
-<label class="form-label
-{% if label_class_name|default %} {{ label_class_name }}{% endif %}
-{% if label_modifiers|default %} {{ label_modifiers }}{% endif %}"
-{% if label_for|default %} for="{{ label_for }}"{% endif %}>
+{% set class = 'class="form-label ' ~ label_class_name|default ~ ' ' ~ label_modifiers|default ~ '"' %}
+{% set for = label_for|default ? 'for=' ~ label_for %}
+
+<label {{ class|raw }} {{ for }}>
     {% if label_required|default(false) %}
         <span class="form-label__required">*</span>
     {% endif %}

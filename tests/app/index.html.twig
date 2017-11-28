@@ -1,3 +1,6 @@
+{% import '@lin3s_front_foundation/components/macro/form_group_inputs.html.twig' as form_group_inputs %}
+{% import '@lin3s_front_foundation/components/macro/form_group_selects.html.twig' as form_group_selects %}
+
 <!doctype html>
 <html lang="es">
 <head>
@@ -166,65 +169,68 @@
                 <h2>Form Validator</h2>
                 <h3>This is a form integrated component test. It will validate the form using the <i>FormValidator</i> library.</h3>
 
-                {% import '@lin3s_front_foundation/macro/validation_patterns.html.twig' as validation_patterns %}
+                {{ form_group_inputs.required('text', 'test', 'Enter your name...', 'Name', [{
+                    content: 'This field is required.',
+                    modifiers: 'form-error--not-filled',
+                }]) }}
 
-                {% include '@lin3s_front_foundation/components/form_group_input.html.twig' with {
-                    input_id: 'email',
-                    input_label_content: 'Email',
-                    input_type: 'email',
-                    input_validate: 1,
-                    input_validation_pattern: validation_patterns.email(),
-                    input_required: 1,
-                    input_placeholder: 'Enter an email...',
-                    input_errors: [{
-                        content: 'This field is required.',
-                        modifiers: 'form-error--not-filled',
-                    }, {
-                        content: 'Entered email does not match the required pattern.',
-                        modifiers: 'form-error--not-valid',
-                    }]
-                } %}
+                {{ form_group_inputs.requiredEmail('email', 'Enter an email...', 'Email', [{
+                    content: 'This field is required.',
+                    modifiers: 'form-error--not-filled',
+                }, {
+                    content: 'Entered email does not match the required pattern.',
+                    modifiers: 'form-error--not-valid',
+                }]) }}
 
-                {% include '@lin3s_front_foundation/components/form_group_input.html.twig' with {
-                    input_id: 'phone',
-                    input_label_content: 'Phone',
-                    input_type: 'tel',
-                    input_validate: 1,
-                    input_validation_pattern: validation_patterns.phone(),
-                    input_required: 1,
-                    input_placeholder: 'Enter a 9 digit phone...',
-                    input_errors: [{
-                        content: 'This field is required.',
-                        modifiers: 'form-error--not-filled',
-                    }, {
-                        content: 'Entered phone does not match the required pattern.',
-                        modifiers: 'form-error--not-valid',
-                    }]
-                } %}
+                {{ form_group_inputs.email('email', 'Enter an email...', 'Email', [{
+                    content: 'Entered email does not match the required pattern.',
+                    modifiers: 'form-error--not-valid',
+                }]) }}
 
-                {% include '@lin3s_front_foundation/components/form_group_select.html.twig' with {
-                    select_id: 'genre',
-                    select_filter_placeholder: 'Type to filter...',
-                    select_label_content: 'Genre',
-                    select_outside_click_to_close_enabled: 1,
-                    select_options: [{
+                {{ form_group_inputs.requiredPhone('phone', 'Enter a 9 digit phone...', 'Phone', [{
+                    content: 'This field is required.',
+                    modifiers: 'form-error--not-filled',
+                }, {
+                    content: 'Entered phone does not match the required pattern.',
+                    modifiers: 'form-error--not-valid',
+                }]) }}
+
+                {{ form_group_inputs.phone('phone', 'Enter a 9 digit phone...', 'Phone', [{
+                    content: 'Entered phone does not match the required pattern.',
+                    modifiers: 'form-error--not-valid',
+                }]) }}
+
+                <div style="position: relative; z-index: 100">
+                    {{ form_group_selects.required('genre', 'Type to filter...', 'Genre', [{
                         value: 0,
                         label: 'Male'
                     }, {
                         value: 1,
                         label: 'Female'
-                    }],
-                    select_validate: 1,
-                    select_required: 1,
-                    select_validation_pattern: validation_patterns.not_value('--'),
-                    select_errors: [{
+                    }], [{
                         content: 'This field is required.',
                         modifiers: 'form-error--not-filled',
                     }, {
                         content: 'The selection option is not valid.',
                         modifiers: 'form-error--not-valid',
-                    }]
-                } %}
+                    }]) }}
+                </div>
+
+                <div style="position: relative; z-index: 90">
+                    {{ form_group_selects.requiredAndNot('--', 'genre', 'Type to filter...', 'Genre (default value not valid)', [{
+                        value: 0,
+                        label: 'Male'
+                    }, {
+                        value: 1,
+                        label: 'Female'
+                    }], [{
+                        content: 'This field is required.',
+                        modifiers: 'form-error--not-filled',
+                    }, {
+                        content: 'The selection option is not valid.',
+                        modifiers: 'form-error--not-valid',
+                    }]) }}
+                </div>
 
                 <input type="submit" value="submit"/>
             </form>

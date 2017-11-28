@@ -11,7 +11,6 @@
 
 import {Webpack} from 'lin3s-distribution';
 import UglifyJsPlugin from 'uglifyjs-webpack-plugin';
-import parsleyWebpackContextReplacementPlugin from 'lin3s-front-foundation/config/parsleyWebpackContextReplacementPlugin';
 
 const options = {
   entry: {
@@ -40,7 +39,6 @@ const options = {
 };
 
 const plugins = [
-  parsleyWebpackContextReplacementPlugin(['es']),
   new UglifyJsPlugin({
     test: /\.jsx?$/,
     cache: true,
