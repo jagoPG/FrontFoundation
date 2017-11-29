@@ -9,22 +9,23 @@
  * @author Mikel Tuesta <mikeltuesta@gmail.com>
  */
 
-import {onDomReady, onNodeAdded} from 'lin3s-event-bus';
 import FormValidator from './FormValidator';
-import getDomNodeValidatorSelector from '../dom/getDomNodeValidatorSelector';
+import getDomNodeValidatorSelector from './../dom/getDomNodeValidatorSelector';
+import onDomReady from './../events/onDomReady';
+import onNodeAdded from './../events/onNodeAdded';
 
 class FormValidators {
 
   constructor({
     formSelector,
     formElementSelector,
-    formValidatorStateBaseClassName,
-    formElementValidatorStateBaseClassName
-  }) {
+    onFormValidationStateChanged = () => {},
+    onFormElementValidationStateChanged = () => {}
+  } = {}) {
     this.formSelector = getDomNodeValidatorSelector(formSelector);
     this.formElementSelector = getDomNodeValidatorSelector(formElementSelector);
-    this.formValidatorStateBaseClassName = formValidatorStateBaseClassName;
-    this.formElementValidatorStateBaseClassName = formElementValidatorStateBaseClassName;
+    this.onFormValidationStateChanged = onFormValidationStateChanged;
+    this.onFormElementValidationStateChanged = onFormElementValidationStateChanged;
 
     this.onDomReady = this.onDomReady.bind(this);
     this.onNodeAdded = this.onNodeAdded.bind(this);
@@ -43,16 +44,16 @@ class FormValidators {
     onNodeAdded(this.formSelector, this.onNodeAdded);
   }
 
-  onNodeAdded(nodeAddedEvent) {
-    nodeAddedEvent.nodes.forEach(this.initFormValidator);
+  onNodeAdded(nodes) {
+    nodes.forEach(this.initFormValidator);
   }
 
   initFormValidator(formDomNode) {
     new FormValidator({
       formDomNode,
       formElementSelector: this.formElementSelector,
-      formValidatorStateBaseClassName: this.formValidatorStateBaseClassName,
-      formElementValidatorStateBaseClassName: this.formElementValidatorStateBaseClassName
+      onFormValidationStateChanged: this.onFormValidationStateChanged,
+      onFormElementValidationStateChanged: this.onFormElementValidationStateChanged
     });
   }
 }
@@ -60,11 +61,11 @@ class FormValidators {
 export default ({
   formSelector,
   formElementSelector,
-  formValidatorStateBaseClassName = 'form',
-  formElementValidatorStateBaseClassName = 'form-element'
+  onFormValidationStateChanged = () => {},
+  onFormElementValidationStateChanged = () => {}
 }) => new FormValidators({
   formSelector,
   formElementSelector,
-  formValidatorStateBaseClassName,
-  formElementValidatorStateBaseClassName
+  onFormValidationStateChanged,
+  onFormElementValidationStateChanged
 });

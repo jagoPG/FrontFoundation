@@ -9,12 +9,13 @@
  * @author Mikel Tuesta <mikeltuesta@gmail.com>
  */
 
-import {onDomReady, onNodeAdded, LifeTimeEventPublisher} from 'lin3s-event-bus';
-import isDomNodeDescendantOfDomNode from '../../dom/isDomNodeDescendantOfDomNode';
+import isDomNodeDescendantOfDomNode from './../../dom/isDomNodeDescendantOfDomNode';
+import onDomReady from './../events/onDomReady';
+import onNodeAdded from './../events/onNodeAdded';
 import FormElementPatternValidator from './../validators/FormElementPatternValidator';
 import FormCheckboxValidator from './../validators/FormCheckboxValidator';
 import {STATE} from './FormValidatorState';
-import setDomNodeDataAttributeByValidatorState from '../dom/setDomNodeDataAttributeByValidatorState';
+import setDomNodeDataAttributeByValidatorState from './../dom/setDomNodeDataAttributeByValidatorState';
 import {
   preProcessFormElementValidationPattern,
   getFormElementValidatorType,
@@ -25,10 +26,14 @@ class FormValidator {
 
   constructor({
     formDomNode,
-    formElementSelector
-  }) {
+    formElementSelector,
+    onFormValidationStateChanged = () => {},
+    onFormElementValidationStateChanged = () => {}
+  } = {}) {
     this.formDomNode = formDomNode;
     this.formElementSelector = formElementSelector;
+    this.onFormValidationStateChanged = onFormValidationStateChanged;
+    this.onFormElementValidationStateChanged = onFormElementValidationStateChanged;
     this.formElements = [];
 
     this.onDomReady = this.onDomReady.bind(this);
@@ -52,8 +57,8 @@ class FormValidator {
     Array.from(this.formDomNode.querySelectorAll(this.formElementSelector)).forEach(this.initFormElement);
   }
 
-  onNodeAdded(onNodeAddedEvent) {
-    Array.from(onNodeAddedEvent.nodes)
+  onNodeAdded(nodes) {
+    Array.from(nodes)
       .filter(node => isDomNodeDescendantOfDomNode(node, this.formDomNode))
       .forEach(formElementNode => this.initFormElement);
   }
@@ -81,23 +86,45 @@ class FormValidator {
   }
 
   setState(newState) {
+    if (this.state === newState) {
+      return;
+    }
+
     this.state = newState;
 
     setDomNodeDataAttributeByValidatorState(this.formDomNode, this.state);
+
+    this.onFormValidationStateChanged(this);
   }
 
   validate() {
-    const isValid = this.formElements.every(formElement => formElement.validate());
+    let firstInvalidInputIndex = -1;
+
+    const isValid = this.formElements.reduce((isValid, formElement, elementIndex) => {
+      const isElementValid = formElement.validate();
+
+      if (isValid && !isElementValid) {
+        firstInvalidInputIndex = elementIndex;
+      }
+
+      return isValid && isElementValid;
+    }, true);
+
+    if (firstInvalidInputIndex !== -1) {
+      this.formElements[firstInvalidInputIndex].focus();
+    }
 
     this.setState(isValid ? STATE.VALID : STATE.NOT_VALID);
 
     return isValid;
   }
 
-  validateOnFormElementStateChanged() {
+  validateOnFormElementStateChanged(formElementValidatorInstance) {
     const isValid = this.formElements.every(formElement => formElement.state === STATE.VALID);
 
     this.setState(isValid ? STATE.VALID : STATE.NOT_VALID);
+
+    this.onFormElementValidationStateChanged(formElementValidatorInstance);
   }
 
   getFormElementValidatorInstance(formElementDomNode) {

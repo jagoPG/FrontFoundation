@@ -10,7 +10,6 @@
  */
 
 import {Webpack} from 'lin3s-distribution';
-import UglifyJsPlugin from 'uglifyjs-webpack-plugin';
 
 const options = {
   entry: {
@@ -38,13 +37,4 @@ const options = {
   }
 };
 
-const plugins = [
-  new UglifyJsPlugin({
-    test: /\.jsx?$/,
-    cache: true,
-    parallel: true,
-    sourceMap: true
-  })
-];
-
-export default Webpack(options, plugins);
+export default Webpack(options);

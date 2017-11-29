@@ -9,6 +9,8 @@
  * @author Mikel Tuesta <mikeltuesta@gmail.com>
  */
 
+import dispatchNativeEvent from '../../../../dom/dispatchNativeEvent';
+
 class FormCheckbox {
 
   domNode;
@@ -18,6 +20,9 @@ class FormCheckbox {
     this.checkboxNode = this.domNode.querySelector('.form-checkbox__check');
 
     this.domNode.addEventListener('keydown', this.onKeyDown.bind(this));
+    this.domNode.addEventListener('focus', () => {
+      this.domNode.focus();
+    });
   }
 
   onKeyDown(event) {
@@ -28,6 +33,8 @@ class FormCheckbox {
     }
 
     this.checkboxNode.checked = !this.checkboxNode.checked;
+
+    dispatchNativeEvent(this.checkboxNode, 'change');
   }
 }
 

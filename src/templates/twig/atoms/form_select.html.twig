@@ -30,6 +30,7 @@
     @param select_required                          bool=false
     @param select_validate                          bool=false
     @param select_validation_pattern                string=null
+    @param select_validation_type                   string=null
 #}
 
 {% set select_no_selection_label = select_no_selection_label|default('--') %}
@@ -37,6 +38,8 @@
 {% set select_filter_order_by = select_filter_order_by|default('value') %}
 
 {% set class = 'class="form-select js-form-select ' ~ select_class_name|default ~ ' ' ~ select_modifiers|default ~ '"' %}
+{% set required = select_required|default ? 'required' %}
+{% set validation = select_validate|default(0) ? 'data-validate data-validation-state-reference-selector=".form-select"' ~ (select_validation_pattern|default ? ' data-validation-pattern=' ~ select_validation_pattern) ~ (select_validation_type|default ? ' data-validate-' ~ select_validation_type) %}
 
 <div {{ class|raw }}
     data-max-height-mobile="{{ select_max_height_mobile|default(260) }}"
@@ -69,10 +72,7 @@
             {% endfor %}
         </div>
     </div>
-    <select class="form-select__select" name="{{ select_id }}" id="{{ select_id }}"
-            {% if select_required|default %} required{% endif %}
-            {% if select_validate|default %} data-validate data-validation-state-reference-selector=".form-select"{% endif %}
-            {% if select_validation_pattern|default %} data-validation-pattern="{{- select_validation_pattern -}}"{% endif %}>
+    <select class="form-select__select" name="{{ select_id }}" id="{{ select_id }}" {{ required }} {{ validation|raw }}>
         <option class="form-select__select-no-selection" value="{{ select_no_selection_value }}">
             {{ select_no_selection_label }}
         </option>

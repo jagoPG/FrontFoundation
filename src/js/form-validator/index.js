@@ -12,9 +12,11 @@
 import init from './core/FormValidators';
 import AbstractFormElementValidator from './core/AbstractFormElementValidator';
 import * as Patterns from './patterns/patterns';
+import {STATE} from './core/FormValidatorState';
 
 export {
   init,
   Patterns,
-  AbstractFormElementValidator
+  AbstractFormElementValidator,
+  STATE
 };

@@ -168,7 +168,7 @@
         </section>
 
         <section class="form-components" style="position: relative; z-index: 60;">
-            <form class="form" novalidate data-validate>
+            <form id="validatory-form" class="form" novalidate data-validate>
                 <h2>Form Validator</h2>
                 <h3>This is a form integrated component test. It will validate the form using the <i>FormValidator</i> library.</h3>
 
@@ -241,9 +241,6 @@
                         }], [{
                             content: 'This field is required.',
                             modifiers: 'form-error--not-filled',
-                        }, {
-                            content: 'The selection option is not valid.',
-                            modifiers: 'form-error--not-valid',
                         }]
                     ) }}
                 </div>

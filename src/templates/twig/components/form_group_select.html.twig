@@ -38,6 +38,7 @@
     @param select_required                          bool=false
     @param select_validate                          bool=false
     @param select_validation_pattern                string=null
+    @param select_validation_type                   string=null
 #}
 
 {% set select_no_selection_label = select_no_selection_label|default('--') %}
@@ -72,7 +73,8 @@
         select_outside_click_to_close_enabled: select_outside_click_to_close_enabled|default(1),
         select_required: select_required|default(0),
         select_validate: select_validate|default(0),
-        select_validation_pattern: select_validation_pattern
+        select_validation_pattern: select_validation_pattern,
+        select_validation_type: select_validation_type
     } %}
 
     {% if select_errors|default %}

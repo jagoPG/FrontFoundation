@@ -9,10 +9,9 @@
  * @author Mikel Tuesta <mikeltuesta@gmail.com>
  */
 
-import {LifeTimeEventPublisher} from 'lin3s-event-bus';
 import {STATE} from './FormValidatorState';
-import setDomNodeDataAttributeByValidatorState from '../dom/setDomNodeDataAttributeByValidatorState';
-import dispatchNativeEvent from '../../dom/dispatchNativeEvent';
+import setDomNodeDataAttributeByValidatorState from './../dom/setDomNodeDataAttributeByValidatorState';
+import dispatchNativeEvent from './../dom/dispatchNativeEvent';
 
 class AbstractFormElementValidator {
 
@@ -38,11 +37,11 @@ class AbstractFormElementValidator {
   }
 
   onFormElementInput() {
-    this.validate({isOutsideCalled: false});
+    this.validate();
   }
 
   onFormElementChange() {
-    this.validate({isOutsideCalled: false});
+    this.validate();
   }
 
   getValidationStateReferenceDomNode() {
@@ -52,27 +51,27 @@ class AbstractFormElementValidator {
   }
 
   setState(newState) {
+    if (this.state === newState) {
+      return;
+    }
+
     this.state = newState;
 
     setDomNodeDataAttributeByValidatorState(this.getValidationStateReferenceDomNode(), this.state);
 
-    this.onFormElementStateChangedCallback();
+    this.onFormElementStateChangedCallback(this);
   }
 
-  focusFormElement() {
+  focus() {
     dispatchNativeEvent(this.getValidationStateReferenceDomNode(), 'focus');
   }
 
-  validate({isOutsideCalled = true} = {}) {
+  validate() {
     const
       isEmpty = this.formElementDomNode.value === '',
       isValid = !this.required && isEmpty || !isEmpty && this.validateValue(this.formElementDomNode.value);
 
     this.setState(this.required && isEmpty ? STATE.NOT_FILLED : isValid ? STATE.VALID : STATE.NOT_VALID);
-
-    if (!isValid && isOutsideCalled) {
-      this.focusFormElement();
-    }
 
     return isValid;
   }
