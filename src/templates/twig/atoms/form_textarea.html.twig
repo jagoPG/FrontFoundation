@@ -34,6 +34,6 @@
 {% set autogrow = textarea_autogrow|default(1) ? 'data-autogrow data-autogrow-max-lines=' ~ textarea_autogrow_max_lines|default(15) %}
 {% set rows = 'rows=' ~ textarea_initial_rows|default(5) %}
 
-<textarea {{ id }} {{ class|raw }} {{ placeholder|raw }} {{ autogrow }} {{ rows }} {{ required }} {{ validation }} autocomplete="off">
+<textarea {{ id }} {{ class|raw }} {{ placeholder|raw }} {{ autogrow }} {{ rows }} {{ required }} {{ validation }} autocomplete="off" tabindex="0">
     {{- textarea_value|default -}}
 </textarea>

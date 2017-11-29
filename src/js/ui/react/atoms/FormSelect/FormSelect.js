@@ -87,6 +87,11 @@ class FormSelect extends React.Component {
       focused: true
     });
 
+    if (this.tabHit) {
+      this.tabHit = false;
+      return;
+    }
+
     this.openSelect();
   }
 
@@ -127,7 +132,16 @@ class FormSelect extends React.Component {
   onKeyDown(event) {
     const keyCode = event.which;
 
-    if (!(keyCode === 40 || keyCode === 38 || keyCode === 13)) {
+    if (!(keyCode === 40 || keyCode === 38 || keyCode === 13 || event.which === 9)) {
+      return;
+    }
+
+    if (keyCode === 9) { // tab
+      if (this.state.opened) {
+        this.tabHit = true;
+      }
+
+      this.closeSelect();
       return;
     }
 

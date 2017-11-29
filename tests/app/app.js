@@ -9,7 +9,6 @@
  * @author Mikel Tuesta <mikeltuesta@gmail.com>
  */
 
-//import 'parsleyjs';
 import {
   Async,
   Browser,

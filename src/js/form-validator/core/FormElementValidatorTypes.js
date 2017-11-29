@@ -12,6 +12,7 @@
 import * as Patterns from './../patterns/patterns';
 
 const VALIDATOR_TYPE = {
+  CHECKBOX: 'CHECKBOX',
   PATTERN: 'PATTERN'
 };
 
@@ -36,7 +37,9 @@ const
     }
   },
   getFormElementValidatorType = formElementDomNode => {
-    if (formElementDomNode.hasAttribute('data-validation-pattern')) {
+    if (formElementDomNode.getAttribute('type') === 'checkbox') {
+      return VALIDATOR_TYPE.CHECKBOX;
+    } else if (formElementDomNode.hasAttribute('data-validation-pattern')) {
       return VALIDATOR_TYPE.PATTERN;
     }
   };

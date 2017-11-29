@@ -47,4 +47,4 @@ const plugins = [
   })
 ];
 
-export default Webpack(options);
+export default Webpack(options, plugins);

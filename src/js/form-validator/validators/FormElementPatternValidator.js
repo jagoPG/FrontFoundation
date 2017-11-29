@@ -9,14 +9,14 @@
  * @author Mikel Tuesta <mikeltuesta@gmail.com>
  */
 
-import AbstractFormElementValidator from './AbstractFormElementValidator';
+import AbstractFormElementValidator from './../core/AbstractFormElementValidator';
 
 class FormElementPatternValidator extends AbstractFormElementValidator {
 
   constructor({
-    formElementDomNode,
-    onFormElementStateChangedCallback = () => {}
-  }) {
+                formElementDomNode,
+                onFormElementStateChangedCallback = () => {}
+              }) {
     super({formElementDomNode, onFormElementStateChangedCallback});
 
     this.validationRegExp = new RegExp(this.formElementDomNode.dataset.validationPattern.trim());

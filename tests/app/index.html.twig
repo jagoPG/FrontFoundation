@@ -1,6 +1,7 @@
 {% import '@lin3s_front_foundation/components/macro/form_group_inputs.html.twig' as form_group_inputs %}
 {% import '@lin3s_front_foundation/components/macro/form_group_selects.html.twig' as form_group_selects %}
 {% import '@lin3s_front_foundation/components/macro/form_group_textareas.html.twig' as form_group_textareas %}
+{% import '@lin3s_front_foundation/components/macro/form_group_checkboxes.html.twig' as form_group_checkboxes %}
 
 <!doctype html>
 <html lang="es">
@@ -294,6 +295,18 @@
                             content: 'There is no any 2-5 letter palindrome.',
                             modifiers: 'form-error--not-valid',
                         }]
+                    ) }}
+                </div>
+
+                <div style="position: relative; z-index: 70; margin-bottom: 30px">
+                    {{ form_group_checkboxes.required(
+                        'terms',
+                        null,
+                        'I have read an accept the terms and conditions',
+                    [{
+                        content: 'You haven\'t accepted the terms and conditions.',
+                        modifiers: 'form-error--not-valid',
+                    }]
                     ) }}
                 </div>
 

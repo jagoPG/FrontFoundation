@@ -73,7 +73,7 @@ class FormTextarea {
     const lineHeight = (this.originalScrollHeight / this.rows) - (this.offset / this.rows);
 
     this.maxAllowedHeight = (lineHeight * this.autoGrowMaxLines) - this.offset;
-    this.minHeight = Math.min((lineHeight * rows) + this.offset, this.maxAllowedHeight);
+    this.minHeight = Math.min((lineHeight * this.rows) + this.offset, this.maxAllowedHeight);
   }
 
   onWindowResized() {

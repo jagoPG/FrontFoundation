@@ -19,6 +19,7 @@ import './components/GMap/init';
 import './atoms/FormSelect/init';
 import './atoms/FormInput/init';
 import './atoms/FormTextarea/init';
+import './atoms/FormCheckbox/init';
 
 export {
   GMap,

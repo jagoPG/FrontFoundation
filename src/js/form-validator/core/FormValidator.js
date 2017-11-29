@@ -11,7 +11,8 @@
 
 import {onDomReady, onNodeAdded, LifeTimeEventPublisher} from 'lin3s-event-bus';
 import isDomNodeDescendantOfDomNode from '../../dom/isDomNodeDescendantOfDomNode';
-import FormElementPatternValidator from './FormElementPatternValidator';
+import FormElementPatternValidator from './../validators/FormElementPatternValidator';
+import FormCheckboxValidator from './../validators/FormCheckboxValidator';
 import {STATE} from './FormValidatorState';
 import setDomNodeDataAttributeByValidatorState from '../dom/setDomNodeDataAttributeByValidatorState';
 import {
@@ -103,6 +104,11 @@ class FormValidator {
     const formElementValidatorType = getFormElementValidatorType(formElementDomNode);
 
     switch (formElementValidatorType) {
+      case VALIDATOR_TYPE.CHECKBOX:
+        return new FormCheckboxValidator({
+          formElementDomNode,
+          onFormElementStateChangedCallback: this.validateOnFormElementStateChanged
+        });
       case VALIDATOR_TYPE.PATTERN:
         return new FormElementPatternValidator({
           formElementDomNode,

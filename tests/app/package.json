@@ -6,7 +6,7 @@
     "phoenix": "rm -rf node_modules && yarn install",
     "eslint": "node_modules/.bin/eslint src/js/ app.js",
     "build": "yarn eslint && node_modules/.bin/webpack --output-filename app.js",
-    "build:prod": "yarn eslint && node_modules/.bin/webpack --output-filename app.js -p",
+    "build:prod": "yarn eslint && node_modules/.bin/webpack --output-filename app.js --env.env prod -p",
     "build:watch": "node_modules/.bin/webpack --output-filename app.js --watch",
     "build:analyze": "node_modules/.bin/webpack --output-filename app.js -p --env.analyze"
   },

@@ -32,4 +32,4 @@
 {% set validation = input_validate|default ? 'data-validate' ~ (input_validation_pattern|default ? ' data-validation-pattern=' ~ input_validation_pattern) ~ (input_validation_type|default ? ' data-validate-' ~ input_validation_type) %}
 {% set value = input_value ? 'value="' ~ input_value ~ '"' %}
 
-<input {{ id }} {{ type }} {{ class|raw }} {{ placeholder|raw }} {{ required }} {{ validation }} {{ value|raw }} autocomplete="off"/>
+<input {{ id }} {{ type }} {{ class|raw }} {{ placeholder|raw }} {{ required }} {{ validation }} {{ value|raw }} autocomplete="off" tabindex="0"/>

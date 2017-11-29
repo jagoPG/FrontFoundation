@@ -26,6 +26,7 @@ class AbstractFormElementValidator {
 
     this.onFormElementStateChangedCallback = onFormElementStateChangedCallback;
     this.onFormElementInput = this.onFormElementInput.bind(this);
+    this.onFormElementChange = this.onFormElementChange.bind(this);
 
     this.bindListeners();
     this.setState(STATE.NOT_VALIDATED);
@@ -33,9 +34,14 @@ class AbstractFormElementValidator {
 
   bindListeners() {
     this.formElementDomNode.addEventListener('input', this.onFormElementInput, true);
+    this.formElementDomNode.addEventListener('change', this.onFormElementChange, true);
   }
 
   onFormElementInput() {
+    this.validate({isOutsideCalled: false});
+  }
+
+  onFormElementChange() {
     this.validate({isOutsideCalled: false});
   }
 

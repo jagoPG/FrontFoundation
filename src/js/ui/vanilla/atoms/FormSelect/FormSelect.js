@@ -56,7 +56,7 @@ class FormSelect {
     this.filterBy = this.domNode.dataset.filterOrderBy;
     this.mobileBreakpoint = parseInt(this.domNode.dataset.mobileBreakpoint, 10);
     this.mouseOverListenerEnabled = true;
-    this.keyboardControlledSelectedOptionIndex = -1;
+    this.keyboardControlledSelectedOptionIndex = 0;
 
     if (this.isFilterable) {
       this.filterInput = this.domNode.querySelector('.form-select__input');
@@ -127,8 +127,14 @@ class FormSelect {
     window.addEventListener('click', this.close.bind(this));
 
     this.domNode.addEventListener('focus', () => {
-      this.open();
       this.setSelectFocused(true);
+
+      if (this.tabHit) {
+        this.tabHit = false;
+        return;
+      }
+
+      this.open();
     });
 
     this.domNode.addEventListener('click', event => {
@@ -175,6 +181,10 @@ class FormSelect {
     }
 
     if (event.which === 9) { // tab
+      if (this.opened) {
+        this.tabHit = true;
+      }
+
       this.close();
       return;
     }
@@ -191,8 +201,7 @@ class FormSelect {
         this.setSelectedOption(selectOptionViews[this.keyboardControlledSelectedOptionIndex]);
         this.close();
       }
-    }
-    else if (event.which === 40) { // down
+    } else if (event.which === 40) { // down
       this.keyboardControlledSelectedOptionIndex = this.keyboardControlledSelectedOptionIndex
       < selectOptionViews.length - 1
         ? this.keyboardControlledSelectedOptionIndex + 1 : selectOptionViews.length - 1;
@@ -205,8 +214,6 @@ class FormSelect {
       this.setKeyboardControlledSelectedOptionView(selectOptionViews,
         selectOptionViews[this.keyboardControlledSelectedOptionIndex],
         true);
-    } else if (event.which === 13) {
-
     }
   }
 
