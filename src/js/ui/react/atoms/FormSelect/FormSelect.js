@@ -418,7 +418,7 @@ class FormSelect extends React.Component {
                id={id}
                name={id}
                data-validate={validationEnabled ? true : null}
-               data-validation-pattern={validationEnabled ? validationPattern : null}
+               data-validate-pattern={validationEnabled ? validationPattern : null}
                data-validation-state-reference-selector={validationEnabled ? `.${formSelectBaseClassName}` : null}
                ref={ref => {
                  this.hiddenInput = ref;

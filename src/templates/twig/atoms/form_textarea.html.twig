@@ -30,7 +30,7 @@
 {% set class = 'class="form-textarea js-form-textarea ' ~ textarea_class_name|default ~ ' ' ~ textarea_modifiers|default ~ '"' %}
 {% set placeholder = textarea_placeholder|default ? 'placeholder="' ~ textarea_placeholder ~ '"' %}
 {% set required = textarea_required|default ? 'required' %}
-{% set validation = textarea_validate|default ? 'data-validate' ~ (textarea_validation_pattern|default ? ' data-validation-pattern=' ~ textarea_validation_pattern) ~ (textarea_validation_type|default ? ' data-validate-' ~ textarea_validation_type) %}
+{% set validation = textarea_validate|default ? 'data-validate' ~ (textarea_validation_pattern|default ? ' data-validate-pattern=' ~ textarea_validation_pattern) ~ (textarea_validation_type|default ? ' data-validate-' ~ textarea_validation_type) %}
 {% set autogrow = textarea_autogrow|default(1) ? 'data-autogrow data-autogrow-max-lines=' ~ textarea_autogrow_max_lines|default(15) %}
 {% set rows = 'rows=' ~ textarea_initial_rows|default(5) %}
 

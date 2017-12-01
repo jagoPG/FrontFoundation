@@ -71,7 +71,7 @@ class FormGroup extends React.PureComponent {
         autoComplete="off"
         className="form-input"
         data-validate={validationEnabled ? true : null}
-        data-validation-pattern={validationEnabled ? validationPattern : null}
+        data-validate-pattern={validationEnabled ? validationPattern : null}
         id={id}
         name={id}
         onChange={this.onInputChange}
