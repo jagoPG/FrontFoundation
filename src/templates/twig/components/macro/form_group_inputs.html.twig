@@ -1,0 +1,64 @@
+{% macro required(type, id, placeholder, label, errors) %}
+    {% include '@lin3s_front_foundation/components/form_group_input.html.twig' with {
+        input_id: id,
+        input_placeholder: placeholder,
+        input_label_content: label,
+        input_errors: errors,
+        input_type: type,
+        input_required: 1,
+        input_validate: 1,
+        input_validation_type: 'any'
+    } %}
+{% endmacro %}
+
+{% macro email(id, placeholder, label, errors) %}
+    {% include '@lin3s_front_foundation/components/form_group_input.html.twig' with {
+        input_id: id,
+        input_placeholder: placeholder,
+        input_label_content: label,
+        input_errors: errors,
+        input_type: 'email',
+        input_required: 0,
+        input_validate: 1,
+        input_validation_type: 'email'
+    } %}
+{% endmacro %}
+
+{% macro requiredEmail(id, placeholder, label, errors) %}
+    {% include '@lin3s_front_foundation/components/form_group_input.html.twig' with {
+        input_id: id,
+        input_placeholder: placeholder,
+        input_label_content: label,
+        input_errors: errors,
+        input_type: 'email',
+        input_required: 1,
+        input_validate: 1,
+        input_validation_type: 'email'
+    } %}
+{% endmacro %}
+
+{% macro phone(id, placeholder, label, errors) %}
+    {% include '@lin3s_front_foundation/components/form_group_input.html.twig' with {
+        input_id: id,
+        input_placeholder: placeholder,
+        input_label_content: label,
+        input_errors: errors,
+        input_type: 'tel',
+        input_required: 0,
+        input_validate: 1,
+        input_validation_type: 'phone'
+    } %}
+{% endmacro %}
+
+{% macro requiredPhone(id, placeholder, label, errors) %}
+    {% include '@lin3s_front_foundation/components/form_group_input.html.twig' with {
+        input_id: id,
+        input_placeholder: placeholder,
+        input_label_content: label,
+        input_errors: errors,
+        input_type: 'tel',
+        input_required: 1,
+        input_validate: 1,
+        input_validation_type: 'phone'
+    } %}
+{% endmacro %}

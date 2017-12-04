@@ -3569,9 +3569,9 @@ levn@^0.3.0, levn@~0.3.0:
     prelude-ls "~1.1.2"
     type-check "~0.3.2"
 
-lin3s-distribution@^4.1.0:
-  version "4.1.0"
-  resolved "https://registry.yarnpkg.com/lin3s-distribution/-/lin3s-distribution-4.1.0.tgz#6175738b9c7d23021587c45a5f66683b6d6fe929"
+lin3s-distribution@^4.2.2:
+  version "4.2.2"
+  resolved "https://registry.yarnpkg.com/lin3s-distribution/-/lin3s-distribution-4.2.2.tgz#600bcf64d0ca3d79f7869232976a10d52c72563f"
   dependencies:
     babel-core "^6.25.0"
     babel-eslint "^7.1.1"
@@ -3608,23 +3608,15 @@ lin3s-distribution@^4.1.0:
     webpack-manifest-plugin "^1.1.2"
     webpack-svgstore-plugin "^4.0.1"
 
-lin3s-event-bus@^0.6.1:
-  version "0.6.1"
-  resolved "https://registry.yarnpkg.com/lin3s-event-bus/-/lin3s-event-bus-0.6.1.tgz#daf3153093204e84e602574fc6b7933330604f27"
-  dependencies:
-    lodash.debounce "^4.0.8"
-
 lin3s-event-bus@^0.8.0:
   version "0.8.0"
   resolved "https://registry.yarnpkg.com/lin3s-event-bus/-/lin3s-event-bus-0.8.0.tgz#b88fbc27e51c7afba0d136137f55747816a5a180"
   dependencies:
     lodash.debounce "^4.0.8"
 
-lin3s-front-foundation@^0.8.0:
-  version "0.8.0"
-  resolved "https://registry.yarnpkg.com/lin3s-front-foundation/-/lin3s-front-foundation-0.8.0.tgz#9ed0ee6d6df084e440008d7654e38c2ef2090728"
-  dependencies:
-    lin3s-event-bus "^0.6.1"
+lin3s-front-foundation@^0.11.0:
+  version "0.11.4"
+  resolved "https://registry.yarnpkg.com/lin3s-front-foundation/-/lin3s-front-foundation-0.11.4.tgz#98febe2188f0e29e8beffb77c53acbaea57f4c96"
 
 load-json-file@^1.0.0:
   version "1.1.0"

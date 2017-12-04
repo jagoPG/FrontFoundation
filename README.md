@@ -15,55 +15,6 @@ $ npm install --save lin3s-front-foundation
 
 ## Usage - Available features
 
-### Config
-
-This bundle will expose some configuration associated scripts or helpers. For the time being we are just exposing a 
-plugin for Webpack.
-
-#### Config - parsleyWebpackContextReplacementPlugin
-
-This plugin will load the `parsleyjs` messages catalog from each passed `locales` on compilation time. In order to 
-properly setup the plugin, we will import it and pass to the `Webpack` method (`webpack.config.babel.js` file of our 
-project).
-```js
-import {Webpack} from 'lin3s-distribution';
-import parsleyWebpackContextReplacementPlugin from 'lin3s-front-foundation/config/parsleyWebpackContextReplacementPlugin';
-
-const options = {
-  // ...
-};
-
-const plugins = [
-  parsleyWebpackContextReplacementPlugin(['es', 'en', 'eu' /*, ...*/])
-];
-
-export default Webpack(options, plugins);
-```
-
-### Parsleyjs
-
-We will expose through the `Parsley` package some helper methods for setting and loading the project's needed locale, 
-as well as a method for excluding some fields from Parsley validation. 
-
-#### Parsley.setLocale( locale = null )
-
-This method will set the Parsley's instance's locale. If we  don't provide a locale parameter, automatically the html 
-lang's attribute value will be used. For example: 
-```js
-import {Parsley} from 'lin3s-front-foundation';
-
-Parsley.setLocale('es');
-```
-
-#### Parsley.excludeFormFields( selector )
-
-This method will exclude the passed selectors from being validated by Parsley. For instance:
-```js
-import {Parsley} from 'lin3s-front-foundation';
-
-Parsley.excludeFormFields('.input--not-validated');
-```
-
 ### Async
 
 This package will provide all asynchronous related implementations. For instance, Promise related ones.
@@ -168,6 +119,34 @@ imagesLoadPromise.then(() => {
   // All images have been loaded!
 });
 ```
+
+### Dom - Utilities / Helpers
+
+#### Dom.isDomNodeDescendantOfDomNode( needleDomNode, mainDomNode )
+
+This method will return true if the passed `needleDomNode` y a descendant of the `mainDomNode`.
+
+#### Dom.getDomNodeIndex( domNode, selector = null )
+
+This method will return the index of the provided `domNode`, optinally filtered by a css selector. It is a native
+alternative to the jQuery's [`.index()`][7] method.
+
+#### Dom.removeDomNodes( domNodes )
+
+This method will remove the passed `domNodes` from their parents. It will work with a single node as well. It is a
+native alternative to the jQuery's [`.remove()`][8] method.
+
+#### Dom.addSelectorFilteredEventListener( domNode, eventName, selector, event => {} )
+
+This method will add an event listener for the `eventName` to the passed `domNode`, filtering the event.target with the
+defined `selector`. It is a native alternative to the jQuery's [`.on(eventName, selector, callback)`][9] method when
+filtering it's targets by a selector.
+
+#### Dom.dispatchNativeEvent( domNode, eventName )
+
+This method will dispatch a DOMElement native event. It's a native alternative to the jQuery's
+[`.trigger(eventName)`][10] method.
+
 
 ## Usage - Available UI components
 
@@ -366,7 +345,6 @@ to correctly render them.
 @import './node_modules/lin3s-front-foundation/dist/scss/ui/atoms/form-error';
 @import './node_modules/lin3s-front-foundation/dist/scss/ui/atoms/form-input';
 @import './node_modules/lin3s-front-foundation/dist/scss/ui/components/form-group-input';
-@import './node_modules/lin3s-front-foundation/dist/scss/parsley/parsley';
 ```
 
 #### FormGroupInput - Basic setup
@@ -380,13 +358,15 @@ The list of the available parameters, their type and default values are as follo
 |------------------------- |:--------------|:---------|:--------------|
 | input_id                 | string        | yes      |               |
 | input_required           | bool          | no       | false         |
+| input_validate           | bool          | no       | false         |               |
+| input_validation_pattern | string        | no       | ''            |
+| input_validation_type    | string        | no       | ''            |
 | input_type               | string        | no       | 'text'        |
 | input_placeholder        | string        | yes      | -             |
 | input_label_class_name   | string        | no       | null          |
 | input_label_modifiers    | string        | no       | null          |
-| input_label_content        | html          | no       | null          |
-| input_error_content      | string        | no       | null          |
-| input_error_modifiers    | array         | no       | null          |
+| input_label_content      | html          | no       | null          |
+| input_errors             | array<br/>{<br/>&nbsp;&nbsp;&nbsp;&nbsp;content: string, <br/>&nbsp;&nbsp;&nbsp;&nbsp;modifiers: string<br/>} | no       | null          |
 | input_class_name         | string        | no       | null          |
 | input_modifiers          | array         | no       | null          |
 
@@ -397,9 +377,18 @@ This is a common setup example:
 {% include '@lin3s_front_foundation/components/form_group_input.html.twig' with {
     input_id: 'my-form-user-name',
     input_required: 1,
-    input_type: 'text'
+    input_validate: 1,
+    input_validation_type: 'phone',
+    input_type: 'text',
     input_placeholder: 'Enter some data...',
-    input_label_content: 'Your user name'
+    input_label_content: 'Your user name',
+    input_errors: [{
+        content: 'This field is required',
+        modifiers: 'form-error--not-filled'
+    }, {
+        content: 'Entered phone is not a 9 digit valid phone',
+        modifiers: 'form-error--not-valid'
+    }]
 } %}
 ```
 
@@ -407,25 +396,6 @@ This is a common setup example:
 
 This component and it's associated FormSelect atom will build a custom rich select component. The component is composed 
 by the FormSelect, FormLabel, FormInput and the FormError atoms.
-
-#### FormGroupSelect / FormSelect - Parsley
-
-The FormGroupSelect component and the FormSelect atom has built in support for Parsleyjs validation. You must include 
-`data-parsley-validate` to the component's/atom's parent `<form>`.
-
-```twig
-<form action="/" novalidate data-parsley-validate>
-    {% include '@lin3s_front_foundation/components/form_group_select.html.twig' with {
-        {# Configuration parameters #}
-    } %}
-    
-    {# OR #}
-    
-    {% include '@lin3s_front_foundation/atoms/form_select.html.twig' with {
-        {# Configuration parameters #}
-    } %}
-</form>
-```
 
 #### FormGroupSelect / FormSelect - Styles
 
@@ -438,7 +408,6 @@ to correctly render them.
 @import './node_modules/lin3s-front-foundation/dist/scss/ui/atoms/form-input';
 @import './node_modules/lin3s-front-foundation/dist/scss/ui/atoms/form-select';
 @import './node_modules/lin3s-front-foundation/dist/scss/ui/components/form-group-select';
-@import './node_modules/lin3s-front-foundation/dist/scss/parsley/parsley';
 ```
 
 #### FormGroupSelect - Basic setup
@@ -452,6 +421,9 @@ The list of the available parameters, their type and default values are as follo
 |-------------------------- |:--------------|:---------|:--------------|:--------------|
 | select_id                 | string        | yes      |               |               |
 | select_required           | bool          | no       | false         |               |
+| select_validate           | bool          | no       | false         |               |
+| select_validation_pattern | string        | no       | ''            | Any valid *RegExp* pattern |
+| select_validation_type    | string        | no       | ''            | Built-in *validatory* validation types ['email', 'phone', 'any'] |
 | select_mobile_breakpoint  | int           | no       | 1024          |               |
 | select_max_height_mobile  | int           | no       | 260           |               |
 | select_max_height_desktop | int           | no       | 420           |               |
@@ -459,9 +431,8 @@ The list of the available parameters, their type and default values are as follo
 | select_filter_placeholder | string        | no       | null          |               |
 | select_filter_order_by    | string        | no       | 'value'       | If you set 'label' as this parameter, the component will order it's items by the 'label' while filtering it's options. |
 | select_label_modifiers    | string        | no       | null          |               |
-| select_label_content        | html          | no       | null          |               |
-| select_error_modifiers    | string        | no       | null          |               |
-| select_error_content      | string        | no       | null          |               |
+| select_label_content      | html          | no       | null          |               |
+| select_errors             | array<br/>{<br/>&nbsp;&nbsp;&nbsp;&nbsp;content: string, <br/>&nbsp;&nbsp;&nbsp;&nbsp;modifiers: string<br/>} | no       | null          |               |
 | select_select_modifiers   | string        | no       | null          |               |
 | select_no_selection_label | string        | no       | '--'          |               |
 | select_no_selection_value | string        | no       | '--'          |               |
@@ -482,6 +453,8 @@ This is a full setup example:
 {% include '@lin3s_front_foundation/components/form_group_select.html.twig' with {
     select_id: 'my-select',
     select_required: 1,
+    select_validate: 1,
+    select_validation_pattern: '^(?!.*--).*$',
     select_mobile_breakpoint: 768,
     select_max_height_mobile: 260,
     select_max_height_desktop: 420,
@@ -490,8 +463,13 @@ This is a full setup example:
     select_filter_order_by: 'label',
     select_label_modifiers: null,
     select_label_content: 'My select\'s label',
-    select_error_modifiers: null,
-    select_error_content: 'This is the initial error\'s content.'
+    select_errors: [{
+        content: 'This field is required',
+        modifiers: 'form-error--not-filled'
+    }, {
+        content: 'You cannot select the default value',
+        modifiers: 'form-error--not-valid'
+    }],
     select_select_modifiers: null,
     select_no_selection_label: '--',
     select_no_selection_value: '--',
@@ -539,6 +517,116 @@ EventBus.onFormSelectStateChanged(domNode, formSelectStateChangedEvent => {
 | FormSelectInitializedEvent     | formSelectInstance: FormSelect |
 | FormSelectOptionSelectedEvent  | formSelectInstance: FormSelect<br/>marker: Your marker object representation |
 | FormSelectStateChangedEvent    | formSelectInstance: FormSelect<br/>state: \[FormSelect.STATE.OPENED \| FormSelect.STATE.CLOSED\] |
+
+
+### FormGroupTextarea
+
+The component is composed by the FormTextarea, FormLabel and the FormError atoms.
+
+#### FormGroupTextarea - Styles
+
+The FormGroupTextarea component and it's associated atoms come with some default styles. You must include them in order 
+to correctly render them.
+
+```scss
+@import './node_modules/lin3s-front-foundation/dist/scss/ui/atoms/form-label';
+@import './node_modules/lin3s-front-foundation/dist/scss/ui/atoms/form-error';
+@import './node_modules/lin3s-front-foundation/dist/scss/ui/atoms/form-textarea';
+@import './node_modules/lin3s-front-foundation/dist/scss/ui/components/form-group-textarea';
+```
+
+#### FormGroupTextarea - Setup
+
+In order to setup the FormGroupTextarea component, we will define every required parameter while including the twig 
+template. 
+
+The list of the available parameters, their type and default values are as follows:
+
+| Parameter                   | Type          | Required | Default value | Purpose       |
+|---------------------------- |:--------------|:---------|:--------------|:--------------|
+| class_name                  | string        | no       | null          |               |
+| modifiers                   | string        | no       | null          |               |
+| textarea_id                 | string        | no       | null          |               |
+| textarea_required           | bool          | no       | false         |               |
+| textarea_validate           | bool          | no       | false         |               |
+| textarea_validation_pattern | string        | no       | ''            | Any valid *RegExp* pattern |
+| textarea_validation_type    | string        | no       | ''            | Built-in *validatory* validation types ['email', 'phone', 'any'] |
+| textarea_label_class_name   | string        | no       | ''            |               |
+| textarea_label_modifiers    | string        | no       | ''            |               |
+| textarea_label_content      | html          | no       | null          |               |
+| textarea_errors             | array<br/>{<br/>&nbsp;&nbsp;&nbsp;&nbsp;content: string, <br/>&nbsp;&nbsp;&nbsp;&nbsp;modifiers: string<br/>} | no       | null          |               |
+| textarea_modifiers          | string        | no       | ''            |               |
+| textarea_placeholder        | string        | no       | ''            |               |
+
+This is a full setup example:
+
+```twig
+{% include '@lin3s_front_foundation/components/form_group_textarea.html.twig' with {
+    textarea_id: 'palindrome',
+    textarea_required: 1,
+    textarea_validate: 1,
+    textarea_validation_pattern: '\\b(\\w)?(\\w)\\w?\\2\\1', {# Note that backslashes must be escaped (\ -> \\) #},
+    textarea_label_content: '2-5 letter palindrome',
+    textarea_errors: [{
+        content: 'This field is required',
+        modifiers: 'form-error--not-filled'
+    }, {
+        content: 'Entered text does not include a valid 2-5 letter palindrome',
+        modifiers: 'form-error--not-valid'
+    }]
+} %}
+```
+### FormGroupCheckbox
+
+The component is composed by the FormCheckbox, FormLabel and the FormError atoms.
+
+#### FormGroupCheckbox - Styles
+
+The FormGroupCheckbox component and it's associated atoms come with some default styles. You must include them in order 
+to correctly render them.
+
+```scss
+@import './node_modules/lin3s-front-foundation/dist/scss/ui/atoms/form-label';
+@import './node_modules/lin3s-front-foundation/dist/scss/ui/atoms/form-error';
+@import './node_modules/lin3s-front-foundation/dist/scss/ui/atoms/form-checkbox';
+@import './node_modules/lin3s-front-foundation/dist/scss/ui/components/form-group-checkbox';
+```
+
+#### FormGroupCheckbox - Setup
+
+In order to setup the FormGroupCheckbox component, we will define every required parameter while including the twig 
+template. 
+
+The list of the available parameters, their type and default values are as follows:
+
+| Parameter                   | Type          | Required | Default value | Purpose       |
+|---------------------------- |:--------------|:---------|:--------------|:--------------|
+| class_name                  | string        | no       | null          |               |
+| modifiers                   | string        | no       | null          |               |
+| checkbox_id                 | string        | no       | null          |               |
+| checkbox_required           | bool          | no       | false         |               |
+| checkbox_validate           | bool          | no       | false         |               |
+| checkbox_label_class_name   | string        | no       | ''            |               |
+| checkbox_label_modifiers    | string        | no       | ''            |               |
+| checkbox_label_content      | html          | no       | null          |               |
+| checkbox_errors             | array<br/>{<br/>&nbsp;&nbsp;&nbsp;&nbsp;content: string, <br/>&nbsp;&nbsp;&nbsp;&nbsp;modifiers: string<br/>} | no       | null          |               |
+| checkbox_modifiers          | string        | no       | ''            |               |
+| checkbox_content            | string        | true     |               |               |
+
+This is a full setup example:
+
+```twig
+{% include '@lin3s_front_foundation/components/form_group_checkbox.html.twig' with {
+    checkbox_id: 'palindrome',
+    checkbox_required: 1,
+    checkbox_validate: 1,
+    checkbox_content: 'I hace read and accept the terms and conditions',
+    textarea_errors: [{
+        content: 'Yout must accept the terms and conditions',
+        modifiers: 'form-error--not-filled'
+    }]
+} %}
+```
 
 ## Usage - Available UI (React) components
 
@@ -737,9 +825,52 @@ $form-select-option-background-color-hover-and-active: rgba($form-select-option-
 @import './node_modules/lin3s-front-foundation/dist/scss/ui/atoms/form-select';
 ```
 
+## Usage - Available macros
+The library provides you opinionated macros for rendering the form components with pre-defined parameters.
+
+### Atoms - form_inputs
+```twig
+{% macro required(type, id, placeholder) %}
+{% macro email(id, placeholder) %}
+{% macro requiredEmail(id, placeholder) %}
+{% macro phone(id, placeholder) %}
+{% macro requiredPhone(id, placeholder) %}
+```
+
+### Components - form_group_checkboxes
+```twig
+{% macro required(id, label, content, errors) %}
+```
+
+### Components - form_group_inputs
+```twig
+{% macro required(type, id, placeholder, label, errors) %}
+{% macro email(id, placeholder, label, errors) %}
+{% macro requiredEmail(id, placeholder, label, errors) %}
+{% macro phone(id, placeholder, label, errors) %}
+{% macro requiredPhone(id, placeholder, label, errors) %}
+```
+
+### Components - form_group_selects
+```twig
+{% macro required(id, filter_placeholder, label, options, errors) %}
+{% macro requiredAndNot(id, filter_placeholder, label, not_valid_value, options, errors) %}
+```
+
+### Components - form_group_textareas
+```twig
+{% macro required(id, placeholder, label, errors) %}
+{% macro requiredWithPattern(id, placeholder, label, pattern, errors) %}
+```
+
 [1]: https://github.com/LIN3S/FrontFoundation/blob/master/src/templates/twig/components/gmap.html.twig#L26
 [2]: https://snazzymaps.com/
 [3]: https://developer.mozilla.org/en-US/docs/Glossary/IIFE
 [4]: https://facebook.github.io/react/docs/forms.html#controlled-components
 [5]: https://github.com/LIN3S/FrontFoundation/blob/master/tests/app/src/js/React/init.js
 [6]: https://github.com/LIN3S/FrontFoundation/blob/master/tests/app/src/js/React/ReactFormSelect.js
+[7]: https://api.jquery.com/index/
+[8]: https://api.jquery.com/remove/
+[9]: http://api.jquery.com/on/
+[10]: http://api.jquery.com/trigger/
+[11]: https://github.com/FriendsOfECMAScript/Validatory

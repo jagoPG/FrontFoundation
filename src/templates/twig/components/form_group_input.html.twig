@@ -13,51 +13,60 @@
     This componenet will display a form group composed by an @atoms/form_label, an @atom/form_input and an
     @atoms/form_error.
 
-    @param input_required                           bool=false
+    @param class_name                               string=null
+    @param modifiers                                string=null
     @param input_id                                 string=*
     @param input_label_class_name                   string=null
     @param input_label_modifiers                    string=null
     @param input_label_content                      html=null
-    @param input_error_content                      string=null
-    @param input_error_modifiers                    array|string=null
+    @param input_errors                             array=null
+        - content                                   string=null
+        - modifiers                                 array|string=null
     @param input_class_name                         string=null
     @param input_modifiers                          array|string=null
     @param input_placeholder                        string*
     @param input_type                               string='text'
-    @param input_parsley_phone_validation_messages  array=null
-    @param input_parsley_validation_enabled         bool=false
+    @param input_required                           bool=false
+    @param input_validate                           bool=false
+    @param input_validation_pattern                 string=null
+    @param input_validation_type                    string=null
 #}
 
-<div class="form-group-input">
+{% set class = 'class="form-group-input ' ~ class_name|default ~ ' ' ~ modifiers|default ~ '"' %}
+
+<div {{ class|raw }}>
     {% if input_label_content|default %}
         <div class="form-group-input__label">
             {% include '@lin3s_front_foundation/atoms/form_label.html.twig' with {
                 label_for: input_id,
-                label_required: input_required,
-                label_class_name: input_label_class_name,
-                label_modifiers: input_label_modifiers,
+                label_required: input_required|default(0),
+                label_class_name: input_label_class_name|default,
+                label_modifiers: input_label_modifiers|default,
                 label_content: input_label_content
             } %}
         </div>
     {% endif %}
 
     {% include '@lin3s_front_foundation/atoms/form_input.html.twig' with {
-        input_type: input_type,
+        input_type: input_type|default('text'),
         input_id: input_id,
-        input_class_name: input_class_name,
-        input_modifiers: input_modifiers,
+        input_class_name: input_class_name|default,
+        input_modifiers: input_modifiers|default,
         input_placeholder: input_placeholder,
-        input_required: input_required,
-        input_parsley_validation_enabled: input_parsley_validation_enabled,
-        input_parsley_phone_validation_messages: input_parsley_phone_validation_messages
+        input_required: input_required|default(0),
+        input_validate: input_validate|default(0),
+        input_validation_pattern: input_validation_pattern|default,
+        input_validation_type: input_validation_type|default
     } %}
 
-    {% if input_error_content|default %}
-        <div class="form-group-input__error">
+    {% if input_errors|default %}
+        <div class="form-group-input__errors">
+        {% for error in input_errors %}
             {% include '@lin3s_front_foundation/atoms/form_error.html.twig' with {
-                error_content: input_error_content,
-                error_modifiers: input_error_modifiers
+                error_content: error.content,
+                error_modifiers: error.modifiers
             } %}
+        {% endfor %}
         </div>
     {% endif %}
 </div>

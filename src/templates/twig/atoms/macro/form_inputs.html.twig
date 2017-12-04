@@ -1,0 +1,54 @@
+{% macro required(type, id, placeholder) %}
+    {% include '@lin3s_front_foundation/atoms/form_input.html.twig' with {
+        input_type: type,
+        input_id: id,
+        input_placeholder: placeholder,
+        input_required: 1,
+        input_validate: 1,
+        input_validation_type: 'any'
+    } %}
+{% endmacro %}
+
+{% macro email(id, placeholder) %}
+    {% include '@lin3s_front_foundation/atoms/form_input.html.twig' with {
+        input_type: 'email',
+        input_id: id,
+        input_placeholder: placeholder,
+        input_required: 0,
+        input_validate: 1,
+        input_validation_type: 'email'
+    } %}
+{% endmacro %}
+
+{% macro requiredEmail(id, placeholder) %}
+    {% include '@lin3s_front_foundation/atoms/form_input.html.twig' with {
+        input_type: 'email',
+        input_id: id,
+        input_placeholder: placeholder,
+        input_required: 1,
+        input_validate: 1,
+        input_validation_type: 'email'
+    } %}
+{% endmacro %}
+
+{% macro phone(id, placeholder) %}
+    {% include '@lin3s_front_foundation/atoms/form_input.html.twig' with {
+        input_type: 'tel',
+        input_id: id,
+        input_placeholder: placeholder,
+        input_required: 0,
+        input_validate: 1,
+        input_validation_type: 'phone'
+    } %}
+{% endmacro %}
+
+{% macro requiredPhone(id, placeholder) %}
+    {% include '@lin3s_front_foundation/atoms/form_input.html.twig' with {
+        input_type: 'tel',
+        input_id: id,
+        input_placeholder: placeholder,
+        input_required: 1,
+        input_validate: 1,
+        input_validation_type: 'phone'
+    } %}
+{% endmacro %}

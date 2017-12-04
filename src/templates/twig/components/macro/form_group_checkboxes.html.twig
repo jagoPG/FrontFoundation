@@ -1,0 +1,10 @@
+{% macro required(id, label, content, errors) %}
+    {% include '@lin3s_front_foundation/components/form_group_checkbox.html.twig' with {
+        checkbox_id: id,
+        checkbox_label_content: label,
+        checkbox_content: content,
+        checkbox_errors: errors,
+        checkbox_required: 1,
+        checkbox_validate: 1,
+    } %}
+{% endmacro %}

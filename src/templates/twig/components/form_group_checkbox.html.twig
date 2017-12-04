@@ -1,0 +1,66 @@
+{##
+    This file is part of the Front Foundation package.
+
+    Copyright (c) 2017-present LIN3S <info@lin3s.com>
+
+    For the full copyright and license information, please view the LICENSE
+    file that was distributed with this source code.
+
+    @author Mikel Tuesta <mikeltuesta@gmail.com>
+#}
+
+{##
+    This componenet will display a form group composed by an @atoms/form_label, an @atom/form_input and an
+    @atoms/form_error.
+
+    @param class_name                           string=null
+    @param modifiers                            string=null
+    @param checkbox_id                          string=*
+    @param checkbox_label_class_name            string=null
+    @param checkbox_label_modifiers             string=null
+    @param checkbox_label_content               html=null
+    @param checkbox_errors                      array=null
+        - content                               string=null
+        - modifiers                             array|string=null
+    @param checkbox_class_name                  string=null
+    @param checkbox_modifiers                   array|string=null
+    @param checkbox_required                    bool=false
+    @param checkbox_validate                    bool=false
+    @param checkbox_content                     string*
+#}
+
+{% set class = 'class="form-group-checkbox ' ~ class_name|default ~ ' ' ~ modifiers|default ~ '"' %}
+
+<div {{ class|raw }}>
+    {% if checkbox_label_content|default %}
+        <div class="form-group-checkbox__label">
+            {% include '@lin3s_front_foundation/atoms/form_label.html.twig' with {
+                label_for: checkbox_id,
+                label_required: checkbox_required|default(0),
+                label_class_name: checkbox_label_class_name|default,
+                label_modifiers: checkbox_label_modifiers|default,
+                label_content: checkbox_label_content
+            } %}
+        </div>
+    {% endif %}
+
+    {% include '@lin3s_front_foundation/atoms/form_checkbox.html.twig' with {
+        checkbox_id: checkbox_id,
+        checkbox_class_name: checkbox_class_name|default,
+        checkbox_modifiers: checkbox_modifiers|default,
+        checkbox_content: checkbox_content,
+        checkbox_required: checkbox_required,
+        checkbox_validate: checkbox_validate
+    } %}
+
+    {% if checkbox_errors|default %}
+        <div class="form-group-checkbox__errors">
+        {% for error in checkbox_errors %}
+            {% include '@lin3s_front_foundation/atoms/form_error.html.twig' with {
+                error_content: error.content,
+                error_modifiers: error.modifiers
+            } %}
+        {% endfor %}
+        </div>
+    {% endif %}
+</div>

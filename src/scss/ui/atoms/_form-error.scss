@@ -19,20 +19,23 @@ $form-error-font-weight: normal !default;
 $form-error-line-height: 18px !default;
 
 .form-error {
-  animation: $form-error-animation;
   background-color: $form-error-background-color;
   border: 1px solid $form-error-border-color;
   color: $form-error-text-color;
+  display: none;
   font-family: $form-error-font-family;
   font-size: $form-error-font-size;
   font-weight: $form-error-font-weight;
   left: 0;
   line-height: $form-error-line-height;
+  margin-bottom: 0;
+  margin-top: -1px;
   padding: 13px 10px 10px;
   position: relative;
   width: 100%;
 }
 
-.form-error--hidden {
-  display: none;
+.form-error--visible {
+  animation: $form-error-animation;
+  display: block;
 }

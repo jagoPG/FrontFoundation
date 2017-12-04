@@ -1,12 +1,12 @@
 /*
- * This file is part of the Euskaltel project.
+ * This file is part of the Front Foundation package.
  *
- * Copyright (c) 2017 LIN3S <info@lin3s.com>
+ * Copyright (c) 2017-present LIN3S <info@lin3s.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @author Mikel Tuesta <mikel@lin3s.com>
+ * @author Mikel Tuesta <mikeltuesta@gmail.com>
  */
 
 import React from 'react';
@@ -14,7 +14,7 @@ import PropTypes from 'prop-types';
 import FormSelect from './../../atoms/FormSelect/FormSelect';
 import ResizeAware from './../../hoc/ResizeAware';
 
-class FormGroupSelect extends React.Component {
+class FormGroupSelect extends React.PureComponent {
 
   static propTypes = {
     enabled: PropTypes.bool,
@@ -30,10 +30,11 @@ class FormGroupSelect extends React.Component {
       value: PropTypes.string
     })),
     outsideClickToCloseEnabled: PropTypes.bool,
-    parsleyValidationDefaultValueMessages: PropTypes.object,
-    parsleyValidationEnabled: PropTypes.bool,
-    parsleyValidationNotValidValue: PropTypes.string,
-    required: PropTypes.bool
+    required: PropTypes.bool,
+    validationEnabled: PropTypes.bool,
+    validationPattern: PropTypes.string,
+    validationMessageRequired: PropTypes.string,
+    validationMessageNotValid: PropTypes.string
   };
 
   static defaultProps = {
@@ -42,18 +43,55 @@ class FormGroupSelect extends React.Component {
     filterable: false,
     loading: false,
     outsideClickToCloseEnabled: true,
-    parsleyValidationDefaultValueMessages: undefined,
-    parsleyValidationEnabled: false,
-    parsleyValidationNotValidValue: '',
-    required: false
+    required: false,
+    validationEnabled: false,
+    validationMessageRequired: '',
+    validationMessageNotValid: '',
+    validationPattern: ''
   };
 
   constructor(props) {
     super(props);
   }
 
+  shouldComponentUpdate(nextProps) {
+    const {
+      enabled,
+      filterValue,
+      filterable,
+      id,
+      label,
+      loading,
+      onInputChanged,
+      onOptionSelected,
+      options,
+      outsideClickToCloseEnabled,
+      required,
+      validationEnabled,
+      validationPattern,
+      validationMessageRequired,
+      validationMessageNotValid
+    } = this.props;
+
+    return enabled !== nextProps.enabled ||
+      filterValue !== nextProps.filterValue ||
+      filterable !== nextProps.filterable ||
+      id !== nextProps.id ||
+      label !== nextProps.label ||
+      loading !== nextProps.loading ||
+      onInputChanged !== nextProps.onInputChanged ||
+      onOptionSelected !== nextProps.onOptionSelected ||
+      options !== nextProps.options ||
+      outsideClickToCloseEnabled !== nextProps.outsideClickToCloseEnabled ||
+      required !== nextProps.required ||
+      validationEnabled !== nextProps.validationEnabled ||
+      validationPattern !== nextProps.validationPattern ||
+      validationMessageRequired !== nextProps.validationMessageRequired ||
+      validationMessageNotValid !== nextProps.validationMessageNotValid;
+  }
+
   render() {
-    const {label, id, required} = this.props;
+    const {label, id, required, validationMessageRequired, validationMessageNotValid} = this.props;
 
     return (
       <div className="form-group-select">
@@ -67,6 +105,10 @@ class FormGroupSelect extends React.Component {
         <ResizeAware render={(props) =>
           <FormSelect windowHeight={props.windowHeight} windowWidth={props.windowWidth} {...this.props} />
         } />
+        <div className="form-group-select__errors">
+          <p className="form-error form-error--not-filled">{validationMessageRequired}</p>
+          <p className="form-error form-error--not-valid">{validationMessageNotValid}</p>
+        </div>
       </div>
     );
   }

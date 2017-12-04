@@ -1,0 +1,23 @@
+{% macro required(id, placeholder, label, errors) %}
+    {% include '@lin3s_front_foundation/components/form_group_textarea.html.twig' with {
+        textarea_id: id,
+        textarea_placeholder: placeholder,
+        textarea_label_content: label,
+        textarea_errors: errors,
+        textarea_required: 1,
+        textarea_validate: 1,
+        textarea_validation_type: 'any'
+    } %}
+{% endmacro %}
+
+{% macro requiredWithPattern(id, placeholder, label, pattern, errors) %}
+    {% include '@lin3s_front_foundation/components/form_group_textarea.html.twig' with {
+        textarea_id: id,
+        textarea_placeholder: placeholder,
+        textarea_label_content: label,
+        textarea_errors: errors,
+        textarea_required: 1,
+        textarea_validate: 1,
+        textarea_validation_pattern: pattern
+    } %}
+{% endmacro %}

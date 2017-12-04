@@ -7,6 +7,7 @@
  * file that was distributed with this source code.
  *
  * @author Beñat Espiña <benatespina@gmail.com>
+ * @author Mikel Tuesta <mikeltuesta@gmail.com>
  */
 
 import GMap from './components/GMap/GMap';
@@ -17,6 +18,8 @@ import FormSelect from './atoms/FormSelect/FormSelect';
 import './components/GMap/init';
 import './atoms/FormSelect/init';
 import './atoms/FormInput/init';
+import './atoms/FormTextarea/init';
+import './atoms/FormCheckbox/init';
 
 export {
   GMap,

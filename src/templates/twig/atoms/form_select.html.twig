@@ -14,7 +14,6 @@
 
     @param select_class_name                        string=null
     @param select_id                                string*
-    @param select_required                          bool=false
     @param select_modifiers                         string=null
     @param select_no_selection_label                string="--"
     @param select_no_selection_value                string="--"
@@ -28,25 +27,27 @@
     @param select_filter_placeholder                string=null
     @param select_filter_order_by                   string='value' (or 'label')
     @param select_mobile_breakpoint                 int=1024
-    @param select_parsley_validation_enabled        bool=false
-    @param select_parsley_validation_messages       array=null
+    @param select_required                          bool=false
+    @param select_validate                          bool=false
+    @param select_validation_pattern                string=null
+    @param select_validation_type                   string=null
 #}
 
 {% set select_no_selection_label = select_no_selection_label|default('--') %}
 {% set select_no_selection_value = select_no_selection_value|default('--') %}
 {% set select_filter_order_by = select_filter_order_by|default('value') %}
 
-<div class="form-select js-form-select{% if select_modifiers|default %} {{ select_modifiers }}{% endif %} {{ select_class_name }}"
+{% set class = 'class="form-select js-form-select ' ~ select_class_name|default ~ ' ' ~ select_modifiers|default ~ '"' %}
+{% set required = select_required|default ? 'required' %}
+{% set validation = select_validate|default(0) ? 'data-validate data-validation-state-reference-selector=".form-select"' ~ (select_validation_pattern|default ? ' data-validate-pattern=' ~ select_validation_pattern) ~ (select_validation_type|default ? ' data-validate-' ~ select_validation_type) %}
+
+<div {{ class|raw }}
     data-max-height-mobile="{{ select_max_height_mobile|default(260) }}"
     data-max-height-desktop="{{ select_max_height_desktop|default(420) }}"
     data-filterable="{{ select_is_filterable|default(1) }}"
     data-filter-order-by="{{ select_filter_order_by }}"
     data-mobile-breakpoint="{{ select_mobile_breakpoint|default(1024) }}"
-    tabindex="0"
-    {% if select_parsley_validation_enabled %}
-        data-parsley-validation-enabled="true"
-        data-parsley-validation-messages={{ select_parsley_validation_messages|json_encode }}
-    {% endif %}>
+    tabindex="0">
     <span class="form-select__dropdown-icon">
         {% include '@lin3s_front_foundation/svg/arrows_small_down.svg.twig' %}
     </span>
@@ -71,8 +72,7 @@
             {% endfor %}
         </div>
     </div>
-    <select class="form-select__select" name="{{ select_id }}" id="{{ select_id }}" {% if select_required|default %} required{% endif %}
-            {% if select_parsley_validation_enabled %}data-parsley-not-default-option="true" data-parsley-trigger="change"{% endif %}>
+    <select class="form-select__select" name="{{ select_id }}" id="{{ select_id }}" {{ required }} {{ validation|raw }}>
         <option class="form-select__select-no-selection" value="{{ select_no_selection_value }}">
             {{ select_no_selection_label }}
         </option>

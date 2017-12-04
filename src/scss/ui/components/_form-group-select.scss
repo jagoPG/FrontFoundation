@@ -7,12 +7,11 @@
 //
 // @author Mikel Tuesta <mikeltuesta@gmail.com>
 
+@import './../../_placeholders/form-group';
+@import './../../_mixins/form-validation';
+
 .form-group-select__label {
-  margin-bottom: 10px;
+  @extend %form-group__label;
 }
 
-.form-group-select__error {
-  padding-top: 10px;
-  position: relative;
-  z-index: -1;
-}
+@include form_group_validation_errors('.form-group-select__errors');

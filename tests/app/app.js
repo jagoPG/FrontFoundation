@@ -9,25 +9,21 @@
  * @author Mikel Tuesta <mikeltuesta@gmail.com>
  */
 
-import 'parsleyjs';
 import {
-  Parsley,
   Async,
   Browser,
   Dom
 } from 'lin3s-front-foundation';
-import {onDomReady} from 'lin3s-event-bus';
+import {onDomReady, LifeTimeEventPublisher} from 'lin3s-event-bus';
+import FormValidationStateChangedEvent from './src/js/validatory/FormValidationStateChangedEvent';
+import FormElementValidationStateChangedEvent from './src/js/validatory/FormElementValidationStateChangedEvent';
+import {onFormValidationStateChanged, onFormElementValidationStateChanged} from './src/js/validatory/Subscriptions';
+import {init, STATE} from 'validatory';
 
 import './src/js/GMapGeocoderDemo';
 import './src/js/FormSelectDemo';
 import './src/js/React/init';
-
 import './app.scss';
-
-const testParsleySetLocale = () => {
-  console.log('Testing Parsley.setLocale');
-  Parsley.setLocale('es');
-};
 
 const testAsyncCancelablePromise = () => {
   console.log('Testing Promise.cancelablePromise');
@@ -95,13 +91,57 @@ const testDomWaitImagesLoadInDomNode = () => {
   });
 };
 
+const testValidatory = () => {
+  const getStateString = stateValue => {
+    switch (stateValue) {
+      case STATE.VALID:
+        return 'VALID';
+      case STATE.NOT_VALID:
+        return 'NOT VALID';
+      case STATE.NOT_VALIDATED:
+        return 'NOT VALIDATED';
+      case STATE.NOT_FILLED:
+        return 'NOT FILLED';
+    }
+  };
+
+  const
+    formValidationStateChangedCallback = instance => {
+      LifeTimeEventPublisher.publish(new FormValidationStateChangedEvent(instance));
+    },
+    formElementValidationStateChangedCallback = instance => {
+      LifeTimeEventPublisher.publish(new FormElementValidationStateChangedEvent(instance));
+    };
+
+  init({
+    formSelector: 'form',
+    formElementSelector: 'input, select, textarea',
+    onFormValidationStateChanged: formValidationStateChangedCallback,
+    onFormElementValidationStateChanged: formElementValidationStateChangedCallback
+  });
+
+  onFormValidationStateChanged(
+    document.getElementById('validatory-form'),
+    formValidationStateChangedEvent => {
+      console.log(`Form state changed to: [${getStateString(formValidationStateChangedEvent.formValidatorInstance.state)}]`); // eslint-disable-line max-len
+    }
+  );
+
+  onFormElementValidationStateChanged(
+    document.getElementById('validatory-form'),
+    formElementValidationStateChangedEvent => {
+      console.log(`Form element state changed to: [${getStateString(formElementValidationStateChangedEvent.formElementValidatorInstance.state)}]`); // eslint-disable-line max-len
+    }
+  );
+};
+
 const onReady = () => {
-  testParsleySetLocale();
   testAsyncCancelablePromise();
   testBrowserIsIE11();
   testDomLoadScript();
   testDomInjectScript();
   testDomWaitImagesLoadInDomNode();
+  testValidatory();
 };
 
 onDomReady(onReady);

@@ -1,5 +1,8 @@
 {##
+    @param loader_class_name    string=null
     @param loader_modifiers     string=null
 #}
 
-<div class="loader{% if loader_modifiers|default %} {{ loader_modifiers }}{% endif %}"></div>
+{% set class = 'class="loader ' ~ loader_class_name|default ~ ' ' ~ loader_modifiers|default ~ '"'  %}
+
+<div {{ class|raw }}></div>

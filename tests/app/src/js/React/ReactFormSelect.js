@@ -9,16 +9,10 @@
  * @author Mikel Tuesta <mikeltuesta@gmail.com>
  */
 
-import $ from 'jquery';
 import React from 'react';
 import PropTypes from 'prop-types';
 import {Ui} from 'lin3s-front-foundation';
-
-const defaultValueMessages = {
-  en: 'The selected option is the default one',
-  es: 'La opción seleccionada es la opción por defecto',
-  eu: 'Hautatutako aukera lehenetsiko aukera da'
-};
+import {Patterns} from 'validatory';
 
 class ReactFormSelect extends React.Component {
 
@@ -63,9 +57,6 @@ class ReactFormSelect extends React.Component {
 
   render() {
     const {filterValue, filteredOptions} = this.state;
-    const {domNode} = this.props;
-
-    const parentForms = $(domNode).parents('form[data-parsley-validate]');
 
     return <Ui.React.FormGroupSelect
       enabled={true}
@@ -78,12 +69,12 @@ class ReactFormSelect extends React.Component {
       onOptionSelected={this.onFormSelectOptionSelected}
       options={filteredOptions}
       outsideClickToCloseEnabled={true}
-      parsleyValidationDefaultValueMessages={defaultValueMessages}
-      parsleyValidationEnabled={true}
-      parsleyValidationForm={parentForms[0]}
-      parsleyValidationNotValidValue="--"
       renderFormInput={true}
-      required={true}/>;
+      required={true}
+      validationEnabled={true}
+      validationMessageNotValid="Selected option is not valid"
+      validationMessageRequired="This field is required"
+      validationPattern={Patterns.notValue('--')}/>;
   }
 }
 

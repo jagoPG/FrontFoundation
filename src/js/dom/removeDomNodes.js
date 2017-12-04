@@ -6,13 +6,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @author Beñat Espiña <benatespina@gmail.com>
+ * @author Mikel Tuesta <mikeltuesta@gmail.com>
  */
 
-import excludeFormFields from './excludeFormFields';
-import setLocale from './setLocale';
-
-export {
-  excludeFormFields,
-  setLocale
-};
+export default domNodes => Array.from(domNodes).forEach(domNode => domNode.parentNode.removeChild(domNode));

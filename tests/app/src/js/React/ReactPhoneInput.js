@@ -9,16 +9,10 @@
  * @author Mikel Tuesta <mikeltuesta@gmail.com>
  */
 
-import $ from 'jquery';
 import React from 'react';
 import PropTypes from 'prop-types';
 import {Ui} from 'lin3s-front-foundation';
-
-const notValidPhoneMessages = {
-  en: 'Entered phone is not valid.',
-  es: 'El teléfono introducido no es válido.',
-  eu: 'Sartutako telefonoa ez du balio'
-};
+import {Patterns} from 'validatory';
 
 class ReactFormInput extends React.PureComponent {
 
@@ -27,16 +21,15 @@ class ReactFormInput extends React.PureComponent {
   };
 
   render() {
-    const parentForms = $(this.props.domNode).parents('form[data-parsley-validate]');
-
     return <Ui.React.FormGroupInput
       id="react-form-group-input-phone"
       label="Phone:"
-      parsleyValidationEnabled={true}
-      parsleyValidationForm={parentForms[0]}
-      parsleyValidationPhoneMessages={notValidPhoneMessages}
       required={true}
-      type="tel"/>;
+      type="tel"
+      validationEnabled={true}
+      validationMessageNotValid="The entered phone is not valid"
+      validationMessageRequired="This field is required"
+      validationPattern={Patterns.phone}/>;
   }
 }
 

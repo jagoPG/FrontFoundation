@@ -15,11 +15,19 @@ import injectScript from './injectScript';
 import waitImagesLoadInDomNode from './waitImagesLoadInDomNode';
 import getHtmlLang from './getHtmlLang';
 import isDomNodeDescendantOfDomNode from './isDomNodeDescendantOfDomNode';
+import getDomNodeIndex from './getDomNodeIndex';
+import removeDomNodes from './removeDomNodes';
+import addSelectorFilteredEventListener from './addSelectorFilteredEventListener';
+import dispatchNativeEvent from './dispatchNativeEvent';
 
 export {
   loadScript,
   injectScript,
   waitImagesLoadInDomNode,
   getHtmlLang,
-  isDomNodeDescendantOfDomNode
+  isDomNodeDescendantOfDomNode,
+  getDomNodeIndex,
+  removeDomNodes,
+  addSelectorFilteredEventListener,
+  dispatchNativeEvent
 };

@@ -6,9 +6,11 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @author Beñat Espiña <benatespina@gmail.com>
+ * @author Mikel Tuesta <mikeltuesta@gmail.com>
  */
 
-export default (inputsSelector) => {
-  window.Parsley.options.excluded = window.Parsley.options.excluded.concat(', ').concat(inputsSelector);
+export default (domNode, eventName) => {
+  const event = document.createEvent('HTMLEvents');
+  event.initEvent(eventName, true, false);
+  domNode.dispatchEvent(event);
 };

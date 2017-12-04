@@ -15,21 +15,21 @@
     @param input_type                               string='text'
     @param input_class_name                         string=null
     @param input_modifiers                          string=null
-    @param input_placeholder                        string*
+    @param input_placeholder                        string=null
     @param input_id                                 string=null
     @param input_required                           bool=false
-    @param input_parsley_phone_validation_messages  array=null
-    @param input_parsley_validation_enabled         bool=false
-
+    @param input_value                              string=null
+    @param input_validate                           bool=false
+    @param input_validation_pattern                 string=null
+    @param input_validation_type                    string=null
 #}
 
-<input class="form-input js-form-input
-{% if input_class_name|default %} {{ input_class_name }}{% endif %}
-{% if input_modifiers|default %} {{ input_modifiers }}{% endif %}"
-type="{{ input_type|default('text') }}" placeholder="{{ input_placeholder }}" autocomplete="off"
-{% if input_id|default %}id="{{ input_id }}" name="{{ input_id }}"{% endif %}
-{% if input_required|default %} required{% endif %}
-{% if input_type == 'tel' and input_parsley_validation_enabled %}
-    data-parsley-phone
-    data-parsley-phone-validation-messages={{ input_parsley_phone_validation_messages|json_encode }}
-{% endif %}/>
+{% set id = input_id|default ? 'id=' ~ input_id ~ ' name=' ~ input_id %}
+{% set type = 'type=' ~ input_type|default('text') %}
+{% set class = 'class="form-input js-form-input ' ~ input_class_name|default ~ ' ' ~ input_modifiers|default ~ '"' %}
+{% set placeholder = input_placeholder|default ? 'placeholder="' ~ input_placeholder ~ '"' %}
+{% set required = input_required|default ? 'required' %}
+{% set validation = input_validate|default ? 'data-validate' ~ (input_validation_pattern|default ? ' data-validate-pattern=' ~ input_validation_pattern) ~ (input_validation_type|default ? ' data-validate-' ~ input_validation_type) %}
+{% set value = input_value ? 'value="' ~ input_value ~ '"' %}
+
+<input {{ id }} {{ type }} {{ class|raw }} {{ placeholder|raw }} {{ required }} {{ validation }} {{ value|raw }} autocomplete="off" tabindex="0"/>

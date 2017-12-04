@@ -88,7 +88,6 @@ const
     return formSelectStateChangedEventSubscriber;
   };
 
-
 export {
   onGMapInitialized,
   onGMapMarkerSelected,
