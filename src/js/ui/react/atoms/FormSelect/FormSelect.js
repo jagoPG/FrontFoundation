@@ -332,6 +332,59 @@ class FormSelect extends React.Component {
     }
   }
 
+  shouldComponentUpdate(nextProps, nextState) {
+    const {
+      enabled,
+      filterValue,
+      filterable,
+      id,
+      label,
+      loading,
+      onInputChanged,
+      onOptionSelected,
+      options,
+      outsideClickToCloseEnabled,
+      validationEnabled,
+      validationPattern,
+      required
+    } = this.props;
+
+    const {
+      editingInput,
+      focused,
+      opened,
+      touched,
+      selectedOption,
+      hoveredOption,
+      mouseOverListenerEnabled
+    } = this.state;
+
+    const optionsAreEqual = this.props !== undefined && options.every(option =>
+      nextProps.options.find(nextPropsOption => nextPropsOption === option));
+
+    return enabled !== nextProps.enabled ||
+      filterValue !== nextProps.filterValue ||
+      filterable !== nextProps.filterable ||
+      id !== nextProps.id ||
+      label !== nextProps.label ||
+      loading !== nextProps.loading ||
+      onInputChanged !== nextProps.onInputChanged ||
+      onOptionSelected !== nextProps.onOptionSelected ||
+      options !== nextProps.options ||
+      outsideClickToCloseEnabled !== nextProps.outsideClickToCloseEnabled ||
+      validationEnabled !== nextProps.validationEnabled ||
+      validationPattern !== nextProps.validationPattern ||
+      required !== nextProps.required ||
+      !optionsAreEqual ||
+      editingInput !== nextState.editingInput ||
+      focused !== nextState.focused ||
+      opened !== nextState.opened ||
+      touched !== nextState.touched ||
+      selectedOption !== nextState.selectedOption ||
+      hoveredOption !== nextState.hoveredOption ||
+      mouseOverListenerEnabled !== nextState.mouseOverListenerEnabled;
+  }
+
   render() {
     /* eslint-disable react/no-danger */
 

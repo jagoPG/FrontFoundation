@@ -15,7 +15,6 @@ import * as Browser from './browser/index';
 import * as Dom from './dom/index';
 import * as Async from './async/index';
 import * as EventBus from './event-bus/index';
-import * as FormValidator from './form-validator/index';
 
 import './polyfill/index';
 
@@ -24,6 +23,5 @@ export {
   Browser,
   Dom,
   Async,
-  EventBus,
-  FormValidator
+  EventBus
 };

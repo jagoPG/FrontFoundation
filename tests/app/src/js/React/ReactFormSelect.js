@@ -11,7 +11,8 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Ui, FormValidator} from 'lin3s-front-foundation';
+import {Ui} from 'lin3s-front-foundation';
+import {Patterns} from 'validatory';
 
 class ReactFormSelect extends React.Component {
 
@@ -73,7 +74,7 @@ class ReactFormSelect extends React.Component {
       validationEnabled={true}
       validationMessageNotValid="Selected option is not valid"
       validationMessageRequired="This field is required"
-      validationPattern={FormValidator.Patterns.notValue('--')}/>;
+      validationPattern={Patterns.notValue('--')}/>;
   }
 }
 

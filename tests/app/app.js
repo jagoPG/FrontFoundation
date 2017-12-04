@@ -12,13 +12,13 @@
 import {
   Async,
   Browser,
-  Dom,
-  FormValidator
+  Dom
 } from 'lin3s-front-foundation';
 import {onDomReady, LifeTimeEventPublisher} from 'lin3s-event-bus';
-import FormValidationStateChangedEvent from './src/js/FormValidator/FormValidationStateChangedEvent';
-import FormElementValidationStateChangedEvent from './src/js/FormValidator/FormElementValidationStateChangedEvent';
-import {onFormValidationStateChanged, onFormElementValidationStateChanged} from './src/js/FormValidator/Subscriptions';
+import FormValidationStateChangedEvent from './src/js/validatory/FormValidationStateChangedEvent';
+import FormElementValidationStateChangedEvent from './src/js/validatory/FormElementValidationStateChangedEvent';
+import {onFormValidationStateChanged, onFormElementValidationStateChanged} from './src/js/validatory/Subscriptions';
+import {init, STATE} from 'validatory';
 
 import './src/js/GMapGeocoderDemo';
 import './src/js/FormSelectDemo';
@@ -94,13 +94,13 @@ const testDomWaitImagesLoadInDomNode = () => {
 const testValidatory = () => {
   const getStateString = stateValue => {
     switch (stateValue) {
-      case FormValidator.STATE.VALID:
+      case STATE.VALID:
         return 'VALID';
-      case FormValidator.STATE.NOT_VALID:
+      case STATE.NOT_VALID:
         return 'NOT VALID';
-      case FormValidator.STATE.NOT_VALIDATED:
+      case STATE.NOT_VALIDATED:
         return 'NOT VALIDATED';
-      case FormValidator.STATE.NOT_FILLED:
+      case STATE.NOT_FILLED:
         return 'NOT FILLED';
     }
   };
@@ -113,7 +113,7 @@ const testValidatory = () => {
       LifeTimeEventPublisher.publish(new FormElementValidationStateChangedEvent(instance));
     };
 
-  FormValidator.init({
+  init({
     formSelector: 'form',
     formElementSelector: 'input, select, textarea',
     onFormValidationStateChanged: formValidationStateChangedCallback,

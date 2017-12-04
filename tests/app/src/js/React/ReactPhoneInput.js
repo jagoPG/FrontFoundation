@@ -11,7 +11,8 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Ui, FormValidator} from 'lin3s-front-foundation';
+import {Ui} from 'lin3s-front-foundation';
+import {Patterns} from 'validatory';
 
 class ReactFormInput extends React.PureComponent {
 
@@ -28,7 +29,7 @@ class ReactFormInput extends React.PureComponent {
       validationEnabled={true}
       validationMessageNotValid="The entered phone is not valid"
       validationMessageRequired="This field is required"
-      validationPattern={FormValidator.Patterns.phone}/>;
+      validationPattern={Patterns.phone}/>;
   }
 }
 

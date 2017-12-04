@@ -5,6 +5,9 @@ This changelog references the relevant changes done between versions.
 To get the diff for a specific change, go to https://github.com/LIN3S/FrontFoundation/commit/XXX where XXX is the change hash 
 To get the diff between two versions, go to https://github.com/LIN3S/FrontFoundation/compare/v0.5.0...v0.6.0
 
+* 0.13.0
+    * Removed all `ParsleyJS` and `jQuery` dependencies.
+    * Added `validatory` for form validation.
 * 0.12.0
     * Added back `parsleyWebpackContextReplacementPlugin` Webpack plugin to `config`.
 * 0.11.4

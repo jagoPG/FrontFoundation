@@ -1,6 +1,6 @@
 {
   "name": "lin3s-front-foundation",
-  "version": "0.12.0",
+  "version": "0.13.0",
   "author": "LIN3S",
   "license": "MIT",
   "description": "Library that provides a sort of commonly used front-end components in LIN3S projects",
@@ -12,7 +12,8 @@
     "js",
     "scss"
   ],
-  "main": "dist/js/index.js",
+  "main": "dist/js/es5/index.js",
+  "module": "dist/js/es6/index.js",
   "files": [
     "dist",
     "LICENSE",
@@ -24,7 +25,7 @@
     "eslint": "node_modules/.bin/eslint src/js/**/*.js",
     "stylelint": "node_modules/.bin/stylelint src/scss/**/*.scss",
     "cs": "yarn eslint && yarn stylelint",
-    "js-bundle": "cp -R src/js dist",
+    "js-bundle": "node_modules/.bin/babel --copy-files --out-dir dist/js/es5 src/js && cp -R src/js dist/js/es6",
     "styles-bundle": "cp -R src/scss dist",
     "build": "yarn prebuild && mkdirp dist && yarn cs && yarn styles-bundle && yarn js-bundle"
   },
@@ -62,5 +63,8 @@
     "react": ">=15.0",
     "react-dom": ">=15.0",
     "webpack": "^3.6.0"
+  },
+  "dependencies": {
+    "validatory": "^0.1.0"
   }
 }

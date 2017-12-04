@@ -14,7 +14,7 @@ import PropTypes from 'prop-types';
 import FormSelect from './../../atoms/FormSelect/FormSelect';
 import ResizeAware from './../../hoc/ResizeAware';
 
-class FormGroupSelect extends React.Component {
+class FormGroupSelect extends React.PureComponent {
 
   static propTypes = {
     enabled: PropTypes.bool,
@@ -54,6 +54,42 @@ class FormGroupSelect extends React.Component {
     super(props);
   }
 
+  shouldComponentUpdate(nextProps) {
+    const {
+      enabled,
+      filterValue,
+      filterable,
+      id,
+      label,
+      loading,
+      onInputChanged,
+      onOptionSelected,
+      options,
+      outsideClickToCloseEnabled,
+      required,
+      validationEnabled,
+      validationPattern,
+      validationMessageRequired,
+      validationMessageNotValid
+    } = this.props;
+
+    return enabled !== nextProps.enabled ||
+      filterValue !== nextProps.filterValue ||
+      filterable !== nextProps.filterable ||
+      id !== nextProps.id ||
+      label !== nextProps.label ||
+      loading !== nextProps.loading ||
+      onInputChanged !== nextProps.onInputChanged ||
+      onOptionSelected !== nextProps.onOptionSelected ||
+      options !== nextProps.options ||
+      outsideClickToCloseEnabled !== nextProps.outsideClickToCloseEnabled ||
+      required !== nextProps.required ||
+      validationEnabled !== nextProps.validationEnabled ||
+      validationPattern !== nextProps.validationPattern ||
+      validationMessageRequired !== nextProps.validationMessageRequired ||
+      validationMessageNotValid !== nextProps.validationMessageNotValid;
+  }
+
   render() {
     const {label, id, required, validationMessageRequired, validationMessageNotValid} = this.props;
 
@@ -69,7 +105,7 @@ class FormGroupSelect extends React.Component {
         <ResizeAware render={(props) =>
           <FormSelect windowHeight={props.windowHeight} windowWidth={props.windowWidth} {...this.props} />
         } />
-        <div className="form-group-input__errors">
+        <div className="form-group-select__errors">
           <p className="form-error form-error--not-filled">{validationMessageRequired}</p>
           <p className="form-error form-error--not-valid">{validationMessageNotValid}</p>
         </div>

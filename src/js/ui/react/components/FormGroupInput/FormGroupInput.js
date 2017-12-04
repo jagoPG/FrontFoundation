@@ -48,6 +48,27 @@ class FormGroup extends React.PureComponent {
     this.props.onChanged(event.target.value);
   }
 
+  shouldComponentUpdate(nextProps) {
+    const {id,
+      label,
+      required,
+      type,
+      validationEnabled,
+      validationPattern,
+      validationMessageRequired,
+      validationMessageNotValid
+    } = this.props;
+
+    return id !== nextProps.id ||
+      label !== nextProps.label ||
+      required !== nextProps.required ||
+      type !== nextProps.type ||
+      validationEnabled !== nextProps.validationEnabled ||
+      validationPattern !== nextProps.validationPattern ||
+      validationMessageRequired !== nextProps.validationMessageRequired ||
+      validationMessageNotValid !== nextProps.validationMessageNotValid;
+  }
+
   render() {
     const {
       id,
@@ -75,7 +96,6 @@ class FormGroup extends React.PureComponent {
         id={id}
         name={id}
         onChange={this.onInputChange}
-        onFocus={this.onInputFocus}
         placeholder={label}
         ref={input => {
           this.input = input;
