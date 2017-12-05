@@ -30,6 +30,7 @@ class FormGroupSelect extends React.PureComponent {
       value: PropTypes.string
     })),
     outsideClickToCloseEnabled: PropTypes.bool,
+    placeholder: PropTypes.string.isRequired,
     required: PropTypes.bool,
     validationEnabled: PropTypes.bool,
     validationPattern: PropTypes.string,
@@ -50,8 +51,9 @@ class FormGroupSelect extends React.PureComponent {
     validationPattern: ''
   };
 
-  constructor(props) {
-    super(props);
+  optionsAreEqual(props, nextProps) {
+    return props !== undefined && props.options.length === nextProps.options.length && props.options.every(option =>
+      nextProps.options.find(nextPropsOption => nextPropsOption.label === option.label && nextPropsOption.value === option.value));
   }
 
   shouldComponentUpdate(nextProps) {
@@ -64,8 +66,8 @@ class FormGroupSelect extends React.PureComponent {
       loading,
       onInputChanged,
       onOptionSelected,
-      options,
       outsideClickToCloseEnabled,
+      placeholder,
       required,
       validationEnabled,
       validationPattern,
@@ -79,9 +81,10 @@ class FormGroupSelect extends React.PureComponent {
       id !== nextProps.id ||
       label !== nextProps.label ||
       loading !== nextProps.loading ||
+      placeholder !== nextProps.placeholder ||
+      !this.optionsAreEqual(this.props, nextProps) ||
       onInputChanged !== nextProps.onInputChanged ||
       onOptionSelected !== nextProps.onOptionSelected ||
-      options !== nextProps.options ||
       outsideClickToCloseEnabled !== nextProps.outsideClickToCloseEnabled ||
       required !== nextProps.required ||
       validationEnabled !== nextProps.validationEnabled ||
@@ -98,7 +101,7 @@ class FormGroupSelect extends React.PureComponent {
         <div className="form-group-select__label">
           <label className="form-label" htmlFor={id}>
             {required &&
-              <span className="form-label__required">*</span>}
+            <span className="form-label__required">*</span>}
             {label}
           </label>
         </div>

@@ -1,6 +1,6 @@
 {
   "name": "lin3s-front-foundation",
-  "version": "0.13.0",
+  "version": "0.13.1",
   "author": "LIN3S",
   "license": "MIT",
   "description": "Library that provides a sort of commonly used front-end components in LIN3S projects",
@@ -12,8 +12,8 @@
     "js",
     "scss"
   ],
-  "main": "dist/js/es5/index.js",
-  "module": "dist/js/es6/index.js",
+  "main": "dist/js/common/index.js",
+  "module": "dist/js/esm/index.js",
   "files": [
     "dist",
     "LICENSE",
@@ -25,9 +25,10 @@
     "eslint": "node_modules/.bin/eslint src/js/**/*.js",
     "stylelint": "node_modules/.bin/stylelint src/scss/**/*.scss",
     "cs": "yarn eslint && yarn stylelint",
-    "js-bundle": "node_modules/.bin/babel --copy-files --out-dir dist/js/es5 src/js && cp -R src/js dist/js/es6",
+    "common-bundle": "node_modules/.bin/babel --copy-files --out-dir dist/js/common src/js",
+    "esm-bundle": "cp -R src/js dist/js/esm",
     "styles-bundle": "cp -R src/scss dist",
-    "build": "yarn prebuild && mkdirp dist && yarn cs && yarn styles-bundle && yarn js-bundle"
+    "build": "yarn prebuild && mkdirp dist && yarn cs && yarn styles-bundle && yarn common-bundle && yarn esm-bundle"
   },
   "babel": {
     "presets": [

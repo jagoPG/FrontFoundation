@@ -29,7 +29,6 @@ class FormSelect extends React.Component {
     filterValue: PropTypes.string,
     filterable: PropTypes.bool,
     id: PropTypes.string.isRequired,
-    label: PropTypes.string.isRequired,
     loading: PropTypes.bool,
     onInputChanged: PropTypes.func,
     onOptionSelected: PropTypes.func.isRequired,
@@ -38,6 +37,7 @@ class FormSelect extends React.Component {
       value: PropTypes.string
     })),
     outsideClickToCloseEnabled: PropTypes.bool,
+    placeholder: PropTypes.string.isRequired,
     validationEnabled: PropTypes.bool,
     validationPattern: PropTypes.string,
     required: PropTypes.bool
@@ -61,7 +61,7 @@ class FormSelect extends React.Component {
     this.optionNodesRefs = [];
 
     this.state = {
-      dataRendered: true,
+      dataRendered: false,
       editingInput: false,
       focused: false,
       opened: false,
@@ -279,9 +279,13 @@ class FormSelect extends React.Component {
     return {__html: rawHtml};
   }
 
+  optionsAreEqual(props, nextProps) {
+    return props !== undefined && props.options.length === nextProps.options.length && props.options.every(option =>
+      nextProps.options.find(nextPropsOption => nextPropsOption.label === option.label && nextPropsOption.value === option.value));
+  }
+
   componentWillReceiveProps(nextProps) {
-    const optionsAreEqual = this.props !== undefined && this.props.options.every(option =>
-      nextProps.options.find(nextPropsOption => nextPropsOption === option));
+    const optionsAreEqual = this.optionsAreEqual(this.props, nextProps);
 
     this.setState(prevState => {
       const
@@ -302,12 +306,12 @@ class FormSelect extends React.Component {
 
   componentDidMount() {
     if (this.props.outsideClickToCloseEnabled) {
-      window.addEventListener('click', () => this.onOutsideClick());
+      window.addEventListener('click', this.onOutsideClick);
     }
 
     /* eslint-disable react/no-did-mount-set-state */
     this.setState({
-      dataRendered: false
+      dataRendered: true
     });
     /* eslint-enable react/no-did-mount-set-state */
   }
@@ -319,7 +323,7 @@ class FormSelect extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (this.props.options !== prevProps.options) {
+    if (!this.optionsAreEqual(prevProps, this.props)) {
       /* eslint-disable react/no-did-update-set-state */
       this.setState({
         dataRendered: false
@@ -338,18 +342,19 @@ class FormSelect extends React.Component {
       filterValue,
       filterable,
       id,
-      label,
       loading,
       onInputChanged,
       onOptionSelected,
       options,
       outsideClickToCloseEnabled,
+      placeholder,
       validationEnabled,
       validationPattern,
       required
     } = this.props;
 
     const {
+      dataRendered,
       editingInput,
       focused,
       opened,
@@ -359,23 +364,20 @@ class FormSelect extends React.Component {
       mouseOverListenerEnabled
     } = this.state;
 
-    const optionsAreEqual = this.props !== undefined && options.every(option =>
-      nextProps.options.find(nextPropsOption => nextPropsOption === option));
-
     return enabled !== nextProps.enabled ||
       filterValue !== nextProps.filterValue ||
       filterable !== nextProps.filterable ||
       id !== nextProps.id ||
-      label !== nextProps.label ||
+      placeholder !== nextProps.placeholder ||
       loading !== nextProps.loading ||
       onInputChanged !== nextProps.onInputChanged ||
       onOptionSelected !== nextProps.onOptionSelected ||
-      options !== nextProps.options ||
       outsideClickToCloseEnabled !== nextProps.outsideClickToCloseEnabled ||
       validationEnabled !== nextProps.validationEnabled ||
       validationPattern !== nextProps.validationPattern ||
       required !== nextProps.required ||
-      !optionsAreEqual ||
+      !this.optionsAreEqual(this.props, nextProps) ||
+      dataRendered !== nextState.dataRendered ||
       editingInput !== nextState.editingInput ||
       focused !== nextState.focused ||
       opened !== nextState.opened ||
@@ -395,7 +397,7 @@ class FormSelect extends React.Component {
       filterable,
       filterValue,
       id,
-      label,
+      placeholder,
       loading,
       options,
       required,
@@ -412,7 +414,7 @@ class FormSelect extends React.Component {
         ${focused ? ' form-select--focused' : ''}`,
       selectLabel = selectedOption !== undefined && selectedOption !== null
         ? this.getDangerousHtml(selectedOption.label) : this.getDangerousHtml(options[0].label),
-      optionsContainerHeight = (opened && !dataRendered) ? this.getOptionsContainerHeight() : 0,
+      optionsContainerHeight = opened ? this.getOptionsContainerHeight() : 0,
       needsOverflow = this.getOptionsContainerNeedsOverflow(optionsContainerHeight),
       optionsContainerClassName = `form-select__options-container${!needsOverflow
         ? ' form-select__options-container--no-overflow' : ''}`;
@@ -435,7 +437,7 @@ class FormSelect extends React.Component {
         <div className="form-select__input-container">
           <input className="form-input form-select__input"
                  onChange={this.onInputChange}
-                 placeholder={label}
+                 placeholder={placeholder}
                  ref={input => {
                    this.filterInput = input;
                  }}
