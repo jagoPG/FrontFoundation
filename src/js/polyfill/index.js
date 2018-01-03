@@ -10,3 +10,4 @@
  */
 
 import './classListToggle';
+import './findIndex';

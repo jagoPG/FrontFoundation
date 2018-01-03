@@ -57,6 +57,7 @@ class FormSelect {
     this.mobileBreakpoint = parseInt(this.domNode.dataset.mobileBreakpoint, 10);
     this.mouseOverListenerEnabled = true;
     this.keyboardControlledSelectedOptionIndex = 0;
+    this.lastFilterValue = '';
 
     if (this.isFilterable) {
       this.filterInput = this.domNode.querySelector('.form-select__input');
@@ -139,6 +140,10 @@ class FormSelect {
 
     this.domNode.addEventListener('click', event => {
       event.stopPropagation();
+
+      if (event.target === this.domNode) {
+        return;
+      }
 
       this.setSelectOpened(!this.opened);
     });
@@ -263,7 +268,9 @@ class FormSelect {
 
     if (this.isFilterable) {
       setTimeout(() => {
-        this.filterInput.focus();
+        if (this.opened) {
+          this.filterInput.focus();
+        }
       }, 100);
     }
   }
@@ -374,6 +381,12 @@ class FormSelect {
         || filterValue === ''
         || option.value === noSelectionValue
       );
+
+    if (filterValue === this.lastFilterValue) {
+      return;
+    }
+
+    this.lastFilterValue = filterValue;
 
     // Remove unnecessary ones
     this.options.forEach(option => {
