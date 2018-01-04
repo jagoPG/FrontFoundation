@@ -230,14 +230,29 @@
 
                 <div style="position: relative; z-index: 100">
                     {{ form_group_selects.required(
-                        'genre',
+                        'Day of the week',
                         'Type to filter...',
-                        'Genre', [{
+                        'Day of the week', [{
                             value: 0,
-                            label: 'Male'
+                            label: 'Sunday'
                         }, {
                             value: 1,
-                            label: 'Female'
+                            label: 'Monday'
+                        }, {
+                            value: 2,
+                            label: 'Tuestay'
+                        }, {
+                            value: 3,
+                            label: 'Wednesday'
+                        }, {
+                            value: 4,
+                            label: 'Thursday'
+                        }, {
+                            value: 5,
+                            label: 'Friday'
+                        }, {
+                            value: 6,
+                            label: 'Saturday'
                         }], [{
                             content: 'This field is required.',
                             modifiers: 'form-error--not-filled',

@@ -428,9 +428,12 @@ class FormSelect {
         }
 
         if (found) {
-          Array.from(this.select.querySelectorAll('option'))[index].insertAdjacentHTML('beforebegin', newSelectOption);
-          Array.from(this.domNode.querySelector('.form-select__option'))[index]
-            .insertAdjacentHTML('beforebegin', newSelectOptionView);
+          const
+            currentOption = Array.from(this.select.querySelectorAll('option'))[index],
+            currentOptionView = Array.from(this.domNode.querySelectorAll('.form-select__option'))[index];
+
+          this.select.insertBefore(newSelectOption, currentOption);
+          this.selectOptions.insertBefore(newSelectOptionView, currentOptionView);
         } else {
           this.select.appendChild(newSelectOption);
           this.selectOptions.appendChild(newSelectOptionView);

@@ -14,7 +14,7 @@ import PropTypes from 'prop-types';
 import FormSelect from './../../atoms/FormSelect/FormSelect';
 import ResizeAware from './../../hoc/ResizeAware';
 
-class FormGroupSelect extends React.PureComponent {
+class FormGroupSelect extends React.Component {
 
   static propTypes = {
     enabled: PropTypes.bool,
