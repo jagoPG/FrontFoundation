@@ -29,12 +29,15 @@ const
       return false;
     }
 
+    toggleRet = element.classList.toggle('p', false);
+    if (toggleRet !== false || element.classList.contains('p')) {
+      return false;
+    }
+
     return true;
   },
-  classListToggle = (className, force) => {
-    console.log(this);
-
-    if (arguments.length > 0 && this.contains(className) === force) { // eslint-disable-line no-undef
+  classListToggle = function (className, force) { // eslint-disable-line func-style
+    if (arguments.length > 0 && this.contains(className) === force) {
       return force;
     }
 
