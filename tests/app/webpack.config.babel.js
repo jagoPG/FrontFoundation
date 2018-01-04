@@ -18,7 +18,7 @@ const options = {
   input: {
     base: '',
     scss: `scss`,
-    includedNodeModules: ['lin3s-front-foundation']
+    includedNodeModules: ['lin3s-front-foundation', 'validatory']
   },
   output: {
     jsPath: './dist',
