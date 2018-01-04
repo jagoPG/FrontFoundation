@@ -44,7 +44,7 @@ $form-input-line-height-small: 18px !default;
   }
 
   &:focus {
-    border: 1px solid $form-input-border-color-hover;
+    border-color: $form-input-border-color-hover;
   }
 
   &::placeholder {
