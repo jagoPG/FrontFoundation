@@ -12,7 +12,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-class FormGroup extends React.PureComponent {
+class FormGroup extends React.Component {
 
   static propTypes = {
     id: PropTypes.string.isRequired,

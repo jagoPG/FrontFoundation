@@ -6,6 +6,8 @@ To get the diff for a specific change, go to https://github.com/LIN3S/FrontFound
 To get the diff between two versions, go to https://github.com/LIN3S/FrontFoundation/compare/v0.5.0...v0.6.0
 
 * 0.13.2
+    * Updated both FormGroupSelect and FormGroupInput to extend React.Component instead of Reac.PureComponent due to 
+        the shouldComponentUpdate method addition.
     * Fixed FormSelect's filtering bug when inserting new html.
     * Fixed FormSelect's focus/trigger related IE bugs.
     * Updated formInput atom's border transition on :focus state.
