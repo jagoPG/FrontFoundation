@@ -1,0 +1,30 @@
+{##
+    This file is part of the Front Foundation package.
+
+    Copyright (c) 2017-present LIN3S <info@lin3s.com>
+
+    For the full copyright and license information, please view the LICENSE
+    file that was distributed with this source code.
+
+    @author Mikel Tuesta <mikeltuesta@gmail.com>
+#}
+
+{##
+    Form checkbox
+
+    @param radio_content          html|raw*
+    @param radio_checked          false
+    @param radio_value            string=null
+    @param radio_modifiers        string=null
+    @param radio_id               string=null
+    @param radio_required         bool=null
+#}
+
+<label class="form-radio {{ radio_modifiers }}">
+    <input type="radio" class="form-radio__circle"
+       {% if radio_checked|default(false) %}checked{% endif %}
+       {% if radio_value|default %}value="{{ radio_value }}"{% endif %}
+       {% if radio_id|default %} id="{{ radio_id }}" name="{{ radio_id }}"{% endif %}
+       {% if radio_required|default %} required{% endif %}/>
+    <span class="form-radio__content">{{ radio_content|raw }}</span>
+</label>

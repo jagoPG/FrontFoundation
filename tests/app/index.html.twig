@@ -105,6 +105,16 @@
                     } %}
                 </div>
                 <div class="form-group">
+                    {% include '@lin3s_front_foundation/atoms/form_radio.html.twig' with {
+                        radio_content: 'This is the form_radio atom'
+                    } %}
+                </div>
+                <div class="form-group">
+                    {% include '@lin3s_front_foundation/atoms/form_checkbox.html.twig' with {
+                        checkbox_content: 'This is the form_checkbox atom'
+                    } %}
+                </div>
+                <div class="form-group">
                     {% include '@lin3s_front_foundation/atoms/form_error.html.twig' with {
                         error_content: 'This is the form_error atom'
                     } %}
