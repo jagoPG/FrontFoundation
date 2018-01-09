@@ -2,6 +2,7 @@
 {% import '@lin3s_front_foundation/components/macro/form_group_selects.html.twig' as form_group_selects %}
 {% import '@lin3s_front_foundation/components/macro/form_group_textareas.html.twig' as form_group_textareas %}
 {% import '@lin3s_front_foundation/components/macro/form_group_checkboxes.html.twig' as form_group_checkboxes %}
+{% import '@lin3s_front_foundation/components/macro/form_group_radios.html.twig' as form_group_radios %}
 
 <!doctype html>
 <html lang="es">
@@ -341,6 +342,30 @@
                         ) }}
                     </div>
 
+                    <div style="position: relative; z-index: 60; margin-bottom: 30px">
+                        {{ form_group_radios.required(
+                            'genre',
+                            'Select your genre',
+                            '(.*?)',
+                            [{
+                                radio_content: 'Male',
+                                radio_value: 'male'
+                            }, {
+                                radio_content: 'Female',
+                                radio_value: 'female'
+                            }],
+                            [{
+                                content: 'You haven\'t selected any genre.',
+                                modifiers: 'form-error--not-filled',
+                            },
+                            {
+                                content: 'This value seems not valid.',
+                                modifiers: 'form-error--not-valid',
+                            }],
+                            'form-group-radio--inline'
+                        ) }}
+                    </div>
+
                     <input type="submit" value="submit"/>
                 </form>
             </section>
@@ -353,7 +378,7 @@
         aside_sticky_offset_top: 30,
         aside_sticky_offset_bottom: 30,
         aside_sticky_inner_offset_top: 30,
-        aside_sticky_inner_offset_bottom: 30
+        aside_sticky_inner_offset_bottom: 30,
     } %}
         {% block aside %}
             <h1>Lin3s Front Foundation</h1>

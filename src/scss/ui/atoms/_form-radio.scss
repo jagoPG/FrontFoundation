@@ -11,11 +11,13 @@
 
 $form-radio-background-color: #0e8fff !default;
 $form-radio-border-color: #d1d1d1 !default;
+$form-radio-border-color-focus: #0e8fff !default;
 $form-radio-text-color: #444 !default;
 $form-radio-font-family: sans-serif !default;
 $form-radio-font-size: 16px !default;
 $form-radio-font-weight: normal !default;
 $form-radio-line-height: 20px !default;
+$form-radio-border-transition: $transition-border-color;
 $form-radio-circle-transition: $transition-transform;
 
 .form-radio {
@@ -25,6 +27,17 @@ $form-radio-circle-transition: $transition-transform;
   font-weight: $form-radio-font-weight;
   line-height: $form-radio-line-height;
   position: relative;
+
+  &:focus,
+  &:active {
+    outline: none;
+  }
+
+  &:focus {
+    .form-radio__content::before {
+      border-color: $form-radio-border-color-focus;
+    }
+  }
 }
 
 .form-radio__content {
@@ -48,6 +61,7 @@ $form-radio-circle-transition: $transition-transform;
     left: 0;
     padding: 8px;
     top: 3px;
+    transition: $form-radio-border-transition;
     width: 14px;
     z-index: 1;
   }

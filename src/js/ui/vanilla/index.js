@@ -16,9 +16,11 @@ import FormSelect from './atoms/FormSelect/FormSelect';
 
 // Ui Components initialization
 import './layouts/AsideSticky/init';
+import './components/FormGroupRadio/init';
 import './components/GMap/init';
 import './atoms/FormSelect/init';
 import './atoms/FormInput/init';
+import './atoms/FormRadio/init';
 import './atoms/FormTextarea/init';
 import './atoms/FormCheckbox/init';
 

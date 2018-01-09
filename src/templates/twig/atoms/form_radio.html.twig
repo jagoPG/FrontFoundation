@@ -10,21 +10,22 @@
 #}
 
 {##
-    Form checkbox
+    Form radio
 
-    @param radio_content          html|raw*
-    @param radio_checked          false
-    @param radio_value            string=null
-    @param radio_modifiers        string=null
-    @param radio_id               string=null
-    @param radio_required         bool=null
+    @param radio_class_name         string=null
+    @param radio_modifiers          string=null
+    @param radio_checked            false
+    @param radio_value              string=null
+    @param radio_id                 string=null
+    @param radio_content            html|raw*
 #}
 
-<label class="form-radio {{ radio_modifiers }}">
-    <input type="radio" class="form-radio__circle"
-       {% if radio_checked|default(false) %}checked{% endif %}
-       {% if radio_value|default %}value="{{ radio_value }}"{% endif %}
-       {% if radio_id|default %} id="{{ radio_id }}" name="{{ radio_id }}"{% endif %}
-       {% if radio_required|default %} required{% endif %}/>
+{% set class = 'class="form-radio js-form-radio ' ~ radio_class_name|default ~ ' ' ~ radio_modifiers|default ~ '"' %}
+{% set name = radio_name|default ? '" name="' ~ radio_id ~ '"' %}
+{% set checked = radio_checked|default(0) ? 'checked' %}
+{% set value = radio_value|default ? 'value="' ~ radio_value ~ '"' %}
+
+<label {{ class|raw }} tabindex="0">
+    <input type="radio" class="form-radio__circle" {{ name|raw }} {{ value|raw }} {{ checked }}/>
     <span class="form-radio__content">{{ radio_content|raw }}</span>
 </label>

@@ -1,0 +1,83 @@
+{##
+    This file is part of the Front Foundation package.
+
+    Copyright (c) 2017-present LIN3S <info@lin3s.com>
+
+    For the full copyright and license information, please view the LICENSE
+    file that was distributed with this source code.
+
+    @author Mikel Tuesta <mikeltuesta@gmail.com>
+#}
+
+{##
+    This componenet will display a form group composed by an @atoms/form_label, an array of @atoms/form_radio and an
+    @atoms/form_error.
+
+    @param class_name                               string=null
+    @param modifiers                                string=null
+    @param radio_id                                 string*
+    @param radio_label_class_name                   string=null
+    @param radio_label_modifiers                    array|string=null
+    @param radio_label_title                        atring=null
+    @param radio_errors                             array=null
+        - content                                   string=null
+        - modifiers                                 array|string=null
+    @param radio_radios                             array*
+        - radio_content                             html|raw*
+        - radio_checked                             bool=false
+        - radio_value                               string=null
+        - radio_modifiers                           string=null
+        - radio_id                                  string=null
+    @param radio_required                           bool=false
+    @param radio_validate                           bool=false
+    @param radio_validation_pattern                 string=null
+    @param radio_validation_type                    string=null
+
+#}
+
+{% set class = 'class="form-group-radio js-form-group-radio ' ~ class_name|default ~ ' ' ~ modifiers|default ~ '"' %}
+
+<div {{ class|raw }}>
+    {% if label_title|default %}
+        <div class="form-group-radio__label">
+            {% include '@lin3s_front_foundation/atoms/form_label.html.twig' with {
+                label_for: radio_id,
+                label_required: radio_required,
+                label_class_name: radio_label_class_name,
+                label_modifiers: radio_label_modifiers,
+                label_title: radio_label_title
+            } %}
+        </div>
+    {% endif %}
+    {% for radio in radio_radios %}
+        <div class="form-group-radio__item">
+            {% include '@lin3s_front_foundation/atoms/form_radio.html.twig' with {
+                radio_name: radio_id,
+                radio_modifiers: radio.radio_modifiers,
+                radio_content: radio.radio_content,
+                radio_checked: radio.radio_checked,
+                radio_value: radio.radio_value,
+                radio_required: radio.radio_required,
+                radio_validate: radio.radio_validate
+            } %}
+        </div>
+    {% endfor %}
+
+    {% if radio_validate %}
+        {% set required = radio_required|default(0) ? 'required' %}
+        {% set validation = radio_validate|default ? 'data-validate' ~ (radio_validation_pattern|default ? ' data-validate-pattern="' ~ radio_validation_pattern) ~ '"' ~ (radio_validation_type|default ? ' data-validate-' ~ radio_validation_type) %}
+
+        {{ validation }}<input class="form-group-radio__hidden" type="hidden" {{ required }} {{ validation }}/>
+    {% endif %}
+
+    {% if radio_errors|default %}
+        <div class="form-group-radio__errors">
+            {% for error in radio_errors %}
+                {% include '@lin3s_front_foundation/atoms/form_error.html.twig' with {
+                    error_content: error.content,
+                    error_modifiers: error.modifiers
+                } %}
+            {% endfor %}
+        </div>
+    {% endif %}
+</div>

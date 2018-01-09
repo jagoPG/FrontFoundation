@@ -1,0 +1,12 @@
+{% macro required(id, label, validation_pattern, radios, errors, modifiers) %}
+    {% include '@lin3s_front_foundation/components/form_group_radio.html.twig' with {
+        radio_id: id,
+        radio_label_content: label,
+        radio_errors: errors,
+        radio_radios: radios,
+        radio_required: 1,
+        radio_validate: 1,
+        radio_validation_pattern: validation_pattern,
+        modifiers: modifiers,
+    } %}
+{% endmacro %}

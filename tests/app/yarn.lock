@@ -6666,6 +6666,10 @@ validate-npm-package-license@^3.0.1:
     spdx-correct "~1.0.0"
     spdx-expression-parse "~1.0.0"
 
+validatory@^0.1.1:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/validatory/-/validatory-0.1.1.tgz#af43f857fbce1099986ac5b06e26f1fb14285d6c"
+
 vary@~1.1.1:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/vary/-/vary-1.1.2.tgz#2299f02c6ded30d4a5961b0b9f74524a18f634fc"
