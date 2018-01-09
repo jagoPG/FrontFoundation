@@ -17,6 +17,7 @@ import GMapGeocodeNoResultsEventSubscriber from './GMap/GMapGeocodeNoResultsEven
 import FormSelectInitializedEventSubscriber from './FormSelect/FormSelectInitializedEventSubscriber';
 import FormSelectOptionSelectedEventSubscriber from './FormSelect/FormSelectOptionSelectedEventSubscriber';
 import FormSelectStateChangedEventSubscriber from './FormSelect/FormSelectStateChangedEventSubscriber';
+import DomNodeUpdatedEventSubscriber from './DomNodeUpdated/DomNodeUpdatedEventSubscriber';
 
 const
   onGMapInitialized = (domNode, onGMapInitializedCallback, priority) => {
@@ -86,6 +87,17 @@ const
     LifeTimeEventPublisher.subscribe(formSelectStateChangedEventSubscriber);
 
     return formSelectStateChangedEventSubscriber;
+  },
+  onDomNodeUpdated = (domNode, onDomNodeUpdatedCallback, priority) => {
+    const domNodeUpdatedEventSubscriber = new DomNodeUpdatedEventSubscriber(
+      domNode,
+      onDomNodeUpdatedCallback,
+      new Priority(priority)
+    );
+
+    LifeTimeEventPublisher.subscribe(domNodeUpdatedEventSubscriber);
+
+    return domNodeUpdatedEventSubscriber;
   };
 
 export {
@@ -94,5 +106,6 @@ export {
   onGMapGeocodeNoResults,
   onFormSelectInitialized,
   onFormSelectOptionSelected,
-  onFormSelectStateChanged
+  onFormSelectStateChanged,
+  onDomNodeUpdated
 };

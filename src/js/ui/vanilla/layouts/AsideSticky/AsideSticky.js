@@ -9,9 +9,9 @@
  * @author Mikel Tuesta <mikeltuesta@gmail.com>
  */
 
-import {onWindowResized, onDomLoaded, LifeTimeEventPublisher} from 'lin3s-event-bus';
+import {onWindowResized, onDomLoaded} from 'lin3s-event-bus';
 import {ScrollAdvancedStickyObserver} from 'foes-scrollproxy';
-import {onDomNodeUpdated} from '../../../event-bus/Subscriptions';
+import {onDomNodeUpdated} from '../../../../event-bus/Subscriptions';
 
 class AsideSticky {
 

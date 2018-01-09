@@ -37,7 +37,7 @@ class FormSelect extends React.Component {
       value: PropTypes.string
     })),
     outsideClickToCloseEnabled: PropTypes.bool,
-    placeholder: PropTypes.string.isRequired,
+    placeholder: PropTypes.string,
     validationEnabled: PropTypes.bool,
     validationPattern: PropTypes.string,
     required: PropTypes.bool

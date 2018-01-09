@@ -16,10 +16,11 @@ class DomNodeUpdatedEvent extends Event {
   static NAME = 'DOM_NODE_UPDATED';
 
   constructor(domNode) {
-    super(DomContentUpdatedEvent.NAME);
+    super(DomNodeUpdatedEvent.NAME);
 
     this.domNode = domNode;
   }
 }
 
-export default DomNodeUpdatedEvent;
+export default DomNodeUpdatedEvent
+;

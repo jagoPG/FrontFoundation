@@ -11,6 +11,9 @@
   box-sizing: border-box;
 }
 
+// layouts
+@import './node_modules/lin3s-front-foundation/dist/scss/ui/layouts/aside-sticky';
+
 // atoms
 @import './node_modules/lin3s-front-foundation/dist/scss/ui/atoms/form-label';
 @import './node_modules/lin3s-front-foundation/dist/scss/ui/atoms/form-error';

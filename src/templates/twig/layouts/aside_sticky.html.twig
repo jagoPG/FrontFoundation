@@ -1,0 +1,44 @@
+{#
+    An sticky-aside (left positioned by default) layout.
+
+    @param aside_sticky_position                    string='left'
+    @param aside_sticky_class_name                  string=null
+    @param aside_sticky_mobile_breakpoint           int=1024
+    @param aside_sticky_trigger_offset              int=90
+    @param aside_sticky_offset_top                  int=90
+    @param aside_sticky_offset_bottom               int=30
+    @param aside_sticky_inner_offset_top            int=90
+    @param aside_sticky_inner_offset_bottom         int=30
+
+    @embed aside
+    @embed article
+#}
+
+{% set aside %}
+    <aside class="aside-sticky__aside">
+        <div class="aside-sticky__aside-content js-aside-sticky-aside">{%- block aside -%}{%- endblock -%}</div>
+    </aside>
+{% endset %}
+
+{% set article %}
+    <article class="aside-sticky__article">
+        <div class="aside-sticky__article-content js-aside-sticky-article">{%- block article -%}{%- endblock -%}</div>
+    </article>
+{% endset %}
+
+<section class="aside-sticky js-aside-sticky {{ aside_sticky_class_name|default }}"
+         data-mobile-breakpoint="{{ aside_sticky_mobile_breakpoint|default(1024) }}"
+         data-trigger-offset="{{ aside_sticky_trigger_offset|default(90) }}"
+         data-offset-top="{{ aside_sticky_offset_top|default(90) }}"
+         data-offset-bottom="{{ aside_sticky_offset_bottom|default(30) }}"
+         data-inner-offset-top="{{ aside_sticky_inner_offset_top|default(90) }}"
+         data-inner-offset-bottom="{{ aside_sticky_inner_offset_bottom|default(30) }}">
+
+    {% if aside_sticky_position|default('left') == 'left' %}
+        {{ aside }}
+        {{ article }}
+    {% else %}
+        {{ article }}
+        {{ aside }}
+    {% endif %}
+</section>

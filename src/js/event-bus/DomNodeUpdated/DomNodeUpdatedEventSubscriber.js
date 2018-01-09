@@ -9,18 +9,24 @@
  * @author Mikel Tuesta <mikeltuesta@gmail.com>
  */
 
-import {Event} from 'lin3s-event-bus';
+import {EventSubscriber} from 'lin3s-event-bus';
+import DomNodeUpdatedEvent from './DomNodeUpdatedEvent';
+import {isDomNodeDescendantOfDomNode} from './../../dom';
 
-class DomNodeUpdatedEvent extends Event {
+class DomNodeUpdatedEventSubscriber extends EventSubscriber {
 
-  static NAME = 'DOM_NODE_UPDATED';
-
-  constructor(domNode) {
-    super(DomContentUpdatedEvent.NAME);
+  constructor(domNode, aCallback, aPriority) {
+    super(aCallback, aPriority);
 
     this.domNode = domNode;
   }
+
+  isSubscribedTo(anEvent) {
+    const event = new DomNodeUpdatedEvent();
+
+    return anEvent.getName() === event.getName() && (this.domNode === anEvent.domNode
+      || isDomNodeDescendantOfDomNode(anEvent.domNode, this.domNode));
+  }
 }
 
-export default DomNodeUpdatedEvent
-;
+export default DomNodeUpdatedEventSubscriber;

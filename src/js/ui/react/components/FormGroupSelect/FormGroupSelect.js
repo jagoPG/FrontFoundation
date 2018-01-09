@@ -30,7 +30,7 @@ class FormGroupSelect extends React.Component {
       value: PropTypes.string
     })),
     outsideClickToCloseEnabled: PropTypes.bool,
-    placeholder: PropTypes.string.isRequired,
+    placeholder: PropTypes.string,
     required: PropTypes.bool,
     validationEnabled: PropTypes.bool,
     validationPattern: PropTypes.string,
