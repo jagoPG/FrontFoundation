@@ -15,7 +15,7 @@ import debounce from 'lodash.debounce';
 
 const renderMarkerDetailView = marker => {
   return `
-    <h3>This is a mocked marker detail view</h3>
+    <h4>This is a mocked marker detail view</h4>
     <p>Marker <b>lat</b>: ${marker.lat}</p>
     <p>Marker <b>lng</b>: ${marker.lng}</p>
   `;

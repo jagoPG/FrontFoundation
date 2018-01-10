@@ -101,7 +101,7 @@ const
     return domNodeUpdatedEventSubscriber;
   },
   onModalStateChanged = (onModalStateChangedCallback, priority) => {
-    const modalStateChangedEventSubscriber = new DomNodeUpdatedEventSubscriber(
+    const modalStateChangedEventSubscriber = new ModalStateChangedEventSubscriber(
       onModalStateChangedCallback,
       new Priority(priority)
     );

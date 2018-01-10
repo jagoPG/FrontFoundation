@@ -10,6 +10,7 @@
  */
 
 import {onDomReady} from 'lin3s-event-bus';
+import {Ui} from 'lin3s-front-foundation';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import ReactFormSelect from './ReactFormSelect';
@@ -65,13 +66,39 @@ const
   },
   renderFormEmail = mountNode => {
     ReactDOM.render(
-      <ReactEmailInput domNode={mountNode} />,
+      <ReactEmailInput domNode={mountNode}/>,
       mountNode
     );
   },
   renderFormPhone = mountNode => {
     ReactDOM.render(
-      <ReactPhoneInput domNode={mountNode} />,
+      <ReactPhoneInput domNode={mountNode}/>,
+      mountNode
+    );
+  },
+  renderFormSelectAtom = mountNode => {
+    const
+      options = [{
+        label: 'Male',
+        value: '0'
+      }, {
+        label: 'Female',
+        value: '1'
+      }],
+      placeholder = 'Filter...';
+
+    ReactDOM.render(
+      <Ui.React.FormSelect
+        id="form-select-react-atom"
+        onOptionSelected={() => {}}
+        options={options}
+        placeholder={placeholder}/>,
+      mountNode
+    );
+  },
+  renderLoader = mountNode => {
+    ReactDOM.render(
+      <Ui.React.Loader/>,
       mountNode
     );
   },
@@ -79,11 +106,15 @@ const
     const
       selectDomNodes = document.querySelectorAll('.form-select-mount-node'),
       emailDomNodes = document.querySelectorAll('.form-email-mount-node'),
-      phoneDomNodes = document.querySelectorAll('.form-phone-mount-node');
+      phoneDomNodes = document.querySelectorAll('.form-phone-mount-node'),
+      loaderDomNodes = document.querySelectorAll('.form-loader-mount-node'),
+      selectAtomDomNodes = document.querySelectorAll('.form-select-atom-mount-node');
 
     Array.from(selectDomNodes).forEach(mountNode => renderFormSelect(mountNode));
     Array.from(emailDomNodes).forEach(mountNode => renderFormEmail(mountNode));
     Array.from(phoneDomNodes).forEach(mountNode => renderFormPhone(mountNode));
+    Array.from(selectAtomDomNodes).forEach(mountNode => renderFormSelectAtom(mountNode));
+    Array.from(loaderDomNodes).forEach(mountNode => renderLoader(mountNode));
   };
 
 onDomReady(onReady);

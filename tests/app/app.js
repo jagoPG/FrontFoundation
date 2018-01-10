@@ -23,7 +23,7 @@ import {init, STATE} from 'validatory';
 import './src/js/GMapGeocoderDemo';
 import './src/js/FormSelectDemo';
 import './src/js/React/init';
-import './app.scss';
+import './src/scss/app.scss';
 
 const testAsyncCancelablePromise = () => {
   console.log('Testing Promise.cancelablePromise');

@@ -1,0 +1,135 @@
+// This file is part of the Front Foundation package.
+//
+// Copyright (c) 2017-present LIN3S <info@lin3s.com>
+//
+// For the full copyright and license information, please view the LICENSE
+// file that was distributed with this source code.
+//
+// @author Mikel Tuesta <mikeltuesta@gmail.com>
+
+* {
+  box-sizing: border-box;
+}
+
+// layouts
+@import './../../node_modules/lin3s-front-foundation/dist/scss/ui/layouts/aside-sticky';
+
+// atoms
+@import './../../node_modules/lin3s-front-foundation/dist/scss/ui/atoms/form-label';
+@import './../../node_modules/lin3s-front-foundation/dist/scss/ui/atoms/form-error';
+@import './../../node_modules/lin3s-front-foundation/dist/scss/ui/atoms/form-checkbox';
+@import './../../node_modules/lin3s-front-foundation/dist/scss/ui/atoms/form-input';
+@import './../../node_modules/lin3s-front-foundation/dist/scss/ui/atoms/form-radio';
+@import './../../node_modules/lin3s-front-foundation/dist/scss/ui/atoms/form-select';
+@import './../../node_modules/lin3s-front-foundation/dist/scss/ui/atoms/form-textarea';
+
+// components
+@import './../../node_modules/lin3s-front-foundation/dist/scss/ui/components/form-group-checkbox';
+@import './../../node_modules/lin3s-front-foundation/dist/scss/ui/components/form-group-input';
+@import './../../node_modules/lin3s-front-foundation/dist/scss/ui/components/form-group-radio';
+@import './../../node_modules/lin3s-front-foundation/dist/scss/ui/components/form-group-select';
+@import './../../node_modules/lin3s-front-foundation/dist/scss/ui/components/form-group-textarea';
+@import './../../node_modules/lin3s-front-foundation/dist/scss/ui/components/gmap';
+@import './../../node_modules/lin3s-front-foundation/dist/scss/ui/components/gmap-marker-detail';
+@import './../../node_modules/lin3s-front-foundation/dist/scss/ui/components/modal';
+
+$padding-main: 30px;
+$color-primary: #0e8fff;
+$color-secondary: rgba($color-primary, .75);
+$color-light-gray: #f9f9f9;
+
+body {
+  font-family: Helvetica, sans-serif;
+  margin: 0;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  margin: 0;
+}
+
+h1,
+h2,
+h3 {
+  color: $color-primary;
+}
+
+h2,
+h3 {
+  background-color: $color-light-gray;
+  padding-bottom: 10px;
+  padding-top: 10px;
+}
+
+h4 {
+  color: $color-secondary;
+  margin: 10px 0;
+}
+
+.aside-sticky__aside {
+  background-color: $color-light-gray;
+  flex: 0 0 25%;
+  max-width: 25%;
+  padding-left: 30px;
+  padding-right: 30px;
+  width: 100%;
+}
+
+.aside-sticky__article {
+  flex: 0 0 75%;
+  max-width: 75%;
+  padding-left: 30px;
+  padding-right: 30px;
+  width: 100%;
+}
+
+.section {
+}
+
+.section__title {
+  margin-left: -$padding-main;
+  margin-right: -$padding-main;
+  padding-left: $padding-main;
+  padding-right: -$padding-main;
+}
+
+.section__element {
+  margin-bottom: 30px;
+}
+
+.gmap-geocoder__filter {
+  padding: 10px 15px;
+}
+
+.form-atoms,
+.form-components {
+  position: relative;
+}
+
+.form-group,
+.form-group-input,
+.form-group-select,
+.form-group-textarea {
+  margin-bottom: 30px;
+}
+
+.form {
+  border: 1px solid #d1d1d1;
+  margin-top: 30px;
+  padding: 20px 30px;
+}
+
+.form[data-validation-state="not-filled"],
+.form[data-validation-state="not-valid"] {
+  border-color: #b20008;
+}
+
+.form[data-validation-state="valid"] {
+  border-color: #00d44c;
+}
+
+.element-title {
+
+}

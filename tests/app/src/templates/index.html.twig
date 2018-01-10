@@ -1,0 +1,482 @@
+{% import '@lin3s_front_foundation/components/macro/form_group_inputs.html.twig' as form_group_inputs %}
+{% import '@lin3s_front_foundation/components/macro/form_group_selects.html.twig' as form_group_selects %}
+{% import '@lin3s_front_foundation/components/macro/form_group_textareas.html.twig' as form_group_textareas %}
+{% import '@lin3s_front_foundation/components/macro/form_group_checkboxes.html.twig' as form_group_checkboxes %}
+{% import '@lin3s_front_foundation/components/macro/form_group_radios.html.twig' as form_group_radios %}
+
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="./../../dist/app.css"/>
+</head>
+<body>
+    <script src="./../../dist/app.js"></script>
+
+    {% set content %}
+        <main>
+            <section id="dom" class="section images">
+                <h2 class="section__title">1 - Dom</h2>
+                <div class="section__element">
+                    <p>Check the browser's console to get a closer look at the Dom package features.</p>
+                    <p>This content will be used to test the <i>Dom.waitImagesLoadInDomNode</i> method.</p>
+                    <div class="images__collection">
+                        <img src="http://lorempixel.com/200/150/abstract"/>
+                        <img src="http://lorempixel.com/200/150/nightlife"/>
+                        <img src="http://lorempixel.com/200/150/city"/>
+                        <img src="http://lorempixel.com/200/150/people"/>
+                    </div>
+                </div>
+            </section>
+            <section id="ui">
+                <h2 class="section__title">2 - UI</h2>
+                <div class="section__element">
+                    <div id="atoms">
+                        <h3 class="section__title">2.1 - Atoms</h3>
+                        <div id="atoms-loader" class="section__element">
+                            <h4 class="section__title">2.1.1 - Loader</h4>
+                            {% include '@lin3s_front_foundation/atoms/loader.html.twig' %}
+                        </div>
+                        <div id="atoms-label" class="section__element">
+                            <h4 class="section__title">2.1.2 - Label</h4>
+                            {% include '@lin3s_front_foundation/atoms/form_label.html.twig' with {
+                                label_content: 'This is a form label'
+                            } %}
+                        </div>
+                        <div id="atoms-error" class="section__element">
+                            <h4 class="section__title">2.1.3 - Error</h4>
+                            {% include '@lin3s_front_foundation/atoms/form_error.html.twig' with {
+                                error_content: 'This is a form-element associated error',
+                                error_modifiers: 'form-error--visible'
+                            } %}
+                        </div>
+                        <div id="atoms-checkbox" class="section__element">
+                            <h4 class="section__title">2.1.4 - Checkbox</h4>
+                            {% include '@lin3s_front_foundation/atoms/form_checkbox.html.twig' with {
+                                checkbox_content: 'This is a form checkbox'
+                            } %}
+                        </div>
+                        <div id="atoms-radio" class="section__element">
+                            <h4 class="section__title">2.1.5 - Radio</h4>
+                            {% include '@lin3s_front_foundation/atoms/form_radio.html.twig' with {
+                                radio_content: 'This is a form radio'
+                            } %}
+                        </div>
+                        <div id="atoms-input" class="section__element">
+                            <h4 class="section__title">2.1.6 - Input</h4>
+                            {% include '@lin3s_front_foundation/atoms/form_input.html.twig' with {
+                                input_placeholder: 'This is a form input...'
+                            } %}
+                        </div>
+                        <div id="atoms-textarea" class="section__element">
+                            <h4 class="section__title">2.1.7 - Textarea</h4>
+                            {% include '@lin3s_front_foundation/atoms/form_textarea.html.twig' with {
+                            textarea_placeholder: 'This is a form textarea...'
+                            } %}
+                        </div>
+                        <div id="atoms-select" style="position: relative; z-index: 2" class="section__element">
+                            <h4 class="section__title">2.1.8 - Select</h4>
+                            {% include '@lin3s_front_foundation/atoms/form_select.html.twig' with {
+                                select_filter_placeholder: 'Type to filter...',
+                                select_options: [{
+                                    value: 0,
+                                    label: 'Sunday'
+                                }, {
+                                    value: 1,
+                                    label: 'Monday'
+                                }, {
+                                    value: 2,
+                                    label: 'Tuesday'
+                                }, {
+                                    value: 3,
+                                    label: 'Wednesday'
+                                }, {
+                                    value: 4,
+                                    label: 'Thursday'
+                                }, {
+                                    value: 5,
+                                    label: 'Friday'
+                                }, {
+                                    value: 6,
+                                    label: 'Saturday'
+                                }]
+                            } %}
+                        </div>
+                    </div>
+                    <div id="atoms-react">
+                        <h3 class="section__title">2.2 - Atoms (React)</h3>
+                        <div id="atoms-react-loader" class="section__element">
+                            <h4 class="section__title">2.2.1 - Loader</h4>
+                            <div class="form-loader-mount-node"></div>
+                        </div>
+                        <div id="atoms-react-select" style="position: relative; z-index: 1" class="section__element">
+                            <h4 class="section__title">2.2.2 - Select</h4>
+                            <div class="form-select-atom-mount-node"></div>
+                        </div>
+                    </div>
+                    <div id="components">
+                        <h3 class="section__title">2.3 - Components</h3>
+                        <div id="components-checkbox" class="section__element">
+                            <h4 class="section__title">2.3.1 - Checkbox</h4>
+                            {% include '@lin3s_front_foundation/components/form_group_checkbox.html.twig' with {
+                                checkbox_id: 'terms',
+                                checkbox_label_content: 'Terms and conditions',
+                                checkbox_content: 'I have read an accept the terms and conditions'
+                            } %}
+                        </div>
+                        <div id="components-radio" class="section__element">
+                            <h4 class="section__title">2.3.2 - Radio</h4>
+                            {% include '@lin3s_front_foundation/components/form_group_radio.html.twig' with {
+                                radio_id: 'genre',
+                                radio_label_title: 'Genre',
+                                radio_radios: [{
+                                    radio_content: 'Male',
+                                    radio_value: 0
+                                }, {
+                                    radio_content: 'Female',
+                                    radio_value: 1
+                                }]
+                            } %}
+                        </div>
+                        <div id="components-input" class="section__element">
+                            <h4 class="section__title">2.3.3 - Input</h4>
+                            {{ form_group_inputs.required(
+                                'text',
+                                'test',
+                                'Enter your name...',
+                                'Name'
+                            ) }}
+                        </div>
+                        <div id="components-textarea" class="section__element">
+                            <h4 class="section__title">2.3.4 - Textarea</h4>
+                            {{ form_group_textareas.required(
+                                'about',
+                                'Tell us about you...',
+                                'About you'
+                            ) }}
+                        </div>
+                        <div id="components-select" class="section__element" style="position: relative; z-index: 1;">
+                            <h4 class="section__title">2.3.5 - Select</h4>
+                            {{ form_group_selects.required(
+                                'Day of the week',
+                                'Type to filter...',
+                                'Day of the week', [{
+                                    value: 0,
+                                    label: 'Sunday'
+                                }, {
+                                    value: 1,
+                                    label: 'Monday'
+                                }, {
+                                    value: 2,
+                                    label: 'Tuestay'
+                                }, {
+                                    value: 3,
+                                    label: 'Wednesday'
+                                }, {
+                                    value: 4,
+                                    label: 'Thursday'
+                                }, {
+                                    value: 5,
+                                    label: 'Friday'
+                                }, {
+                                    value: 6,
+                                    label: 'Saturday'
+                                }], [{
+                                    content: 'This field is required.',
+                                    modifiers: 'form-error--not-filled',
+                                }]
+                            ) }}
+                        </div>
+                        <div id="components-gmap-basic" class="gmap-basic section__element">
+                            <h4 class="section__title">2.3.6 - Gmap (basic)</h4>
+                            {% include '@lin3s_front_foundation/components/gmap.html.twig' with {
+                                gmap_api_key: 'AIzaSyDQaCE_7C5iAmpwr_y1C1DHbtZsqag74Sk',
+                                gmap_center_lat: '43.2631394',
+                                gmap_center_lng: '-2.9275847',
+                                gmap_initial_zoom: 14,
+                                gmap_max_zoom: 20,
+                                gmap_marker_default_path: '/images/gmap/marker-default',
+                                gmap_marker_selected_path: '/images/gmap/marker-default',
+                                gmap_marker_group_path: '/images/gmap/marker-default'
+                            } %}
+                        </div>
+                        <div id="components-gmap-advanced" class="gmap-geocoder section__element">
+                            <h4 class="section__title">2.3.7 - Gmap (advanced)</h4>
+                            <p>This is an advanced <i>gmap component</i> usage example. We will use the geocoder and markers through a higher level composition</p>
+                            <div>
+                                {% include '@lin3s_front_foundation/atoms/form_input.html.twig' with {
+                                    input_placeholder: 'Address, town, ZIP code, city...',
+                                    input_class_name: 'gmap-geocoder__filter'
+                                } %}
+                                <label class="gmap-geocoder__error"></label>
+                            </div>
+                            {% include '@lin3s_front_foundation/components/gmap.html.twig' with {
+                                gmap_api_key: 'AIzaSyDQaCE_7C5iAmpwr_y1C1DHbtZsqag74Sk',
+                                gmap_center_lat: '43.2631394',
+                                gmap_center_lng: '-2.9275847',
+                                gmap_initial_zoom: 14,
+                                gmap_max_zoom: 20,
+                                gmap_marker_default_path: '/images/gmap/marker-default',
+                                gmap_marker_selected_path: '/images/gmap/marker-default',
+                                gmap_marker_group_path: '/images/gmap/marker-default'
+                            } %}
+                        </div>
+                    </div>
+                    <div id="components-react">
+                        <h3 class="section__title">2.4 - Components (React)</h3>
+                        <div id="components-react-input" class="section__element">
+                            <h4 class="section__title">2.4.1 - Input</h4>
+                            <div class="form-input-mount-node"></div>
+                        </div>
+                        <div id="components-react-select" class="section__element">
+                            <h4 class="section__title">2.4.2 - Select</h4>
+                            <div class="form-select-mount-node"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="validatory">
+                <h2 class="section__title">3 - Validatory</h2>
+                <div class="section__element">
+                    <div>
+                        <h3 class="section__title">3.1 - Vanilla</h3>
+                        <div id="validatory-vanilla" class="section__element">
+                            <form id="validatory-form" class="form" novalidate data-validate>
+                                <p>This is a form integrated component test. It will validate the form using the <i>FormValidator</i> library.</p>
+                                {{ form_group_inputs.required(
+                                    'text',
+                                    'test',
+                                    'Enter your name...',
+                                    'Name',
+                                    [{
+                                        content: 'This field is required.',
+                                        modifiers: 'form-error--not-filled',
+                                    }]
+                                ) }}
+
+                                {{ form_group_inputs.requiredEmail(
+                                    'email',
+                                    'Enter an email...',
+                                    'Email',
+                                    [{
+                                        content: 'This field is required.',
+                                        modifiers: 'form-error--not-filled',
+                                    }, {
+                                        content: 'Entered email does not match the required pattern.',
+                                        modifiers: 'form-error--not-valid',
+                                    }]
+                                ) }}
+
+                                {{ form_group_inputs.email(
+                                'email',
+                                    'Enter an email...',
+                                    'Email',
+                                    [{
+                                        content: 'Entered email does not match the required pattern.',
+                                        modifiers: 'form-error--not-valid',
+                                    }]
+                                ) }}
+
+                                {{ form_group_inputs.requiredPhone(
+                                    'phone',
+                                    'Enter a 9 digit phone...',
+                                    'Phone', [{
+                                        content: 'This field is required.',
+                                        modifiers: 'form-error--not-filled',
+                                    }, {
+                                        content: 'Entered phone does not match the required pattern.',
+                                        modifiers: 'form-error--not-valid',
+                                    }]
+                                ) }}
+
+                                {{ form_group_inputs.phone(
+                                    'phone',
+                                    'Enter a 9 digit phone...',
+                                    'Phone',
+                                    [{
+                                        content: 'Entered phone does not match the required pattern.',
+                                        modifiers: 'form-error--not-valid',
+                                    }]
+                                ) }}
+
+                                <div style="position: relative; z-index: 100">
+                                    {{ form_group_selects.required(
+                                        'Day of the week',
+                                        'Type to filter...',
+                                        'Day of the week', [{
+                                            value: 0,
+                                            label: 'Sunday'
+                                        }, {
+                                            value: 1,
+                                            label: 'Monday'
+                                        }, {
+                                            value: 2,
+                                            label: 'Tuestay'
+                                        }, {
+                                            value: 3,
+                                            label: 'Wednesday'
+                                        }, {
+                                            value: 4,
+                                            label: 'Thursday'
+                                        }, {
+                                            value: 5,
+                                            label: 'Friday'
+                                        }, {
+                                            value: 6,
+                                            label: 'Saturday'
+                                        }], [{
+                                            content: 'This field is required.',
+                                            modifiers: 'form-error--not-filled',
+                                        }]
+                                    ) }}
+                                </div>
+
+                                <div style="position: relative; z-index: 90">
+                                    {{ form_group_selects.requiredAndNot(
+                                        'genre',
+                                        'Type to filter...',
+                                        'Genre (default value not valid)',
+                                        '--',
+                                        [{
+                                            value: 0,
+                                            label: 'Male'
+                                        }, {
+                                            value: 1,
+                                            label: 'Female'
+                                        }], [{
+                                            content: 'This field is required.',
+                                            modifiers: 'form-error--not-filled',
+                                        }, {
+                                            content: 'The selection option is not valid.',
+                                            modifiers: 'form-error--not-valid',
+                                        }]
+                                    ) }}
+                                </div>
+
+                                <div style="position: relative; z-index: 80">
+                                    {{ form_group_textareas.required(
+                                        'about',
+                                        'Tell us about you...',
+                                        'About you',
+                                        [{
+                                            content: 'This field is required.',
+                                            modifiers: 'form-error--not-filled',
+                                        }]
+                                    ) }}
+                                </div>
+
+                                <div style="position: relative; z-index: 70">
+                                    {{ form_group_textareas.requiredWithPattern(
+                                        'palindrome',
+                                        'Type any 2-5 letter palindrome...',
+                                        '2-5 letter palindrome',
+                                        '\\b(\\w)?(\\w)\\w?\\2\\1',
+                                        [{
+                                            content: 'This field is required.',
+                                            modifiers: 'form-error--not-filled',
+                                        }, {
+                                            content: 'There is no any 2-5 letter palindrome.',
+                                            modifiers: 'form-error--not-valid',
+                                        }]
+                                    ) }}
+                                </div>
+
+                                <div style="position: relative; z-index: 70; margin-bottom: 30px">
+                                    {{ form_group_checkboxes.required(
+                                        'terms',
+                                        null,
+                                        'I have read an accept the terms and conditions',
+                                        [{
+                                            content: 'You haven\'t accepted the terms and conditions.',
+                                            modifiers: 'form-error--not-valid',
+                                        }]
+                                    ) }}
+                                </div>
+
+                                <div style="position: relative; z-index: 60; margin-bottom: 30px">
+                                    {{ form_group_radios.required(
+                                        'genre',
+                                        'Select your genre',
+                                        '(.*?)',
+                                        [{
+                                            radio_content: 'Male',
+                                            radio_value: 'male'
+                                        }, {
+                                            radio_content: 'Female',
+                                            radio_value: 'female'
+                                        }],
+                                        [{
+                                            content: 'You haven\'t selected any genre.',
+                                            modifiers: 'form-error--not-filled',
+                                        },
+                                        {
+                                            content: 'This value seems not valid.',
+                                            modifiers: 'form-error--not-valid',
+                                        }],
+                                        'form-group-radio--inline'
+                                    ) }}
+                                </div>
+
+                                <input type="submit" value="submit"/>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="section__title">3.1 - React</h3>
+                    <div id="validatory-react" class="section__element" style="position: relative; z-index: 70;">
+                        <form id="validatory-form-react" class="form" novalidate data-validate>
+                            <div class="form-phone-mount-node"></div>
+                            <div class="form-email-mount-node"></div>
+                            <div class="form-select-mount-node"></div>
+
+                            <input type="submit" value="Submit!"/>
+                        </form>
+                    </div>
+                </div>
+            </section>
+        </main>
+    {% endset %}
+
+    {% embed '@lin3s_front_foundation/layouts/aside_sticky.html.twig' with {
+        aside_sticky_mobile_breakpoint: 1024,
+        aside_sticky_trigger_offset: 30,
+        aside_sticky_offset_top: 30,
+        aside_sticky_offset_bottom: 30,
+        aside_sticky_inner_offset_top: 30,
+        aside_sticky_inner_offset_bottom: 30,
+    } %}
+        {% block aside %}
+            <h1>Lin3s Front Foundation</h1>
+            {% include 'src/templates/menu.html.twig' %}
+        {% endblock %}
+        {% block article %}
+            {{ content }}
+        {% endblock %}
+    {% endembed %}
+
+    {% embed '@lin3s_front_foundation/components/modal.html.twig' with {
+        modal_id: 'test',
+        modal_close_label: 'cerrar'
+    } %}
+        {% block modal_content %}
+            <p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse non nulla eget ipsum venenatis aliquam non sit amet nunc. Duis ac nisi in velit tristique fermentum. Donec blandit ex id sodales consectetur. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus in mi feugiat, scelerisque neque a, porttitor augue. Cras suscipit massa diam, at mattis turpis condimentum non. Nam fringilla sapien velit, id vestibulum quam aliquam at. Cras maximus bibendum pretium. Quisque maximus massa ut nunc scelerisque, vitae bibendum metus auctor. Sed nisi tortor, aliquam et sollicitudin eget, pretium eu arcu. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+            </p>
+            <p>
+                Nullam faucibus lacus ut tincidunt pellentesque. Cras feugiat congue arcu, id gravida nulla aliquet ac. Fusce sed diam vel lorem eleifend tempus id vel felis. Ut euismod iaculis venenatis. Sed metus ipsum, vulputate non interdum in, euismod vel libero. Quisque quam diam, ultrices nec justo at, imperdiet maximus nisl. Nullam eleifend finibus orci, nec scelerisque tellus dapibus eu. Maecenas aliquet cursus odio ac auctor.
+            </p>
+            <p>
+                Nam vitae mauris at risus molestie tincidunt. Fusce vitae scelerisque mauris. Aenean molestie ac libero nec laoreet. Nam eros nibh, faucibus eu pharetra at, tincidunt ut augue. Vivamus suscipit purus vitae elit efficitur, accumsan ornare augue scelerisque. In ac venenatis nulla. Proin semper quam pulvinar, cursus metus vitae, volutpat dui.
+            </p>
+            <p>
+                Interdum et malesuada fames ac ante ipsum primis in faucibus. Nam vitae dui nibh. Vestibulum nunc lectus, auctor vitae libero vel, finibus varius tellus. In auctor blandit faucibus. Quisque id convallis massa, ut vehicula felis. Nullam iaculis lectus sed lacus ullamcorper, sit amet semper sapien tincidunt. Vivamus consequat ante nisi, non dictum ante mattis ac.
+            </p>
+            <p>
+                Aenean vel lectus viverra, semper odio quis, congue felis. Vestibulum dapibus posuere porttitor. Nam ornare vehicula ante id porttitor. Praesent eros ipsum, feugiat in vestibulum venenatis, mollis eget massa. Praesent vulputate elit a sagittis pretium. Etiam euismod in libero ac aliquet. Maecenas eu libero turpis. Donec nec elit dolor. Maecenas metus nisi, interdum a ligula scelerisque, cursus viverra justo. Cras laoreet, velit posuere elementum consectetur, tortor leo semper turpis, porttitor malesuada risus est at ipsum. Phasellus at auctor mi. Morbi feugiat ligula ac dolor pharetra, nec condimentum purus viverra. In hac habitasse platea dictumst. Aenean magna tellus, iaculis nec rhoncus non, porta et ipsum. Duis et libero ut dolor cursus pharetra eget nec nisl.
+            </p>
+        {% endblock %}
+    {% endembed %}
+</body>
+</html>

@@ -57,7 +57,7 @@ class Symfony extends Kernel
     {
         $mainRoute = new Route('/', [
             '_controller' => 'FrameworkBundle:Template:template',
-            'template'    => 'index.html.twig',
+            'template'    => 'src/templates/index.html.twig',
         ]);
         $routes->addRoute($mainRoute, 'main_route');
     }

@@ -20,6 +20,10 @@ class FormGroupRadio {
     this.hiddenInput = this.domNode.querySelector('.form-group-radio__hidden');
     this.radios = Array.from(this.domNode.querySelectorAll('.form-radio__circle'));
 
+    if (this.hiddenInput === undefined) {
+      return;
+    }
+
     this.onRadioChanged = this.onRadioChanged.bind(this);
 
     this.radios.forEach(radio => {
