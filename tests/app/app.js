@@ -114,10 +114,15 @@ const testValidatory = () => {
     };
 
   init({
-    formSelector: 'form',
-    formElementSelector: 'input, select, textarea',
+    formSelector: '#validatory-form',
+    formElementSelector: '#validatory-form input, #validatory-form select, #validatory-form textarea',
     onFormValidationStateChanged: formValidationStateChangedCallback,
     onFormElementValidationStateChanged: formElementValidationStateChangedCallback
+  });
+
+  init({
+    formSelector: '#validatory-form-react',
+    formElementSelector: '#validatory-form-react input, #validatory-form-react select, #validatory-form-react textarea'
   });
 
   onFormValidationStateChanged(

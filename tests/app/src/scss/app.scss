@@ -59,8 +59,8 @@ h3 {
 h2,
 h3 {
   background-color: $color-light-gray;
-  padding-bottom: 10px;
-  padding-top: 10px;
+  padding-bottom: 20px;
+  padding-top: 20px;
 }
 
 h4 {
@@ -83,9 +83,6 @@ h4 {
   padding-left: 30px;
   padding-right: 30px;
   width: 100%;
-}
-
-.section {
 }
 
 .section__title {
@@ -128,8 +125,4 @@ h4 {
 
 .form[data-validation-state="valid"] {
   border-color: #00d44c;
-}
-
-.element-title {
-
 }
