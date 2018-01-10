@@ -36,9 +36,11 @@
 $padding-main: 30px;
 $color-primary: #0e8fff;
 $color-secondary: rgba($color-primary, .75);
+$color-tertiary: #ff8b15;
 $color-light-gray: #f9f9f9;
 
 body {
+  background-color: $color-light-gray;
   font-family: Helvetica, sans-serif;
   margin: 0;
 }
@@ -50,7 +52,10 @@ h4 {
   margin: 0;
 }
 
-h1,
+h1 {
+  color: #444;
+}
+
 h2,
 h3 {
   color: $color-primary;
@@ -68,6 +73,11 @@ h4 {
   margin: 10px 0;
 }
 
+.aside-sticky {
+  margin: 0 auto;
+  max-width: 1280px;
+}
+
 .aside-sticky__aside {
   background-color: $color-light-gray;
   flex: 0 0 25%;
@@ -78,6 +88,7 @@ h4 {
 }
 
 .aside-sticky__article {
+  background-color: #fff;
   flex: 0 0 75%;
   max-width: 75%;
   padding-left: 30px;
@@ -125,4 +136,34 @@ h4 {
 
 .form[data-validation-state="valid"] {
   border-color: #00d44c;
+}
+
+.menu__list {
+  font-size: 18px;
+  list-style: none;
+  padding-left: 15px;
+}
+
+.menu__item {
+  font-size: .9em;
+  font-weight: bold;
+  padding: 5px 0;
+
+  > .menu__item > .menu__item {
+    font-weight: normal;
+  }
+}
+
+.menu__link {
+  color: $color-primary;
+  padding: 2px 0;
+  text-decoration: none;
+
+  &:hover {
+    color: $color-secondary;
+  }
+
+  &:active {
+    color: $color-tertiary;
+  }
 }
