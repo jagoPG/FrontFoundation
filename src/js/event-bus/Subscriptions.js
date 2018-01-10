@@ -18,6 +18,7 @@ import FormSelectInitializedEventSubscriber from './FormSelect/FormSelectInitial
 import FormSelectOptionSelectedEventSubscriber from './FormSelect/FormSelectOptionSelectedEventSubscriber';
 import FormSelectStateChangedEventSubscriber from './FormSelect/FormSelectStateChangedEventSubscriber';
 import DomNodeUpdatedEventSubscriber from './DomNodeUpdated/DomNodeUpdatedEventSubscriber';
+import ModalStateChangedEventSubscriber from './Modal/ModalStateChangedEventSubscriber';
 
 const
   onGMapInitialized = (domNode, onGMapInitializedCallback, priority) => {
@@ -98,6 +99,16 @@ const
     LifeTimeEventPublisher.subscribe(domNodeUpdatedEventSubscriber);
 
     return domNodeUpdatedEventSubscriber;
+  },
+  onModalStateChanged = (onModalStateChangedCallback, priority) => {
+    const modalStateChangedEventSubscriber = new DomNodeUpdatedEventSubscriber(
+      onModalStateChangedCallback,
+      new Priority(priority)
+    );
+
+    LifeTimeEventPublisher.subscribe(modalStateChangedEventSubscriber);
+
+    return modalStateChangedEventSubscriber;
   };
 
 export {
@@ -107,5 +118,6 @@ export {
   onFormSelectInitialized,
   onFormSelectOptionSelected,
   onFormSelectStateChanged,
-  onDomNodeUpdated
+  onDomNodeUpdated,
+  onModalStateChanged
 };
