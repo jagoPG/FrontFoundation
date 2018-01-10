@@ -1,0 +1,32 @@
+{##
+    This will be the base for all the Modals. It will build the basic DOM structure
+
+    @param modal_id                 string*
+    @param modal_class_name         string=null
+    @param modal_modifiers          array|string=null
+    @param modal_close_label        string='close'
+
+    @embed modal_content            html*
+#}
+
+{% set modal_content %}
+    {%- block modal_content -%}{%- endblock -%}
+{% endset %}
+
+{% set class = 'class="modal js-modal ' ~ class_name|default ~ ' ' ~ modifiers|default ~ '"' %}
+
+<div id="modal-{{ modal_id }}" {{ class|raw }}>
+    <div class="modal__overlay">
+        <div class="modal__contents">
+            <div class="modal__content-layer">
+                <a href="#" class="modal__close-button">
+                    {{ modal_close_label|default('close') }}
+                    {% include '@lin3s_front_foundation/svg/close.svg.twig' %}
+                </a>
+                <div class="modal__content">
+                    {{ modal_content }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

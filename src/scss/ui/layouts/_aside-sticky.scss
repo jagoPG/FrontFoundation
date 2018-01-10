@@ -9,6 +9,8 @@
 
 .aside-sticky {
   display: flex;
+  position: relative;
+  z-index: 0;
 }
 
 .aside-sticky__aside,
