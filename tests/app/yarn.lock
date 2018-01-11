@@ -3815,9 +3815,18 @@ lin3s-event-bus@^0.8.0:
   dependencies:
     lodash.debounce "^4.0.8"
 
-lin3s-front-foundation@^0.11.0:
-  version "0.11.4"
-  resolved "https://registry.yarnpkg.com/lin3s-front-foundation/-/lin3s-front-foundation-0.11.4.tgz#98febe2188f0e29e8beffb77c53acbaea57f4c96"
+lin3s-event-bus@^0.9.0:
+  version "0.9.0"
+  resolved "https://registry.yarnpkg.com/lin3s-event-bus/-/lin3s-event-bus-0.9.0.tgz#cbfddf5eee23d5119ea7658d89ab80277ee7bd62"
+  dependencies:
+    lodash.debounce "^4.0.8"
+
+lin3s-front-foundation@^0.15.0:
+  version "0.15.0"
+  resolved "https://registry.yarnpkg.com/lin3s-front-foundation/-/lin3s-front-foundation-0.15.0.tgz#08945f98bb6e0ec1e4d8c1116637b2902b2e7162"
+  dependencies:
+    foes-scrollproxy "^0.8.0"
+    lin3s-event-bus "^0.9.0"
 
 load-json-file@^1.0.0:
   version "1.1.0"
@@ -5472,6 +5481,12 @@ progress@^2.0.0:
 promise@^7.0.1, promise@^7.1.1:
   version "7.3.1"
   resolved "https://registry.yarnpkg.com/promise/-/promise-7.3.1.tgz#064b72602b18f90f29192b8b1bc418ffd1ebd3bf"
+  dependencies:
+    asap "~2.0.3"
+
+promise@^8.0.1:
+  version "8.0.1"
+  resolved "https://registry.yarnpkg.com/promise/-/promise-8.0.1.tgz#e45d68b00a17647b6da711bf85ed6ed47208f450"
   dependencies:
     asap "~2.0.3"
 
