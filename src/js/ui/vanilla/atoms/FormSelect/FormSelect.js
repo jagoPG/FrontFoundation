@@ -131,7 +131,6 @@ class FormSelect {
       this.setSelectFocused(true);
 
       if (this.tabHit) {
-        this.tabHit = false;
         return;
       }
 
@@ -255,6 +254,12 @@ class FormSelect {
     this.domNode.classList.toggle('form-select--focused', focused);
   }
 
+  setSelectFocusable(focusable) {
+    setTimeout(() => {
+      this.domNode.tabIndex = focusable ? 0 : -1;
+    }, 100);
+  }
+
   open() {
     if (!this.enabled) {
       return;
@@ -273,6 +278,8 @@ class FormSelect {
         }
       }, 100);
     }
+
+    this.setSelectFocusable(false);
   }
 
   close() {
@@ -285,10 +292,13 @@ class FormSelect {
     this.setOptionsContainerHeight(0);
     this.opened = false;
     this.setSelectFocused(false);
+    this.tabHit = false;
 
     if (this.isFilterable) {
       this.filterInput.blur();
     }
+
+    this.setSelectFocusable(true);
   }
 
   onOptionSelected(optionLabel, optionValue, publishEvent = true) {

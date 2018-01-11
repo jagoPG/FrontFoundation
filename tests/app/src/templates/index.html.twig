@@ -239,191 +239,189 @@
             <section id="validatory">
                 <h2 class="section__title">3 - Validatory</h2>
                 <div class="section__element">
-                    <div>
-                        <h3 class="section__title">3.1 - Vanilla</h3>
-                        <div id="validatory-vanilla" class="section__element">
-                            <form id="validatory-form" class="form" novalidate data-validate>
-                                <p>This is a form integrated component test. It will validate the form using the <i>FormValidator</i> library.</p>
-                                {{ form_group_inputs.required(
-                                    'text',
-                                    'test',
-                                    'Enter your name...',
-                                    'Name',
-                                    [{
-                                        content: 'This field is required.',
-                                        modifiers: 'form-error--not-filled',
-                                    }]
-                                ) }}
+                    <h3 class="section__title">3.1 - Vanilla</h3>
+                    <div id="validatory-vanilla" class="section__element">
+                        <form id="validatory-form" class="form" novalidate data-validate>
+                            <p>This is a form integrated component test. It will validate the form using the <i>FormValidator</i> library.</p>
+                            {{ form_group_inputs.required(
+                                'text',
+                                'test',
+                                'Enter your name...',
+                                'Name',
+                                [{
+                                    content: 'This field is required.',
+                                    modifiers: 'form-error--not-filled',
+                                }]
+                            ) }}
 
-                                {{ form_group_inputs.requiredEmail(
-                                    'email',
-                                    'Enter an email...',
-                                    'Email',
-                                    [{
-                                        content: 'This field is required.',
-                                        modifiers: 'form-error--not-filled',
-                                    }, {
-                                        content: 'Entered email does not match the required pattern.',
-                                        modifiers: 'form-error--not-valid',
-                                    }]
-                                ) }}
-
-                                {{ form_group_inputs.email(
+                            {{ form_group_inputs.requiredEmail(
                                 'email',
-                                    'Enter an email...',
-                                    'Email',
-                                    [{
-                                        content: 'Entered email does not match the required pattern.',
-                                        modifiers: 'form-error--not-valid',
+                                'Enter an email...',
+                                'Email',
+                                [{
+                                    content: 'This field is required.',
+                                    modifiers: 'form-error--not-filled',
+                                }, {
+                                    content: 'Entered email does not match the required pattern.',
+                                    modifiers: 'form-error--not-valid',
+                                }]
+                            ) }}
+
+                            {{ form_group_inputs.email(
+                                'email',
+                                'Enter an email...',
+                                'Email',
+                                [{
+                                    content: 'Entered email does not match the required pattern.',
+                                    modifiers: 'form-error--not-valid',
+                                }]
+                            ) }}
+
+                            {{ form_group_inputs.requiredPhone(
+                                'phone',
+                                'Enter a 9 digit phone...',
+                                'Phone', [{
+                                    content: 'This field is required.',
+                                    modifiers: 'form-error--not-filled',
+                                }, {
+                                    content: 'Entered phone does not match the required pattern.',
+                                    modifiers: 'form-error--not-valid',
+                                }]
+                            ) }}
+
+                            {{ form_group_inputs.phone(
+                                'phone',
+                                'Enter a 9 digit phone...',
+                                'Phone',
+                                [{
+                                    content: 'Entered phone does not match the required pattern.',
+                                    modifiers: 'form-error--not-valid',
+                                }]
+                            ) }}
+
+                            <div style="position: relative; z-index: 100">
+                                {{ form_group_selects.required(
+                                    'Day of the week',
+                                    'Type to filter...',
+                                    'Day of the week', [{
+                                        value: 0,
+                                        label: 'Sunday'
+                                    }, {
+                                        value: 1,
+                                        label: 'Monday'
+                                    }, {
+                                        value: 2,
+                                        label: 'Tuestay'
+                                    }, {
+                                        value: 3,
+                                        label: 'Wednesday'
+                                    }, {
+                                        value: 4,
+                                        label: 'Thursday'
+                                    }, {
+                                        value: 5,
+                                        label: 'Friday'
+                                    }, {
+                                        value: 6,
+                                        label: 'Saturday'
+                                    }], [{
+                                        content: 'This field is required.',
+                                        modifiers: 'form-error--not-filled',
                                     }]
                                 ) }}
+                            </div>
 
-                                {{ form_group_inputs.requiredPhone(
-                                    'phone',
-                                    'Enter a 9 digit phone...',
-                                    'Phone', [{
+                            <div style="position: relative; z-index: 90">
+                                {{ form_group_selects.requiredAndNot(
+                                    'genre',
+                                    'Type to filter...',
+                                    'Genre (default value not valid)',
+                                    '--',
+                                    [{
+                                        value: 0,
+                                        label: 'Male'
+                                    }, {
+                                        value: 1,
+                                        label: 'Female'
+                                    }], [{
                                         content: 'This field is required.',
                                         modifiers: 'form-error--not-filled',
                                     }, {
-                                        content: 'Entered phone does not match the required pattern.',
+                                        content: 'The selection option is not valid.',
                                         modifiers: 'form-error--not-valid',
                                     }]
                                 ) }}
+                            </div>
 
-                                {{ form_group_inputs.phone(
-                                    'phone',
-                                    'Enter a 9 digit phone...',
-                                    'Phone',
+                            <div style="position: relative; z-index: 80">
+                                {{ form_group_textareas.required(
+                                    'about',
+                                    'Tell us about you...',
+                                    'About you',
                                     [{
-                                        content: 'Entered phone does not match the required pattern.',
+                                        content: 'This field is required.',
+                                        modifiers: 'form-error--not-filled',
+                                    }]
+                                ) }}
+                            </div>
+
+                            <div style="position: relative; z-index: 70">
+                                {{ form_group_textareas.requiredWithPattern(
+                                    'palindrome',
+                                    'Type any 2-5 letter palindrome...',
+                                    '2-5 letter palindrome',
+                                    '\\b(\\w)?(\\w)\\w?\\2\\1',
+                                    [{
+                                        content: 'This field is required.',
+                                        modifiers: 'form-error--not-filled',
+                                    }, {
+                                        content: 'There is no any 2-5 letter palindrome.',
                                         modifiers: 'form-error--not-valid',
                                     }]
                                 ) }}
+                            </div>
 
-                                <div style="position: relative; z-index: 100">
-                                    {{ form_group_selects.required(
-                                        'Day of the week',
-                                        'Type to filter...',
-                                        'Day of the week', [{
-                                            value: 0,
-                                            label: 'Sunday'
-                                        }, {
-                                            value: 1,
-                                            label: 'Monday'
-                                        }, {
-                                            value: 2,
-                                            label: 'Tuestay'
-                                        }, {
-                                            value: 3,
-                                            label: 'Wednesday'
-                                        }, {
-                                            value: 4,
-                                            label: 'Thursday'
-                                        }, {
-                                            value: 5,
-                                            label: 'Friday'
-                                        }, {
-                                            value: 6,
-                                            label: 'Saturday'
-                                        }], [{
-                                            content: 'This field is required.',
-                                            modifiers: 'form-error--not-filled',
-                                        }]
+                            <div style="position: relative; z-index: 70; margin-bottom: 30px">
+                                {{ form_group_checkboxes.required(
+                                    'terms',
+                                    null,
+                                    'I have read an accept the terms and conditions',
+                                    [{
+                                        content: 'You haven\'t accepted the terms and conditions.',
+                                        modifiers: 'form-error--not-valid',
+                                    }]
+                                ) }}
+                            </div>
+
+                            <div style="position: relative; z-index: 60; margin-bottom: 30px">
+                                {{ form_group_radios.required(
+                                    'genre',
+                                    'Select your genre',
+                                    '(.*?)',
+                                    [{
+                                        radio_content: 'Male',
+                                        radio_value: 'male'
+                                    }, {
+                                        radio_content: 'Female',
+                                        radio_value: 'female'
+                                    }],
+                                    [{
+                                        content: 'You haven\'t selected any genre.',
+                                        modifiers: 'form-error--not-filled',
+                                    },
+                                    {
+                                        content: 'This value seems not valid.',
+                                        modifiers: 'form-error--not-valid',
+                                    }],
+                                    'form-group-radio--inline'
                                     ) }}
-                                </div>
+                            </div>
 
-                                <div style="position: relative; z-index: 90">
-                                    {{ form_group_selects.requiredAndNot(
-                                        'genre',
-                                        'Type to filter...',
-                                        'Genre (default value not valid)',
-                                        '--',
-                                        [{
-                                            value: 0,
-                                            label: 'Male'
-                                        }, {
-                                            value: 1,
-                                            label: 'Female'
-                                        }], [{
-                                            content: 'This field is required.',
-                                            modifiers: 'form-error--not-filled',
-                                        }, {
-                                            content: 'The selection option is not valid.',
-                                            modifiers: 'form-error--not-valid',
-                                        }]
-                                    ) }}
-                                </div>
-
-                                <div style="position: relative; z-index: 80">
-                                    {{ form_group_textareas.required(
-                                        'about',
-                                        'Tell us about you...',
-                                        'About you',
-                                        [{
-                                            content: 'This field is required.',
-                                            modifiers: 'form-error--not-filled',
-                                        }]
-                                    ) }}
-                                </div>
-
-                                <div style="position: relative; z-index: 70">
-                                    {{ form_group_textareas.requiredWithPattern(
-                                        'palindrome',
-                                        'Type any 2-5 letter palindrome...',
-                                        '2-5 letter palindrome',
-                                        '\\b(\\w)?(\\w)\\w?\\2\\1',
-                                        [{
-                                            content: 'This field is required.',
-                                            modifiers: 'form-error--not-filled',
-                                        }, {
-                                            content: 'There is no any 2-5 letter palindrome.',
-                                            modifiers: 'form-error--not-valid',
-                                        }]
-                                    ) }}
-                                </div>
-
-                                <div style="position: relative; z-index: 70; margin-bottom: 30px">
-                                    {{ form_group_checkboxes.required(
-                                        'terms',
-                                        null,
-                                        'I have read an accept the terms and conditions',
-                                        [{
-                                            content: 'You haven\'t accepted the terms and conditions.',
-                                            modifiers: 'form-error--not-valid',
-                                        }]
-                                    ) }}
-                                </div>
-
-                                <div style="position: relative; z-index: 60; margin-bottom: 30px">
-                                    {{ form_group_radios.required(
-                                        'genre',
-                                        'Select your genre',
-                                        '(.*?)',
-                                        [{
-                                            radio_content: 'Male',
-                                            radio_value: 'male'
-                                        }, {
-                                            radio_content: 'Female',
-                                            radio_value: 'female'
-                                        }],
-                                        [{
-                                            content: 'You haven\'t selected any genre.',
-                                            modifiers: 'form-error--not-filled',
-                                        },
-                                        {
-                                            content: 'This value seems not valid.',
-                                            modifiers: 'form-error--not-valid',
-                                        }],
-                                        'form-group-radio--inline'
-                                    ) }}
-                                </div>
-
-                                <input type="submit" value="submit"/>
-                            </form>
-                        </div>
+                            <input type="submit" value="submit"/>
+                        </form>
                     </div>
                 </div>
-                <div>
+                <div class="section__element">
                     <h3 class="section__title">3.1 - React</h3>
                     <div id="validatory-react" class="section__element" style="position: relative; z-index: 70;">
                         <form id="validatory-form-react" class="form" novalidate data-validate>

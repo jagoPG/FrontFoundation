@@ -79,7 +79,18 @@ class FormSelect extends React.Component {
     this.onLabelClick = this.onLabelClick.bind(this);
     this.onInputChange = this.onInputChange.bind(this);
     this.onKeyDown = this.onKeyDown.bind(this);
+    this.onMouseDown = this.onMouseDown.bind(this);
     this.onOptionMouseMove = this.onOptionMouseMove.bind(this);
+    this.onInputFocus = this.onInputFocus.bind(this);
+  }
+
+  onMouseDown() {
+    this.mouseIsDown = true;
+  }
+
+  onInputFocus(event) {
+    event.persist();
+    event.stopPropagation();
   }
 
   onFocus() {
@@ -88,7 +99,10 @@ class FormSelect extends React.Component {
     });
 
     if (this.tabHit) {
-      this.tabHit = false;
+      return;
+    }
+
+    if (this.mouseIsDown) {
       return;
     }
 
@@ -109,6 +123,8 @@ class FormSelect extends React.Component {
   }
 
   onClick(event) {
+    this.mouseIsDown = false;
+
     if (!this.props.outsideClickToCloseEnabled) {
       return;
     }
@@ -232,12 +248,14 @@ class FormSelect extends React.Component {
       this.filterInput.focus();
     }
 
-    this.setState({
+    this.setState(() => ({
       opened: true,
       touched: true,
       editingInput: this.props.filterable,
       hoveredOption: selectedOption !== null ? selectedOption : hoveredOption !== null ? hoveredOption : options[0]
-    });
+    }));
+
+    this.setSelectFocusable(false);
   }
 
   closeSelect() {
@@ -245,11 +263,21 @@ class FormSelect extends React.Component {
       this.filterInput.blur();
     }
 
-    this.setState({
+    this.tabHit = false;
+
+    this.setState(() => ({
       editingInput: false,
       focused: false,
       opened: false
-    });
+    }));
+
+    this.setSelectFocusable(true);
+  }
+
+  setSelectFocusable(focusable) {
+    setTimeout(() => {
+      this.domNode.tabIndex = focusable ? 0 : -1;
+    }, 100);
   }
 
   getOptionsContainerHeight() {
@@ -422,10 +450,14 @@ class FormSelect extends React.Component {
     return (
       <div className={formSelectClassName}
            onClick={this.onClick}
-           onBlur={this.onBlur}
+           onBlur={this.state.opened ? this.onBlur : null}
            onFocus={this.onFocus}
            onKeyDown={this.onKeyDown}
-           tabIndex={0}>
+           onMouseDown={this.onMouseDown}
+           ref={domNode => {
+             this.domNode = domNode;
+           }}
+           tabIndex="0">
         <div className="form-select__loader">
           <Loader/>
         </div>
@@ -437,6 +469,7 @@ class FormSelect extends React.Component {
         <div className="form-select__input-container">
           <input className="form-input form-select__input"
                  onChange={this.onInputChange}
+                 onFocus={this.onInputFocus}
                  placeholder={placeholder}
                  ref={input => {
                    this.filterInput = input;

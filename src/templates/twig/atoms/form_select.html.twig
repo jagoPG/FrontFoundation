@@ -55,7 +55,8 @@
         <div class="form-select__input-container">
             {% include '@lin3s_front_foundation/atoms/form_input.html.twig' with {
                 input_class_name: 'form-select__input',
-                input_placeholder: select_filter_placeholder
+                input_placeholder: select_filter_placeholder,
+                input_focusable: 0
             } %}
         </div>
     {% endif %}

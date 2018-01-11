@@ -22,6 +22,7 @@
     @param input_validate                           bool=false
     @param input_validation_pattern                 string=null
     @param input_validation_type                    string=null
+    @param input_focusable                          bool=false
 #}
 
 {% set id = input_id|default ? 'id=' ~ input_id ~ ' name=' ~ input_id %}
@@ -32,4 +33,4 @@
 {% set validation = input_validate|default ? 'data-validate' ~ (input_validation_pattern|default ? ' data-validate-pattern=' ~ input_validation_pattern) ~ (input_validation_type|default ? ' data-validate-' ~ input_validation_type) %}
 {% set value = input_value ? 'value="' ~ input_value ~ '"' %}
 
-<input {{ id }} {{ type }} {{ class|raw }} {{ placeholder|raw }} {{ required }} {{ validation }} {{ value|raw }} autocomplete="off" tabindex="0"/>
+<input {{ id }} {{ type }} {{ class|raw }} {{ placeholder|raw }} {{ required }} {{ validation }} {{ value|raw }} autocomplete="off" tabindex="{{ input_focusable|default(1) ? 0 : -1 }}"/>
