@@ -9,6 +9,7 @@
  * @author Mikel Tuesta <mikeltuesta@gmail.com>
  */
 
+import './src/js/polyfill/index';
 import {
   Async,
   Browser,

@@ -10,4 +10,13 @@
  */
 
 import './classListToggle';
+import './closest';
+import './find';
 import './findIndex';
+import './from';
+import './includes';
+
+if (typeof Promise === 'undefined') {
+  require('promise/lib/rejection-tracking').enable(); // eslint-disable-line no-undef
+  window.Promise = require('promise/lib/es6-extensions.js'); // eslint-disable-line no-undef
+}

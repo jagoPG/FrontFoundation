@@ -16,8 +16,6 @@ import * as Dom from './dom/index';
 import * as Async from './async/index';
 import * as EventBus from './event-bus/index';
 
-import './polyfill/index';
-
 export {
   Ui,
   Browser,
