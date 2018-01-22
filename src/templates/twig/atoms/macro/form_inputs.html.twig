@@ -1,7 +1,8 @@
-{% macro required(type, id, placeholder) %}
+{% macro required(type, id, placeholder, name) %}
     {% include '@lin3s_front_foundation/atoms/form_input.html.twig' with {
         input_type: type,
         input_id: id,
+        input_name: name,
         input_placeholder: placeholder,
         input_required: 1,
         input_validate: 1,
@@ -9,10 +10,11 @@
     } %}
 {% endmacro %}
 
-{% macro email(id, placeholder) %}
+{% macro email(id, placeholder, name) %}
     {% include '@lin3s_front_foundation/atoms/form_input.html.twig' with {
         input_type: 'email',
         input_id: id,
+        input_name: name,
         input_placeholder: placeholder,
         input_required: 0,
         input_validate: 1,
@@ -20,10 +22,11 @@
     } %}
 {% endmacro %}
 
-{% macro requiredEmail(id, placeholder) %}
+{% macro requiredEmail(id, placeholder, name) %}
     {% include '@lin3s_front_foundation/atoms/form_input.html.twig' with {
         input_type: 'email',
         input_id: id,
+        input_name: name,
         input_placeholder: placeholder,
         input_required: 1,
         input_validate: 1,
@@ -31,10 +34,11 @@
     } %}
 {% endmacro %}
 
-{% macro phone(id, placeholder) %}
+{% macro phone(id, placeholder, name) %}
     {% include '@lin3s_front_foundation/atoms/form_input.html.twig' with {
         input_type: 'tel',
         input_id: id,
+        input_name: name,
         input_placeholder: placeholder,
         input_required: 0,
         input_validate: 1,
@@ -42,10 +46,11 @@
     } %}
 {% endmacro %}
 
-{% macro requiredPhone(id, placeholder) %}
+{% macro requiredPhone(id, placeholder, name) %}
     {% include '@lin3s_front_foundation/atoms/form_input.html.twig' with {
         input_type: 'tel',
         input_id: id,
+        input_name: name,
         input_placeholder: placeholder,
         input_required: 1,
         input_validate: 1,
