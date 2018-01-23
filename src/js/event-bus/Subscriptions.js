@@ -9,8 +9,7 @@
  * @author Mikel Tuesta <mikeltuesta@gmail.com>
  */
 
-import {Priority} from 'lin3s-event-bus';
-import {OneTimeEventPublisher, LifeTimeEventPublisher} from 'lin3s-event-bus';
+import {Priority, OneTimeEventPublisher, LifeTimeEventPublisher} from 'lin3s-event-bus';
 import GMapInitializedEventSubscriber from './GMap/GMapInitializedEventSubscriber';
 import GMapMarkerSelectedEventSubscriber from './GMap/GMapMarkerSelectedEventSubscriber';
 import GMapGeocodeNoResultsEventSubscriber from './GMap/GMapGeocodeNoResultsEventSubscriber';
@@ -19,6 +18,7 @@ import FormSelectOptionSelectedEventSubscriber from './FormSelect/FormSelectOpti
 import FormSelectStateChangedEventSubscriber from './FormSelect/FormSelectStateChangedEventSubscriber';
 import DomNodeUpdatedEventSubscriber from './DomNodeUpdated/DomNodeUpdatedEventSubscriber';
 import ModalStateChangedEventSubscriber from './Modal/ModalStateChangedEventSubscriber';
+import CookieWrittenEventSubscriber from './Cookies/CookieWrittenEventSubscriber';
 
 const
   onGMapInitialized = (domNode, onGMapInitializedCallback, priority) => {
@@ -109,6 +109,17 @@ const
     LifeTimeEventPublisher.subscribe(modalStateChangedEventSubscriber);
 
     return modalStateChangedEventSubscriber;
+  },
+  onCookieWritten = (cookieWrittenCallback, priority) => {
+    const cookieWrittenEventSubscriber = new CookieWrittenEventSubscriber(
+      cookieWrittenCallback,
+      new Priority(priority)
+    );
+
+    OneTimeEventPublisher.subscribe(cookieWrittenEventSubscriber);
+    LifeTimeEventPublisher.subscribe(cookieWrittenEventSubscriber);
+
+    return cookieWrittenEventSubscriber;
   };
 
 export {
@@ -119,5 +130,6 @@ export {
   onFormSelectOptionSelected,
   onFormSelectStateChanged,
   onDomNodeUpdated,
-  onModalStateChanged
+  onModalStateChanged,
+  onCookieWritten
 };

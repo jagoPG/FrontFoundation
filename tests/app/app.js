@@ -13,6 +13,8 @@ import './src/js/polyfill/index';
 import {
   Async,
   Browser,
+  Cookies,
+  EventBus,
   Dom
 } from 'lin3s-front-foundation';
 import {onDomReady, LifeTimeEventPublisher} from 'lin3s-event-bus';
@@ -141,6 +143,35 @@ const testValidatory = () => {
   );
 };
 
+const testCookies = () => {
+  const nonExistentCookie = Cookies.read(`${(new Date()).getTime()}-random-name`);
+
+  if (nonExistentCookie !== undefined) {
+    console.error(`Cookies.read for non-existent cookie should return undefined and returns ${nonExistentCookie}`);
+  } else {
+    console.log('Cookies.read for non-existent cookie returns undefined');
+  }
+
+  const testCookieName = 'test-cookie-name',
+    testCookieValue = `current time: ${(new Date()).getTime()}`;
+
+  EventBus.onCookieWritten(({cookie}) => {
+    console.log(`Cookies.write launches an event with name ${cookie.name} and value ${cookie.value}`);
+  });
+
+  Cookies.write({
+    name: testCookieName,
+    value: testCookieValue,
+  });
+  const myCookieValue = Cookies.read(testCookieName);
+
+  if (myCookieValue !== testCookieValue) {
+    console.error(`Cookies.read for existent cookie should return ${testCookieValue} and returns ${myCookieValue}`);
+  } else {
+    console.log(`Cookies.read for existent cookie returns correct value: ${myCookieValue}`);
+  }
+};
+
 const onReady = () => {
   testAsyncCancelablePromise();
   testBrowserIsIE11();
@@ -148,6 +179,7 @@ const onReady = () => {
   testDomInjectScript();
   testDomWaitImagesLoadInDomNode();
   testValidatory();
+  testCookies();
 };
 
 onDomReady(onReady);
