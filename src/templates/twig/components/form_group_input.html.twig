@@ -16,6 +16,7 @@
     @param class_name                               string=null
     @param modifiers                                string=null
     @param input_id                                 string=*
+    @param input_name                               string=null
     @param input_label_class_name                   string=null
     @param input_label_modifiers                    string=null
     @param input_label_content                      html=null
@@ -50,6 +51,7 @@
     {% include '@lin3s_front_foundation/atoms/form_input.html.twig' with {
         input_type: input_type|default('text'),
         input_id: input_id,
+        input_name: input_name,
         input_class_name: input_class_name|default,
         input_modifiers: input_modifiers|default,
         input_placeholder: input_placeholder,

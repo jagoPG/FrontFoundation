@@ -1,6 +1,7 @@
-{% macro required(type, id, placeholder, label, errors) %}
+{% macro required(type, id, placeholder, label, errors, name) %}
     {% include '@lin3s_front_foundation/components/form_group_input.html.twig' with {
         input_id: id,
+        input_name: name,
         input_placeholder: placeholder,
         input_label_content: label,
         input_errors: errors,
@@ -11,9 +12,10 @@
     } %}
 {% endmacro %}
 
-{% macro email(id, placeholder, label, errors) %}
+{% macro email(id, placeholder, label, errors, name) %}
     {% include '@lin3s_front_foundation/components/form_group_input.html.twig' with {
         input_id: id,
+        input_name: name,
         input_placeholder: placeholder,
         input_label_content: label,
         input_errors: errors,
@@ -24,9 +26,10 @@
     } %}
 {% endmacro %}
 
-{% macro requiredEmail(id, placeholder, label, errors) %}
+{% macro requiredEmail(id, placeholder, label, errors, name) %}
     {% include '@lin3s_front_foundation/components/form_group_input.html.twig' with {
         input_id: id,
+        input_name: name,
         input_placeholder: placeholder,
         input_label_content: label,
         input_errors: errors,
@@ -37,9 +40,10 @@
     } %}
 {% endmacro %}
 
-{% macro phone(id, placeholder, label, errors) %}
+{% macro phone(id, placeholder, label, errors, name) %}
     {% include '@lin3s_front_foundation/components/form_group_input.html.twig' with {
         input_id: id,
+        input_name: name,
         input_placeholder: placeholder,
         input_label_content: label,
         input_errors: errors,
@@ -50,9 +54,10 @@
     } %}
 {% endmacro %}
 
-{% macro requiredPhone(id, placeholder, label, errors) %}
+{% macro requiredPhone(id, placeholder, label, errors, name) %}
     {% include '@lin3s_front_foundation/components/form_group_input.html.twig' with {
         input_id: id,
+        input_name: name,
         input_placeholder: placeholder,
         input_label_content: label,
         input_errors: errors,
