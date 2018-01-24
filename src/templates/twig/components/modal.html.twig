@@ -13,7 +13,7 @@
     {%- block modal_content -%}{%- endblock -%}
 {% endset %}
 
-{% set class = 'class="modal js-modal ' ~ class_name|default ~ ' ' ~ modifiers|default ~ '"' %}
+{% set class = 'class="modal js-modal ' ~ modal_class_name|default ~ ' ' ~ modal_modifiers|default ~ '"' %}
 
 <div id="modal-{{ modal_id }}" {{ class|raw }}>
     <div class="modal__overlay">
