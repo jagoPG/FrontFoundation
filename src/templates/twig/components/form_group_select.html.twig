@@ -13,14 +13,15 @@
     This component will display a form group composed by an @atoms/form_label, an @atom/form_select and an
     @atoms/form_error.
 
-    @param select_id                                string=*
+    @param select_id                                string*
+    @param select_name                              string=null
     @param select_outside_click_to_close_enabled    int=1
-    @param select_label_modifiers                   array|string=null
+    @param select_label_modifiers                   string=null
     @param select_label_content                     html=null
     @param select_label_class_name                  string=null
     @param input_errors                             array=null
-        - content                                   string=null
-        - modifiers                                 array|string=null
+        - content                                   string*
+        - modifiers                                 string=null
     @param select_select_modifiers                  string=null
     @param select_no_selection_label                string="--"
     @param select_no_selection_value                string="--"
@@ -34,7 +35,6 @@
     @param select_filter_placeholder                string=null
     @param select_filter_order_by                   string='value' (or 'label')
     @param select_mobile_breakpoint                 int=1024
-    @param select_required                          bool=false
     @param select_required                          bool=false
     @param select_validate                          bool=false
     @param select_validation_pattern                string=null
@@ -50,9 +50,9 @@
         <div class="form-group-select__label">
             {% include '@lin3s_front_foundation/atoms/form_label.html.twig' with {
                 label_for: select_id,
-                label_required: select_required,
-                label_class_name: select_label_class_name,
-                label_modifiers: select_label_modifiers,
+                label_required: select_required|default,
+                label_class_name: select_label_class_name|default,
+                label_modifiers: select_label_modifiers|default,
                 label_content: select_label_content
             } %}
         </div>
@@ -60,21 +60,22 @@
 
     {% include '@lin3s_front_foundation/atoms/form_select.html.twig' with {
         select_id: select_id,
-        select_modifiers: select_select_modifiers,
+        select_name: select_name|default,
+        select_modifiers: select_select_modifiers|default,
         select_no_selection_label: select_no_selection_label,
         select_no_selection_value: select_no_selection_value,
         select_options: select_options,
         select_max_height_mobile: select_max_height_mobile|default(260),
         select_max_height_desktop: select_max_height_desktop|default(420),
         select_is_filterable: select_is_filterable|default(1),
-        select_filter_placeholder: select_filter_placeholder,
+        select_filter_placeholder: select_filter_placeholder|default,
         select_filter_order_by: select_filter_order_by,
         select_mobile_breakpoint: select_mobile_breakpoint|default(1024),
         select_outside_click_to_close_enabled: select_outside_click_to_close_enabled|default(1),
         select_required: select_required|default(0),
         select_validate: select_validate|default(0),
-        select_validation_pattern: select_validation_pattern,
-        select_validation_type: select_validation_type
+        select_validation_pattern: select_validation_pattern|default,
+        select_validation_type: select_validation_type|default
     } %}
 
     {% if select_errors|default %}
@@ -82,7 +83,7 @@
             {% for error in select_errors %}
                 {% include '@lin3s_front_foundation/atoms/form_error.html.twig' with {
                     error_content: error.content,
-                    error_modifiers: error.modifiers
+                    error_modifiers: error.modifiers|default
                 } %}
             {% endfor %}
         </div>

@@ -13,7 +13,8 @@
     Form select
 
     @param select_class_name                        string=null
-    @param select_id                                string*
+    @param select_id                                string=null
+    @param select_name                              string=null
     @param select_modifiers                         string=null
     @param select_no_selection_label                string="--"
     @param select_no_selection_value                string="--"
@@ -39,6 +40,8 @@
 {% set select_filter_order_by = select_filter_order_by|default('value') %}
 
 {% set class = 'class="form-select js-form-select ' ~ select_class_name|default ~ ' ' ~ select_modifiers|default ~ '"' %}
+{% set id = select_id|default ? 'id=' ~ select_id %}
+{% set name = select_name|default(select_id|default) ? 'name=' ~ select_name|default(select_id|default) %}
 {% set required = select_required|default ? 'required' %}
 {% set validation = select_validate|default(0) ? 'data-validate data-validation-state-reference-selector=".form-select"' ~ (select_validation_pattern|default ? ' data-validate-pattern=' ~ select_validation_pattern) ~ (select_validation_type|default ? ' data-validate-' ~ select_validation_type) %}
 
@@ -57,7 +60,7 @@
         <div class="form-select__input-container">
             {% include '@lin3s_front_foundation/atoms/form_input.html.twig' with {
                 input_class_name: 'form-select__input',
-                input_placeholder: select_filter_placeholder,
+                input_placeholder: select_filter_placeholder|default,
                 input_focusable: 0
             } %}
         </div>
@@ -75,7 +78,7 @@
             {% endfor %}
         </div>
     </div>
-    <select class="form-select__select" name="{{ select_id }}" id="{{ select_id }}" {{ required }} {{ validation|raw }}>
+    <select class="form-select__select" {{ id }} {{ name }} {{ required }} {{ validation|raw }}>
         <option class="form-select__select-no-selection" value="{{ select_no_selection_value }}">
             {{ select_no_selection_label }}
         </option>
