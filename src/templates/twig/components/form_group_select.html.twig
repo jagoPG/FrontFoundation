@@ -28,15 +28,15 @@
     @param select_options                           array*
         - value                                     string*
         - label                                     string*
-        - selected                                  bool=false
+        - selected                                  int=0
     @param select_max_height_mobile                 int=260
     @param select_max_height_desktop                int=420
     @param select_is_filterable                     int=1
     @param select_filter_placeholder                string=null
     @param select_filter_order_by                   string='value' (or 'label')
     @param select_mobile_breakpoint                 int=1024
-    @param select_required                          bool=false
-    @param select_validate                          bool=false
+    @param select_required                          int=0
+    @param select_validate                          int=0
     @param select_validation_pattern                string=null
     @param select_validation_type                   string=null
 #}
@@ -50,7 +50,7 @@
         <div class="form-group-select__label">
             {% include '@lin3s_front_foundation/atoms/form_label.html.twig' with {
                 label_for: select_id,
-                label_required: select_required|default,
+                label_required: select_required|default(0),
                 label_class_name: select_label_class_name|default,
                 label_modifiers: select_label_modifiers|default,
                 label_content: select_label_content

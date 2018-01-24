@@ -25,11 +25,11 @@
         - modifiers                                 string=null
     @param radio_radios                             array*
         - radio_content                             html|raw*
-        - radio_checked                             bool=false
+        - radio_checked                             int=0
         - radio_value                               string=null
         - radio_modifiers                           string=null
-    @param radio_required                           bool=false
-    @param radio_validate                           bool=false
+    @param radio_required                           int=0
+    @param radio_validate                           int=0
     @param radio_validation_pattern                 string=null
     @param radio_validation_type                    string=null
 
@@ -42,7 +42,7 @@
         <div class="form-group-radio__label">
             {% include '@lin3s_front_foundation/atoms/form_label.html.twig' with {
                 label_for: radio_id,
-                label_required: radio_required|default,
+                label_required: radio_required|default(0),
                 label_class_name: radio_label_class_name|default,
                 label_modifiers: radio_label_modifiers|default,
                 label_content: radio_label_title
@@ -62,9 +62,9 @@
         </div>
     {% endfor %}
 
-    {% if radio_validate|default %}
+    {% if radio_validate|default(0) %}
         {% set required = radio_required|default(0) ? 'required' %}
-        {% set validation = radio_validate|default ? 'data-validate' ~ (radio_validation_pattern|default ? ' data-validate-pattern="' ~ radio_validation_pattern) ~ '"' ~ (radio_validation_type|default ? ' data-validate-' ~ radio_validation_type) %}
+        {% set validation = radio_validate|default(0) ? 'data-validate' ~ (radio_validation_pattern|default ? ' data-validate-pattern="' ~ radio_validation_pattern) ~ '"' ~ (radio_validation_type|default ? ' data-validate-' ~ radio_validation_type) %}
 
         <input class="form-group-radio__hidden" type="hidden" {{ required }} {{ validation }}/>
     {% endif %}

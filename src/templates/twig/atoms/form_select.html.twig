@@ -21,15 +21,15 @@
     @param select_options                           array*
         - value                                     string*
         - label                                     string*
-        - selected                                  bool=false
+        - selected                                  int=0
     @param select_max_height_mobile                 int=260
     @param select_max_height_desktop                int=420
     @param select_is_filterable                     int=1
     @param select_filter_placeholder                string=null
     @param select_filter_order_by                   string='value' (or 'label')
     @param select_mobile_breakpoint                 int=1024
-    @param select_required                          bool=false
-    @param select_validate                          bool=false
+    @param select_required                          int=0
+    @param select_validate                          int=0
     @param select_validation_pattern                string=null
     @param select_validation_type                   string=null
     @param select_outside_click_to_close_enabled    int=1
@@ -42,7 +42,7 @@
 {% set class = 'class="form-select js-form-select ' ~ select_class_name|default ~ ' ' ~ select_modifiers|default ~ '"' %}
 {% set id = select_id|default ? 'id=' ~ select_id %}
 {% set name = select_name|default(select_id|default) ? 'name=' ~ select_name|default(select_id|default) %}
-{% set required = select_required|default ? 'required' %}
+{% set required = select_required|default(0) ? 'required' %}
 {% set validation = select_validate|default(0) ? 'data-validate data-validation-state-reference-selector=".form-select"' ~ (select_validation_pattern|default ? ' data-validate-pattern=' ~ select_validation_pattern) ~ (select_validation_type|default ? ' data-validate-' ~ select_validation_type) %}
 
 <div {{ class|raw }}
@@ -83,7 +83,7 @@
             {{ select_no_selection_label }}
         </option>
         {% for option in select_options %}
-            <option value="{{ option.value }}"{% if option.selected|default(false) %} selected="selected"{% endif %}>
+            <option value="{{ option.value }}"{% if option.selected|default(0) %} selected="selected"{% endif %}>
                 {{ option.label }}
             </option>
         {% endfor %}

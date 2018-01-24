@@ -15,7 +15,7 @@
     @param label_class_name       string=null
     @param label_modifiers        string=null
     @param label_content          string*
-    @param label_required         bool=false
+    @param label_required         int=0
     @param label_for              string=null
 
 #}
@@ -24,7 +24,7 @@
 {% set for = label_for|default ? 'for=' ~ label_for %}
 
 <label {{ class|raw }} {{ for }}>
-    {% if label_required|default(false) %}
+    {% if label_required|default(0) %}
         <span class="form-label__required">*</span>
     {% endif %}
     {{ label_content|raw }}

@@ -25,8 +25,8 @@
         - modifiers                             string=null
     @param checkbox_class_name                  string=null
     @param checkbox_modifiers                   string=null
-    @param checkbox_required                    bool=false
-    @param checkbox_validate                    bool=false
+    @param checkbox_required                    int=0
+    @param checkbox_validate                    int=0
     @param checkbox_content                     string*
 #}
 
@@ -52,7 +52,7 @@
         checkbox_modifiers: checkbox_modifiers|default,
         checkbox_content: checkbox_content,
         checkbox_required: checkbox_required|default(0),
-        checkbox_validate: checkbox_validate|default
+        checkbox_validate: checkbox_validate|default(0)
     } %}
 
     {% if checkbox_errors|default %}
