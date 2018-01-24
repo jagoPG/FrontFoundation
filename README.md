@@ -412,8 +412,10 @@ The list of the available parameters, their type and default values are as follo
 | Parameter                | Type          | Required | Default value |
 |------------------------- |:--------------|:---------|:--------------|
 | input_id                 | string        | yes      |               |
+| input_name               | string        | no       | null          |
+| input_value              | string        | no       | null          |
 | input_required           | bool          | no       | false         |
-| input_validate           | bool          | no       | false         |               |
+| input_validate           | bool          | no       | false         |
 | input_validation_pattern | string        | no       | ''            |
 | input_validation_type    | string        | no       | ''            |
 | input_type               | string        | no       | 'text'        |
@@ -421,9 +423,9 @@ The list of the available parameters, their type and default values are as follo
 | input_label_class_name   | string        | no       | null          |
 | input_label_modifiers    | string        | no       | null          |
 | input_label_content      | html          | no       | null          |
-| input_errors             | array<br/>{<br/>&nbsp;&nbsp;&nbsp;&nbsp;content: string, <br/>&nbsp;&nbsp;&nbsp;&nbsp;modifiers: string<br/>} | no       | null          |
+| input_errors             | array<br/>{<br/>&nbsp;&nbsp;&nbsp;&nbsp;content: string*, <br/>&nbsp;&nbsp;&nbsp;&nbsp;modifiers: string<br/>} | no       | null          |
 | input_class_name         | string        | no       | null          |
-| input_modifiers          | array         | no       | null          |
+| input_modifiers          | string        | no       | null          |
 
 
 This is a common setup example:
@@ -475,6 +477,7 @@ The list of the available parameters, their type and default values are as follo
 | Parameter                 | Type          | Required | Default value | Purpose       |
 |-------------------------- |:--------------|:---------|:--------------|:--------------|
 | select_id                 | string        | yes      |               |               |
+| select_name               | string        | no       | null          |               |
 | select_required           | bool          | no       | false         |               |
 | select_validate           | bool          | no       | false         |               |
 | select_validation_pattern | string        | no       | ''            | Any valid *RegExp* pattern |
@@ -482,12 +485,12 @@ The list of the available parameters, their type and default values are as follo
 | select_mobile_breakpoint  | int           | no       | 1024          |               |
 | select_max_height_mobile  | int           | no       | 260           |               |
 | select_max_height_desktop | int           | no       | 420           |               |
-| select_is_filterable      | bool          | no       | true          |               |
+| select_is_filterable      | int           | no       | 1             |               |
 | select_filter_placeholder | string        | no       | null          |               |
 | select_filter_order_by    | string        | no       | 'value'       | If you set 'label' as this parameter, the component will order it's items by the 'label' while filtering it's options. |
 | select_label_modifiers    | string        | no       | null          |               |
 | select_label_content      | html          | no       | null          |               |
-| select_errors             | array<br/>{<br/>&nbsp;&nbsp;&nbsp;&nbsp;content: string, <br/>&nbsp;&nbsp;&nbsp;&nbsp;modifiers: string<br/>} | no       | null          |               |
+| select_errors             | array<br/>{<br/>&nbsp;&nbsp;&nbsp;&nbsp;content: string*, <br/>&nbsp;&nbsp;&nbsp;&nbsp;modifiers: string<br/>} | no       | null          |               |
 | select_select_modifiers   | string        | no       | null          |               |
 | select_no_selection_label | string        | no       | '--'          |               |
 | select_no_selection_value | string        | no       | '--'          |               |
@@ -603,6 +606,8 @@ The list of the available parameters, their type and default values are as follo
 | class_name                  | string        | no       | null          |               |
 | modifiers                   | string        | no       | null          |               |
 | textarea_id                 | string        | no       | null          |               |
+| textarea_name               | string        | no       | null          |               |
+| textarea_value              | string        | no       | null          |               |
 | textarea_required           | bool          | no       | false         |               |
 | textarea_validate           | bool          | no       | false         |               |
 | textarea_validation_pattern | string        | no       | ''            | Any valid *RegExp* pattern |
@@ -610,7 +615,7 @@ The list of the available parameters, their type and default values are as follo
 | textarea_label_class_name   | string        | no       | ''            |               |
 | textarea_label_modifiers    | string        | no       | ''            |               |
 | textarea_label_content      | html          | no       | null          |               |
-| textarea_errors             | array<br/>{<br/>&nbsp;&nbsp;&nbsp;&nbsp;content: string, <br/>&nbsp;&nbsp;&nbsp;&nbsp;modifiers: string<br/>} | no       | null          |               |
+| textarea_errors             | array<br/>{<br/>&nbsp;&nbsp;&nbsp;&nbsp;content: string*, <br/>&nbsp;&nbsp;&nbsp;&nbsp;modifiers: string<br/>} | no       | null          |               |
 | textarea_modifiers          | string        | no       | ''            |               |
 | textarea_placeholder        | string        | no       | ''            |               |
 
@@ -660,12 +665,13 @@ The list of the available parameters, their type and default values are as follo
 | class_name                  | string        | no       | null          |               |
 | modifiers                   | string        | no       | null          |               |
 | checkbox_id                 | string        | no       | null          |               |
+| checkbox_name               | string        | no       | null          |               |
 | checkbox_required           | bool          | no       | false         |               |
 | checkbox_validate           | bool          | no       | false         |               |
 | checkbox_label_class_name   | string        | no       | ''            |               |
 | checkbox_label_modifiers    | string        | no       | ''            |               |
 | checkbox_label_content      | html          | no       | null          |               |
-| checkbox_errors             | array<br/>{<br/>&nbsp;&nbsp;&nbsp;&nbsp;content: string, <br/>&nbsp;&nbsp;&nbsp;&nbsp;modifiers: string<br/>} | no       | null          |               |
+| checkbox_errors             | array<br/>{<br/>&nbsp;&nbsp;&nbsp;&nbsp;content: string*, <br/>&nbsp;&nbsp;&nbsp;&nbsp;modifiers: string<br/>} | no       | null          |               |
 | checkbox_modifiers          | string        | no       | ''            |               |
 | checkbox_content            | string        | true     |               |               |
 
@@ -780,12 +786,17 @@ The list of the available parameters, their type and default values are as follo
 
 | Parameter                 | Type          | Required | Default value |
 |-------------------------- |:--------------|:---------|:--------------|
-| input_id                  | string        | no       | -             |
+| input_id                  | string        | no       | null          |
+| input_name                | string        | no       | null          |
+| input_value               | string        | no       | null          |
 | input_required            | bool          | no       | false         |
 | input_type                | string        | no       | 'text'        |
-| input_placeholder         | string        | yes      | -             |
+| input_placeholder         | string        | no       | null          |
 | input_class_name          | string        | no       | null          |
 | input_modifiers           | string        | no       | null          |
+| input_validate            | bool          | no       | false         |
+| input_validation_pattern  | string        | no       | null          |
+| input_validation_type     | string        | no       | null          |
 
 This is a common setup example:
 
@@ -821,20 +832,24 @@ The list of the available parameters, their type and default values are as follo
 
 | Parameter                 | Type          | Required | Default value |
 |-------------------------- |:--------------|:---------|:--------------|
-| select_id                 | string        | no       | -             |
+| select_id                 | string        | no       | null          |
+| select_name               | string        | no       | null          |
 | select_required           | bool          | no       | false         |
 | select_class_name         | string        | no       | null          |
 | select_modifiers          | string        | no       | null          |
 | select_no_selection_label | string        | no       | '--'          |
 | select_no_selection_value | string        | no       | '--'          |
-| select_mobile_breakpoint  | int           | no       | 1024          |               |
-| select_max_height_mobile  | int           | no       | 260           |               |
-| select_max_height_desktop | int           | no       | 420           |               |
-| select_is_filterable      | bool          | no       | true          |               |
-| select_filter_placeholder | string        | no       | null          |               |
+| select_mobile_breakpoint  | int           | no       | 1024          |
+| select_max_height_mobile  | int           | no       | 260           |
+| select_max_height_desktop | int           | no       | 420           |
+| select_is_filterable      | bool          | no       | true          |
+| select_filter_placeholder | string        | no       | null          |
 | select_filter_order_by    | string        | no       | 'value'       | If you set 'label' as this parameter, the component will order it's items by the 'label' while filtering it's options. |
 | select_options            | array         | yes      |               | These are the atom's options. Each option must have, at least, this shape: <br/>{<br/>&nbsp;&nbsp;&nbsp;&nbsp;value: string\*<br/>&nbsp;&nbsp;&nbsp;&nbsp;label: string\*<br/>&nbsp;&nbsp;&nbsp;&nbsp;selected: bool=false<br/>} |
 | select_outside_click_to_close_enabled            | int           | no       | 1             |
+| select_validate           | bool          | no       | false         |
+| select_validation_pattern | string        | no       | null          |
+| select_validation_type    | string        | no       | null          |
 
 This is a common setup example:
 
@@ -887,11 +902,11 @@ The library provides you opinionated macros for rendering the form components wi
 
 ### Atoms - form_inputs
 ```twig
-{% macro required(type, id, placeholder) %}
-{% macro email(id, placeholder) %}
-{% macro requiredEmail(id, placeholder) %}
-{% macro phone(id, placeholder) %}
-{% macro requiredPhone(id, placeholder) %}
+{% macro required(type, id, placeholder, name) %}
+{% macro email(id, placeholder, name) %}
+{% macro requiredEmail(id, placeholder, name) %}
+{% macro phone(id, placeholder, name) %}
+{% macro requiredPhone(id, placeholder, name) %}
 ```
 
 ### Components - form_group_checkboxes
@@ -901,11 +916,11 @@ The library provides you opinionated macros for rendering the form components wi
 
 ### Components - form_group_inputs
 ```twig
-{% macro required(type, id, placeholder, label, errors) %}
-{% macro email(id, placeholder, label, errors) %}
-{% macro requiredEmail(id, placeholder, label, errors) %}
-{% macro phone(id, placeholder, label, errors) %}
-{% macro requiredPhone(id, placeholder, label, errors) %}
+{% macro required(type, id, placeholder, label, errors, name) %}
+{% macro email(id, placeholder, label, errors, name) %}
+{% macro requiredEmail(id, placeholder, label, errors, name) %}
+{% macro phone(id, placeholder, label, errors, name) %}
+{% macro requiredPhone(id, placeholder, label, errors, name) %}
 ```
 
 ### Components - form_group_selects

@@ -23,6 +23,8 @@ To get the diff between two versions, go to https://github.com/LIN3S/FrontFounda
     * Integrated `validatory` with the `FormGroupRadio`.
     * Implemented `FormRadio` atom and `FormGroupRadio` component.
     * Removed unnecessary required propTypes. (FormSelect and FormGroupSelect)
+    * Refactor/form atoms and components to accept always id and name. Added `value` param in input and textarea.
+    * Corrected and update docs.
 * 0.13.2
     * Updated both FormGroupSelect and FormGroupInput to extend React.Component instead of Reac.PureComponent due to 
         the shouldComponentUpdate method addition.
