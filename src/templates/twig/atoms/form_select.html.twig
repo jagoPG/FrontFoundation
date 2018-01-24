@@ -31,6 +31,7 @@
     @param select_validate                          bool=false
     @param select_validation_pattern                string=null
     @param select_validation_type                   string=null
+    @param select_outside_click_to_close_enabled    int=1
 #}
 
 {% set select_no_selection_label = select_no_selection_label|default('--') %}
@@ -47,6 +48,7 @@
     data-filterable="{{ select_is_filterable|default(1) }}"
     data-filter-order-by="{{ select_filter_order_by }}"
     data-mobile-breakpoint="{{ select_mobile_breakpoint|default(1024) }}"
+    data-outside-click-to-close-enabled="{{ select_outside_click_to_close_enabled|default(1) }}"
     tabindex="0">
     <span class="form-select__dropdown-icon">
         {% include '@lin3s_front_foundation/svg/arrows_small_down.svg.twig' %}

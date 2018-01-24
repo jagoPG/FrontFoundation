@@ -437,6 +437,7 @@ The list of the available parameters, their type and default values are as follo
 | select_no_selection_label | string        | no       | '--'          |               |
 | select_no_selection_value | string        | no       | '--'          |               |
 | select_options            | array         | yes      |               | These are the component's options. Each option must have, at least, this shape: <br/>{<br/>&nbsp;&nbsp;&nbsp;&nbsp;value: string\*<br/>&nbsp;&nbsp;&nbsp;&nbsp;label: string\*<br/>&nbsp;&nbsp;&nbsp;&nbsp;selected: bool=false<br/>} |
+| select_outside_click_to_close_enabled            | int           | no       | 1             |               |
 
 This is a full setup example:
 
@@ -778,6 +779,7 @@ The list of the available parameters, their type and default values are as follo
 | select_filter_placeholder | string        | no       | null          |               |
 | select_filter_order_by    | string        | no       | 'value'       | If you set 'label' as this parameter, the component will order it's items by the 'label' while filtering it's options. |
 | select_options            | array         | yes      |               | These are the atom's options. Each option must have, at least, this shape: <br/>{<br/>&nbsp;&nbsp;&nbsp;&nbsp;value: string\*<br/>&nbsp;&nbsp;&nbsp;&nbsp;label: string\*<br/>&nbsp;&nbsp;&nbsp;&nbsp;selected: bool=false<br/>} |
+| select_outside_click_to_close_enabled            | int           | no       | 1             |
 
 This is a common setup example:
 
