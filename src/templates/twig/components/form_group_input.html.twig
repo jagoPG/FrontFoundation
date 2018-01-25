@@ -15,19 +15,20 @@
 
     @param class_name                               string=null
     @param modifiers                                string=null
-    @param input_id                                 string=*
+    @param input_id                                 string*
     @param input_name                               string=null
     @param input_label_class_name                   string=null
     @param input_label_modifiers                    string=null
     @param input_label_content                      html=null
     @param input_errors                             array=null
-        - content                                   string=null
-        - modifiers                                 array|string=null
+        - content                                   string*
+        - modifiers                                 string=null
     @param input_class_name                         string=null
-    @param input_modifiers                          array|string=null
+    @param input_modifiers                          string=null
     @param input_placeholder                        string*
     @param input_type                               string='text'
     @param input_required                           bool=false
+    @param input_value                              string=null
     @param input_validate                           bool=false
     @param input_validation_pattern                 string=null
     @param input_validation_type                    string=null
@@ -51,11 +52,12 @@
     {% include '@lin3s_front_foundation/atoms/form_input.html.twig' with {
         input_type: input_type|default('text'),
         input_id: input_id,
-        input_name: input_name,
+        input_name: input_name|default,
         input_class_name: input_class_name|default,
         input_modifiers: input_modifiers|default,
         input_placeholder: input_placeholder,
         input_required: input_required|default(0),
+        input_value: input_value|default,
         input_validate: input_validate|default(0),
         input_validation_pattern: input_validation_pattern|default,
         input_validation_type: input_validation_type|default
@@ -66,7 +68,7 @@
         {% for error in input_errors %}
             {% include '@lin3s_front_foundation/atoms/form_error.html.twig' with {
                 error_content: error.content,
-                error_modifiers: error.modifiers
+                error_modifiers: error.modifiers|default
             } %}
         {% endfor %}
         </div>

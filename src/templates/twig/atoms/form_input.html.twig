@@ -23,16 +23,16 @@
     @param input_validate                           bool=false
     @param input_validation_pattern                 string=null
     @param input_validation_type                    string=null
-    @param input_focusable                          bool=false
+    @param input_focusable                          int=1
 #}
 
 {% set id = input_id|default ? 'id=' ~ input_id %}
-{% set name = input_name|default(input_id) ? 'name=' ~ input_name|default(input_id) %}
+{% set name = input_name|default(input_id|default) ? 'name=' ~ input_name|default(input_id|default) %}
 {% set type = 'type=' ~ input_type|default('text') %}
 {% set class = 'class="form-input js-form-input ' ~ input_class_name|default ~ ' ' ~ input_modifiers|default ~ '"' %}
 {% set placeholder = input_placeholder|default ? 'placeholder="' ~ input_placeholder ~ '"' %}
 {% set required = input_required|default ? 'required' %}
 {% set validation = input_validate|default ? 'data-validate' ~ (input_validation_pattern|default ? ' data-validate-pattern=' ~ input_validation_pattern) ~ (input_validation_type|default ? ' data-validate-' ~ input_validation_type) %}
-{% set value = input_value ? 'value="' ~ input_value ~ '"' %}
+{% set value = input_value|default ? 'value="' ~ input_value ~ '"' %}
 
 <input {{ id }} {{ name }} {{ type }} {{ class|raw }} {{ placeholder|raw }} {{ required }} {{ validation }} {{ value|raw }} autocomplete="off" tabindex="{{ input_focusable|default(1) ? 0 : -1 }}"/>

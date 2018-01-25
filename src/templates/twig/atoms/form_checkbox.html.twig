@@ -17,18 +17,20 @@
     @param checkbox_checked         bool=false
     @param checkbox_required        bool=false
     @param checkbox_id              string=null
+    @param checkbox_name            string=null
     @param checkbox_content         string*
     @param checkbox_validate        bool=false
 
 #}
 
 {% set class = 'class="form-checkbox js-form-checkbox ' ~ checkbox_class_name|default ~ ' ' ~ checkbox_modifiers|default ~ '"' %}
-{% set id = checkbox_id|default ? 'id="' ~ checkbox_id ~ '" name="' ~ checkbox_id ~ '"' %}
+{% set id = checkbox_id|default ? 'id=' ~ checkbox_id %}
+{% set name = checkbox_name|default(checkbox_id|default) ? 'name=' ~ checkbox_name|default(checkbox_id|default) %}
 {% set checked = checkbox_checked|default(0) ? 'checked' %}
 {% set required = checkbox_required|default(0) ? 'required' %}
 {% set validation = checkbox_validate|default ? 'data-validate data-validate-any data-validation-state-reference-selector=".form-checkbox"' %}
 
 <label {{ class|raw }} tabindex="0">
-    <input type="checkbox" class="form-checkbox__check" {{ id|raw }} {{ checked }} {{ required }} {{ validation|raw }}/>
+    <input type="checkbox" class="form-checkbox__check" {{ id }} {{ name }} {{ checked }} {{ required }} {{ validation|raw }}/>
     <span class="form-checkbox__content">{{ checkbox_content|raw }}</span>
 </label>

@@ -16,6 +16,7 @@
     @param textarea_modifiers                   string=null
     @param textarea_placeholder                 string=null
     @param textarea_id                          string=null
+    @param textarea_name                        string=null
     @param textarea_required                    bool=false
     @param textarea_value                       string=null
     @param textarea_validate                    bool=false
@@ -26,7 +27,8 @@
     @param textarea_initial_rows                number=5
 #}
 
-{% set id = textarea_id|default ? 'id=' ~ textarea_id ~ ' name=' ~ textarea_id %}
+{% set id = textarea_id|default ? 'id=' ~ textarea_id %}
+{% set name = textarea_name|default(textarea_id|default) ? 'name=' ~ textarea_name|default(textarea_id|default) %}
 {% set class = 'class="form-textarea js-form-textarea ' ~ textarea_class_name|default ~ ' ' ~ textarea_modifiers|default ~ '"' %}
 {% set placeholder = textarea_placeholder|default ? 'placeholder="' ~ textarea_placeholder ~ '"' %}
 {% set required = textarea_required|default ? 'required' %}
@@ -34,6 +36,6 @@
 {% set autogrow = textarea_autogrow|default(1) ? 'data-autogrow data-autogrow-max-lines=' ~ textarea_autogrow_max_lines|default(15) %}
 {% set rows = 'rows=' ~ textarea_initial_rows|default(5) %}
 
-<textarea {{ id }} {{ class|raw }} {{ placeholder|raw }} {{ autogrow }} {{ rows }} {{ required }} {{ validation }} autocomplete="off" tabindex="0">
+<textarea {{ id }} {{ name }} {{ class|raw }} {{ placeholder|raw }} {{ autogrow }} {{ rows }} {{ required }} {{ validation }} autocomplete="off" tabindex="0">
     {{- textarea_value|default -}}
 </textarea>

@@ -15,15 +15,16 @@
 
     @param class_name                           string=null
     @param modifiers                            string=null
-    @param checkbox_id                          string=*
+    @param checkbox_id                          string*
+    @param checkbox_name                        string=null
     @param checkbox_label_class_name            string=null
     @param checkbox_label_modifiers             string=null
     @param checkbox_label_content               html=null
     @param checkbox_errors                      array=null
-        - content                               string=null
-        - modifiers                             array|string=null
+        - content                               string*
+        - modifiers                             string=null
     @param checkbox_class_name                  string=null
-    @param checkbox_modifiers                   array|string=null
+    @param checkbox_modifiers                   string=null
     @param checkbox_required                    bool=false
     @param checkbox_validate                    bool=false
     @param checkbox_content                     string*
@@ -46,11 +47,12 @@
 
     {% include '@lin3s_front_foundation/atoms/form_checkbox.html.twig' with {
         checkbox_id: checkbox_id,
+        checkbox_name: checkbox_name|default,
         checkbox_class_name: checkbox_class_name|default,
         checkbox_modifiers: checkbox_modifiers|default,
         checkbox_content: checkbox_content,
-        checkbox_required: checkbox_required,
-        checkbox_validate: checkbox_validate
+        checkbox_required: checkbox_required|default(0),
+        checkbox_validate: checkbox_validate|default
     } %}
 
     {% if checkbox_errors|default %}
@@ -58,7 +60,7 @@
         {% for error in checkbox_errors %}
             {% include '@lin3s_front_foundation/atoms/form_error.html.twig' with {
                 error_content: error.content,
-                error_modifiers: error.modifiers
+                error_modifiers: error.modifiers|default
             } %}
         {% endfor %}
         </div>
