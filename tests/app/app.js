@@ -155,7 +155,7 @@ const testCookies = () => {
   const testCookieName = 'test-cookie-name',
     testCookieValue = `current time: ${(new Date()).getTime()}`;
 
-  EventBus.onCookieWritten(({cookie}) => {
+  EventBus.Cookies.onWritten(({cookie}) => {
     console.log(`Cookies.write launches an event with name ${cookie.name} and value ${cookie.value}`);
   });
 

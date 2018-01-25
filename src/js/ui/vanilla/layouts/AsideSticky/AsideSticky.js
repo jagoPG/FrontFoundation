@@ -11,7 +11,7 @@
 
 import {onWindowResized, onDomLoaded} from 'lin3s-event-bus';
 import {ScrollAdvancedStickyObserver} from 'foes-scrollproxy';
-import {onDomNodeUpdated} from '../../../../event-bus/Subscriptions';
+import {onUpdated as onDomNodeUpdated} from '../../../../event-bus/DomNodeUpdated/subscriptions';
 
 class AsideSticky {
 
