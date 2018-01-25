@@ -55,6 +55,7 @@ class FormSelect {
     this.isFilterable = parseInt(this.domNode.dataset.filterable, 10) === 1;
     this.filterBy = this.domNode.dataset.filterOrderBy;
     this.mobileBreakpoint = parseInt(this.domNode.dataset.mobileBreakpoint, 10);
+    this.outsideClickToCloseEnabled = parseInt(this.domNode.dataset.outsideClickToCloseEnabled, 10) === 1;
     this.mouseOverListenerEnabled = true;
     this.keyboardControlledSelectedOptionIndex = 0;
     this.lastFilterValue = '';
@@ -125,7 +126,9 @@ class FormSelect {
       });
     }
 
-    window.addEventListener('click', this.close.bind(this));
+    if (this.outsideClickToCloseEnabled) {
+      window.addEventListener('click', this.close.bind(this));
+    }
 
     this.domNode.addEventListener('focus', () => {
       this.setSelectFocused(true);
@@ -138,7 +141,9 @@ class FormSelect {
     });
 
     this.domNode.addEventListener('click', event => {
-      event.stopPropagation();
+      if (this.outsideClickToCloseEnabled) {
+        event.stopPropagation();
+      }
 
       if (event.target === this.domNode) {
         return;
