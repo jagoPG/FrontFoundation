@@ -17,12 +17,12 @@
     @param textarea_placeholder                 string=null
     @param textarea_id                          string=null
     @param textarea_name                        string=null
-    @param textarea_required                    bool=false
+    @param textarea_required                    int=0
     @param textarea_value                       string=null
-    @param textarea_validate                    bool=false
+    @param textarea_validate                    int=0
     @param textarea_validation_pattern          string=null
     @param textarea_validation_type             string=null
-    @param textarea_autogrow                    bool=true
+    @param textarea_autogrow                    int=1
     @param textarea_autogrow_max_lines          number=15
     @param textarea_initial_rows                number=5
 #}
@@ -31,8 +31,8 @@
 {% set name = textarea_name|default(textarea_id|default) ? 'name=' ~ textarea_name|default(textarea_id|default) %}
 {% set class = 'class="form-textarea js-form-textarea ' ~ textarea_class_name|default ~ ' ' ~ textarea_modifiers|default ~ '"' %}
 {% set placeholder = textarea_placeholder|default ? 'placeholder="' ~ textarea_placeholder ~ '"' %}
-{% set required = textarea_required|default ? 'required' %}
-{% set validation = textarea_validate|default ? 'data-validate' ~ (textarea_validation_pattern|default ? ' data-validate-pattern=' ~ textarea_validation_pattern) ~ (textarea_validation_type|default ? ' data-validate-' ~ textarea_validation_type) %}
+{% set required = textarea_required|default(0) ? 'required' %}
+{% set validation = textarea_validate|default(0) ? 'data-validate' ~ (textarea_validation_pattern|default ? ' data-validate-pattern=' ~ textarea_validation_pattern) ~ (textarea_validation_type|default ? ' data-validate-' ~ textarea_validation_type) %}
 {% set autogrow = textarea_autogrow|default(1) ? 'data-autogrow data-autogrow-max-lines=' ~ textarea_autogrow_max_lines|default(15) %}
 {% set rows = 'rows=' ~ textarea_initial_rows|default(5) %}
 

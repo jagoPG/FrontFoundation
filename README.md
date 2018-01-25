@@ -414,8 +414,8 @@ The list of the available parameters, their type and default values are as follo
 | input_id                 | string        | yes      |               |
 | input_name               | string        | no       | null          |
 | input_value              | string        | no       | null          |
-| input_required           | bool          | no       | false         |
-| input_validate           | bool          | no       | false         |
+| input_required           | int           | no       | 0             |
+| input_validate           | int           | no       | 0             |
 | input_validation_pattern | string        | no       | ''            |
 | input_validation_type    | string        | no       | ''            |
 | input_type               | string        | no       | 'text'        |
@@ -478,8 +478,8 @@ The list of the available parameters, their type and default values are as follo
 |-------------------------- |:--------------|:---------|:--------------|:--------------|
 | select_id                 | string        | yes      |               |               |
 | select_name               | string        | no       | null          |               |
-| select_required           | bool          | no       | false         |               |
-| select_validate           | bool          | no       | false         |               |
+| select_required           | int           | no       | 0             |               |
+| select_validate           | int           | no       | 0             |               |
 | select_validation_pattern | string        | no       | ''            | Any valid *RegExp* pattern |
 | select_validation_type    | string        | no       | ''            | Built-in *validatory* validation types ['email', 'phone', 'any'] |
 | select_mobile_breakpoint  | int           | no       | 1024          |               |
@@ -494,7 +494,7 @@ The list of the available parameters, their type and default values are as follo
 | select_select_modifiers   | string        | no       | null          |               |
 | select_no_selection_label | string        | no       | '--'          |               |
 | select_no_selection_value | string        | no       | '--'          |               |
-| select_options            | array         | yes      |               | These are the component's options. Each option must have, at least, this shape: <br/>{<br/>&nbsp;&nbsp;&nbsp;&nbsp;value: string\*<br/>&nbsp;&nbsp;&nbsp;&nbsp;label: string\*<br/>&nbsp;&nbsp;&nbsp;&nbsp;selected: bool=false<br/>} |
+| select_options            | array         | yes      |               | These are the component's options. Each option must have, at least, this shape: <br/>{<br/>&nbsp;&nbsp;&nbsp;&nbsp;value: string\*<br/>&nbsp;&nbsp;&nbsp;&nbsp;label: string\*<br/>&nbsp;&nbsp;&nbsp;&nbsp;selected: int=0<br/>} |
 | select_outside_click_to_close_enabled            | int           | no       | 1             |               |
 
 This is a full setup example:
@@ -503,7 +503,7 @@ This is a full setup example:
 {% set my_select_options = [{
     label: Male,
     value: 0,
-    selected: true
+    selected: 1
 }, {
     label: Female,
     value: 1
@@ -608,8 +608,8 @@ The list of the available parameters, their type and default values are as follo
 | textarea_id                 | string        | no       | null          |               |
 | textarea_name               | string        | no       | null          |               |
 | textarea_value              | string        | no       | null          |               |
-| textarea_required           | bool          | no       | false         |               |
-| textarea_validate           | bool          | no       | false         |               |
+| textarea_required           | int           | no       | 0             |               |
+| textarea_validate           | int           | no       | 0             |               |
 | textarea_validation_pattern | string        | no       | ''            | Any valid *RegExp* pattern |
 | textarea_validation_type    | string        | no       | ''            | Built-in *validatory* validation types ['email', 'phone', 'any'] |
 | textarea_label_class_name   | string        | no       | ''            |               |
@@ -666,14 +666,14 @@ The list of the available parameters, their type and default values are as follo
 | modifiers                   | string        | no       | null          |               |
 | checkbox_id                 | string        | no       | null          |               |
 | checkbox_name               | string        | no       | null          |               |
-| checkbox_required           | bool          | no       | false         |               |
-| checkbox_validate           | bool          | no       | false         |               |
+| checkbox_required           | int           | no       | 0             |               |
+| checkbox_validate           | int           | no       | 0             |               |
 | checkbox_label_class_name   | string        | no       | ''            |               |
 | checkbox_label_modifiers    | string        | no       | ''            |               |
 | checkbox_label_content      | html          | no       | null          |               |
 | checkbox_errors             | array<br/>{<br/>&nbsp;&nbsp;&nbsp;&nbsp;content: string*, <br/>&nbsp;&nbsp;&nbsp;&nbsp;modifiers: string<br/>} | no       | null          |               |
 | checkbox_modifiers          | string        | no       | ''            |               |
-| checkbox_content            | string        | true     |               |               |
+| checkbox_content            | string        | yes      |               |               |
 
 This is a full setup example:
 
@@ -712,7 +712,7 @@ The list of the available parameters, their type and default values are as follo
 | Parameter                 | Type          | Required | Default value |
 |-------------------------- |:--------------|:---------|:--------------|
 | label_for                 | string        | no       | null          | 
-| label_required            | bool          | no       | false         |
+| label_required            | int           | no       | 0             |
 | label_class_name          | string        | no       | null          |
 | label_modifiers           | string        | no       | null          |
 | label_content             | html          | yes      | -             |
@@ -786,17 +786,18 @@ The list of the available parameters, their type and default values are as follo
 
 | Parameter                 | Type          | Required | Default value |
 |-------------------------- |:--------------|:---------|:--------------|
-| input_id                  | string        | no       | null          |
+| input_id                  | string        | no       | -             |
 | input_name                | string        | no       | null          |
 | input_value               | string        | no       | null          |
-| input_required            | bool          | no       | false         |
+| input_required            | int           | no       | 0             |
 | input_type                | string        | no       | 'text'        |
 | input_placeholder         | string        | no       | null          |
 | input_class_name          | string        | no       | null          |
 | input_modifiers           | string        | no       | null          |
-| input_validate            | bool          | no       | false         |
+| input_validate            | int           | no       | 0             |
 | input_validation_pattern  | string        | no       | null          |
 | input_validation_type     | string        | no       | null          |
+| input_focusable           | int           | no       | 1             |
 
 This is a common setup example:
 
@@ -832,9 +833,9 @@ The list of the available parameters, their type and default values are as follo
 
 | Parameter                 | Type          | Required | Default value |
 |-------------------------- |:--------------|:---------|:--------------|
-| select_id                 | string        | no       | null          |
+| select_id                 | string        | no       | -             |
 | select_name               | string        | no       | null          |
-| select_required           | bool          | no       | false         |
+| select_required           | int           | no       | 0             |
 | select_class_name         | string        | no       | null          |
 | select_modifiers          | string        | no       | null          |
 | select_no_selection_label | string        | no       | '--'          |
@@ -842,12 +843,13 @@ The list of the available parameters, their type and default values are as follo
 | select_mobile_breakpoint  | int           | no       | 1024          |
 | select_max_height_mobile  | int           | no       | 260           |
 | select_max_height_desktop | int           | no       | 420           |
-| select_is_filterable      | bool          | no       | true          |
+| select_is_filterable      | bool          | no       | 1             |
 | select_filter_placeholder | string        | no       | null          |
-| select_filter_order_by    | string        | no       | 'value'       | If you set 'label' as this parameter, the component will order it's items by the 'label' while filtering it's options. |
-| select_options            | array         | yes      |               | These are the atom's options. Each option must have, at least, this shape: <br/>{<br/>&nbsp;&nbsp;&nbsp;&nbsp;value: string\*<br/>&nbsp;&nbsp;&nbsp;&nbsp;label: string\*<br/>&nbsp;&nbsp;&nbsp;&nbsp;selected: bool=false<br/>} |
+| select_filter_order_by    | string ('label'\|'value')| no | 'value'  |
+| select_options            | array         | yes      | These are the atom's options. Each option must have, at least, this shape: <br/>{<br/>&nbsp;&nbsp;&nbsp;&nbsp;value: string\*<br/>&nbsp;&nbsp;&nbsp;&nbsp;label: string\*<br/>&nbsp;&nbsp;&nbsp;&nbsp;selected: int=0<br/>}           |
+| select_is_filterable      | int           | no       | 1             |
 | select_outside_click_to_close_enabled            | int           | no       | 1             |
-| select_validate           | bool          | no       | false         |
+| select_validate           | int           | no       | 0             |
 | select_validation_pattern | string        | no       | null          |
 | select_validation_type    | string        | no       | null          |
 
@@ -857,7 +859,7 @@ This is a common setup example:
 {% set my_select_options = [{
     label: Male,
     value: 0,
-    selected: true
+    selected: 1
 }, {
     label: Female,
     value: 1
