@@ -14,6 +14,7 @@ import * as Ui from './ui/index';
 import * as Browser from './browser/index';
 import * as Dom from './dom/index';
 import * as Async from './async/index';
+import * as Cookies from './cookies/index';
 import * as EventBus from './event-bus/index';
 
 export {
@@ -21,5 +22,6 @@ export {
   Browser,
   Dom,
   Async,
+  Cookies,
   EventBus
 };

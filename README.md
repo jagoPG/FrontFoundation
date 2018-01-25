@@ -147,6 +147,61 @@ filtering it's targets by a selector.
 This method will dispatch a DOMElement native event. It's a native alternative to the jQuery's
 [`.trigger(eventName)`][10] method.
 
+### Cookies
+
+This package will provide all `document.cookie` related implementations.
+
+#### Cookies.read
+
+This method will return the value of a cookie by its name.
+
+```js
+import {Cookies} from 'lin3s-front-foundation';
+
+const cookieValue = Cookies.read('some-name');
+```
+
+#### Cookies.write
+
+This method will write a cookie. Accepts an object with names parameters for name, value, expiration, domain and path.
+
+```js
+import {Cookies} from 'lin3s-front-foundation';
+
+Cookies.write({
+  name: 'some-name',
+  value: 'my value',
+  expiration: 3600000, // 1 hour in milliseconds
+  domain: 'example.com',
+  path: '/'
+});
+```
+
+The list of the available parameters, their type and default values are as follows:
+
+| Parameter                 | Type                  | Required  | Default value     |
+|-------------------------- |:----------------------|:----------|:------------------|
+| name                      | string                | yes       | -                 |
+| value                     | string                | no        | ''                |
+| expiration                | int (milliseconds)    | no        | *                 |
+| domain                    | string                | no        | location.hostname |
+| path                      | string                | no        | /                 |
+
+\* It will set cookie expiration to 'Session'
+
+#### Cookies - EventBus events
+
+`Cookies.write` will publish `CookieWrittenEvent` through the EventBus. We will subscribe to this event using some
+exported helper methods:
+
+```js
+import {EventBus} from 'lin3s-front-foundation';
+
+EventBus.onCookieWritten(({cookie}) => {
+  const myCookieName = cookie.name;
+  const myCookieValue = cookie.value;
+});
+```
 
 ## Usage - Available UI components
 

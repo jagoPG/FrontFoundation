@@ -5,6 +5,24 @@ This changelog references the relevant changes done between versions.
 To get the diff for a specific change, go to https://github.com/LIN3S/FrontFoundation/commit/XXX where XXX is the change hash 
 To get the diff between two versions, go to https://github.com/LIN3S/FrontFoundation/compare/v0.5.0...v0.6.0
 
+* 0.15.3
+    * Add `Cookies` component to read and write document.cookie. Created also related events.
+* 0.15.2
+    * Add input_name parameter to `FormInput`, take id as default. Update macros to accept input_name
+* 0.15.1
+    * Removed unnecessary blur listener from the React `FormSelect` implementation. Fixed associated bug.
+* 0.15.0
+    * Implemented `Modal` component.
+    * Fixed `FormSelect` atom bugs (both implementations, React and vanilla).
+    * Fixed `AsideSticky`'s z-index bug.
+    * Added examples for each Ui-architecture element on the demo app.
+    * Updated demo app dependencies.
+    * Refactored demo app styles.
+* 0.14.0
+    * Implemented `AsideSticky` layout.
+    * Integrated `validatory` with the `FormGroupRadio`.
+    * Implemented `FormRadio` atom and `FormGroupRadio` component.
+    * Removed unnecessary required propTypes. (FormSelect and FormGroupSelect)
 * 0.13.2
     * Updated both FormGroupSelect and FormGroupInput to extend React.Component instead of Reac.PureComponent due to 
         the shouldComponentUpdate method addition.
