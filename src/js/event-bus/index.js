@@ -7,6 +7,21 @@
  * file that was distributed with this source code.
  *
  * @author Mikel Tuesta <mikeltuesta@gmail.com>
+ * @author Ander Rodriguez <AnderRodriguezVarela@gmail.com>
  */
 
-export * from './Subscriptions';
+import * as Cookies from './Cookies/subscriptions';
+import * as DomNodeUpdated from './DomNodeUpdated/subscriptions';
+import * as FormSelect from './FormSelect/subscriptions';
+import * as GMap from './GMap/subscriptions';
+import * as Modal from './Modal/subscriptions';
+import * as validatory from './validatory/subscriptions';
+
+export {
+  Cookies,
+  DomNodeUpdated,
+  FormSelect,
+  GMap,
+  Modal,
+  validatory
+};

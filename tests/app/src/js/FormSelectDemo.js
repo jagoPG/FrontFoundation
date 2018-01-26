@@ -20,7 +20,7 @@ class FormSelectDemo {
   constructor(domNode) {
     this.domNode = domNode;
 
-    EventBus.onFormSelectInitialized(this.domNode, formSelectInitializedEvent => {
+    EventBus.FormSelect.onInitialized(this.domNode, formSelectInitializedEvent => {
       this.formSelectInstance = formSelectInitializedEvent.formSelectInstance;
       this.init();
     });
@@ -40,11 +40,11 @@ class FormSelectDemo {
   }
 
   bindListeners() {
-    EventBus.onFormSelectOptionSelected(this.domNode, formSelectOptionSelectedEvent => {
+    EventBus.FormSelect.onOptionSelected(this.domNode, formSelectOptionSelectedEvent => {
       console.log('FormSelect option selected: ', formSelectOptionSelectedEvent.optionValue);
     });
 
-    EventBus.onFormSelectStateChanged(this.domNode, formSelectStateChangedEvent => {
+    EventBus.FormSelect.onStateChanged(this.domNode, formSelectStateChangedEvent => {
       console.log('FormSelect state changed: ', formSelectStateChangedEvent.state);
     });
   }
