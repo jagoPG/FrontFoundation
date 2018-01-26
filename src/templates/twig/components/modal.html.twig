@@ -9,6 +9,15 @@
     @embed modal_content            html*
 #}
 
+{% set modal_close_label = modal_close_label is not defined ? 'close' : modal_close_label %}
+
+{% set modal_close_content %}
+    {%- block modal_close_content -%}
+        {{ modal_close_label }}
+        {% include '@lin3s_front_foundation/svg/close.svg.twig' %}
+    {%- endblock -%}
+{% endset %}
+
 {% set modal_content %}
     {%- block modal_content -%}{%- endblock -%}
 {% endset %}
@@ -20,8 +29,7 @@
         <div class="modal__contents">
             <div class="modal__content-layer">
                 <a href="#" class="modal__close-button">
-                    {{ modal_close_label|default('close') }}
-                    {% include '@lin3s_front_foundation/svg/close.svg.twig' %}
+                    {{ modal_close_content }}
                 </a>
                 <div class="modal__content">
                     {{ modal_content }}
