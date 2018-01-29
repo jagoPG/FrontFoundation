@@ -5,8 +5,14 @@ This changelog references the relevant changes done between versions.
 To get the diff for a specific change, go to https://github.com/LIN3S/FrontFoundation/commit/XXX where XXX is the change hash 
 To get the diff between two versions, go to https://github.com/LIN3S/FrontFoundation/compare/v0.5.0...v0.6.0
 
-* 0.15.3
-    * Add `Cookies` component to read and write document.cookie. Created also related events.
+* 0.16.0
+    * Implemented the `Validatory` library bridge. Events, subscriptions and initialization.
+    * Added `Cookies` component to read and write document.cookie. Created also related events.
+    * Added `value` param in input and textarea. Corrected some docs.
+    * Refactored `modal` component. `Close content button` as an optional block.
+    * Refactored twig bool values for int values (0/1).
+    * Fixed `modal` component's parameterization.
+    * Fixed `select_outside_click_to_close_enabled` in form select.
 * 0.15.2
     * Add input_name parameter to `FormInput`, take id as default. Update macros to accept input_name
 * 0.15.1
