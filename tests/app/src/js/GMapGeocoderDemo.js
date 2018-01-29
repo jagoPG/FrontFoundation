@@ -38,7 +38,7 @@ class GMapGeocoder {
     }, 500);
 
     // Subscribe
-    EventBus.onGMapInitialized(this.domNode, gmapInitializedEvent => {
+    EventBus.GMap.onInitialized(this.domNode, gmapInitializedEvent => {
       this.gmapInstance = gmapInitializedEvent.gmapInstance;
       this.init();
     });
@@ -66,11 +66,11 @@ class GMapGeocoder {
       this.debouncedGeocodeByAddress(this.filterInput.value);
     });
 
-    EventBus.onGMapGeocodeNoResults(this.domNode, () => {
+    EventBus.GMap.onGeocodeNoResults(this.domNode, () => {
       this.errorLabel.innerHTML = 'Sorry, there are no results for the provided value!';
     });
 
-    EventBus.onGMapMarkerSelected(this.domNode, gmapMarkerSelectedEvent => {
+    EventBus.GMap.onMarkerSelected(this.domNode, gmapMarkerSelectedEvent => {
       this.onMarkerSelected(gmapMarkerSelectedEvent.marker);
     });
   }
