@@ -18,8 +18,6 @@ import GMapGeocodeNoResultsEvent from './../../../../event-bus/GMap/GMapGeocodeN
 
 class GMap {
 
-  static MARKER_HEIGHT = 59;
-
   domNode;
   map;
   geocoder;
@@ -35,13 +33,23 @@ class GMap {
   markerDefaultPath;
   markerSelectedPath;
   markerGroupPath;
+  markerWidth;
+  markerHeight;
   mapStyle;
 
   markerDetail;
   selectedMarker;
 
-  constructor(domNode,
-    {center, zoom = {initial: 8, max: 12}, markerDefaultPath, markerSelectedPath, markerGroupPath, mapStyle} = {}) {
+  constructor(domNode, {
+    center,
+    zoom = {initial: 8, max: 12},
+    markerDefaultPath,
+    markerSelectedPath,
+    markerGroupPath,
+    markerWidth,
+    markerHeight,
+    mapStyle
+  } = {}) {
     this.domNode = domNode;
 
     this.center = center;
@@ -49,6 +57,8 @@ class GMap {
     this.markerDefaultPath = markerDefaultPath;
     this.markerSelectedPath = markerSelectedPath;
     this.markerGroupPath = markerGroupPath;
+    this.markerWidth = markerWidth;
+    this.markerHeight = markerHeight;
     this.mapStyle = mapStyle;
 
     const markerDetailView = this.domNode.querySelector('.gmap-marker-detail');
@@ -74,8 +84,8 @@ class GMap {
   buildMarkerIcons() {
     const
       extension = isIE11() ? 'png' : 'svg',
-      iconSize = new google.maps.Size(42, GMap.MARKER_HEIGHT),
-      anchor = new google.maps.Point(24, GMap.MARKER_HEIGHT),
+      iconSize = new google.maps.Size(this.markerWidth, this.markerHeight),
+      anchor = new google.maps.Point(this.markerWidth / 2, this.markerHeight),
       origin = new google.maps.Point(0, 0);
 
     return {
@@ -221,8 +231,8 @@ class GMap {
       markerPixelPosition = this.getPixelPositionFromLatLng(this.selectedMarker.getPosition());
 
     this.markerDetail.setPosition({
-      x: markerPixelPosition.x - markerDetailRect.width / 2 - 4,
-      y: markerPixelPosition.y - markerDetailRect.height - GMap.MARKER_HEIGHT - 20
+      x: markerPixelPosition.x - markerDetailRect.width / 2,
+      y: markerPixelPosition.y - markerDetailRect.height - this.markerHeight - 20
     });
 
     this.markerDetail.show();

@@ -48,6 +48,8 @@ window.initGMap = () => {
       markerDefaultPath = map.dataset.markerDefaultPath,
       markerSelectedPath = map.dataset.markerSelectedPath,
       markerGroupPath = map.dataset.markerGroupPath,
+      markerWidth = parseInt(map.dataset.markerWidth, 10),
+      markerHeight = parseInt(map.dataset.markerHeight, 10),
       mapStyle = JSON.parse(map.dataset.style);
 
     new GMap(map, {
@@ -62,6 +64,8 @@ window.initGMap = () => {
       markerDefaultPath,
       markerSelectedPath,
       markerGroupPath,
+      markerWidth,
+      markerHeight,
       mapStyle
     });
   });

@@ -9,6 +9,7 @@ To get the diff between two versions, go to https://github.com/LIN3S/FrontFounda
     * Implemented the `Validatory` library bridge. Events, subscriptions and initialization.
     * Added `Cookies` component to read and write document.cookie. Created also related events.
     * Added `value` param in input and textarea. Corrected some docs.
+    * Refactored `Gmap` component to allow passing the marker dimensions as parameters.
     * Refactored `modal` component. `Close content button` as an optional block.
     * Refactored twig bool values for int values (0/1).
     * Fixed `modal` component's parameterization.
