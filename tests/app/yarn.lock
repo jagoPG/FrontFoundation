@@ -3821,9 +3821,9 @@ lin3s-event-bus@^0.9.0:
   dependencies:
     lodash.debounce "^4.0.8"
 
-lin3s-front-foundation@^0.15.0:
-  version "0.15.0"
-  resolved "https://registry.yarnpkg.com/lin3s-front-foundation/-/lin3s-front-foundation-0.15.0.tgz#08945f98bb6e0ec1e4d8c1116637b2902b2e7162"
+lin3s-front-foundation@^0.15.2:
+  version "0.15.2"
+  resolved "https://registry.yarnpkg.com/lin3s-front-foundation/-/lin3s-front-foundation-0.15.2.tgz#07e067fa9d2824e1501cd6052c1e97a078dd54d3"
   dependencies:
     foes-scrollproxy "^0.8.0"
     lin3s-event-bus "^0.9.0"

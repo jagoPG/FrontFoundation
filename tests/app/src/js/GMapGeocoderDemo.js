@@ -40,6 +40,7 @@ class GMapGeocoder {
     // Subscribe
     EventBus.GMap.onInitialized(this.domNode, gmapInitializedEvent => {
       this.gmapInstance = gmapInitializedEvent.gmapInstance;
+
       this.init();
     });
   }

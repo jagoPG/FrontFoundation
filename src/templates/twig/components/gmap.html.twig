@@ -20,6 +20,8 @@
     @param gmap_marker_default_path         string* (this ones must have no extension)
     @param gmap_marker_selected_path        string*
     @param gmap_marker_group_path           string*
+    @param gmap_marker_width                int*
+    @param gmap_marker_height               int*
     @param gmap_style                       string
 #}
 
@@ -84,6 +86,8 @@
          data-marker-default-path="{{ gmap_marker_default_path }}"
          data-marker-selected-path="{{ gmap_marker_selected_path }}"
          data-marker-group-path="{{ gmap_marker_group_path }}"
+         data-marker-width="{{ gmap_marker_width }}"
+         data-marker-height="{{ gmap_marker_height }}"
          data-style={{ gmap_style|default(map_style)|json_encode }}>
     <div class="gmap__map"></div>
     {% include '@lin3s_front_foundation/components/gmap_marker_detail.html.twig' %}

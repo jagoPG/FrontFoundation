@@ -236,6 +236,8 @@ The list of the available parameters, their type and default values are as follo
 | gmap_marker_default_path  | string  | yes      | -             |
 | gmap_marker_selected_path | string  | yes      | -             |
 | gmap_marker_group_path    | string  | yes      | -             |
+| gmap_marker_width         | int     | yes      | -             |
+| gmap_marker_height        | int     | yes      | -             |
 | gmap_style                | string  | no       | [view][1]**   |
 
 ** In order to generate the Google Map custom styles, we could use any available tool. For instance the [snazzy maps][2] 
@@ -257,7 +259,9 @@ This is a basic setup example:
     gmap_max_zoom: 16,
     gmap_marker_default_path: '/images/gmap/marker-default',
     gmap_marker_selected_path: '/images/gmap/marker-selected',
-    gmap_marker_group_path: '/images/gmap/marker-group'
+    gmap_marker_group_path: '/images/gmap/marker-group',
+    gmap_marker_width: 40,
+    gmap_marker_height: 60
 } %}
 ```
 
