@@ -15,6 +15,7 @@ To get the diff between two versions, go to https://github.com/LIN3S/FrontFounda
     * Fixed `modal` component's parameterization.
     * Fixed `select_outside_click_to_close_enabled` in form select.
     * Fixed `FormSelect` not opening properly when `select_is_filterable` is 0.
+    * Fixed `FormSelect` focus bug.
 * 0.15.2
     * Add input_name parameter to `FormInput`, take id as default. Update macros to accept input_name
 * 0.15.1
