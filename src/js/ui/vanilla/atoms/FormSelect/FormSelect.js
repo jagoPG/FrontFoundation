@@ -59,6 +59,7 @@ class FormSelect {
     this.mouseOverListenerEnabled = true;
     this.keyboardControlledSelectedOptionIndex = 0;
     this.lastFilterValue = '';
+    this.openedByFocus = false;
 
     if (this.isFilterable) {
       this.filterInput = this.domNode.querySelector('.form-select__input');
@@ -137,22 +138,25 @@ class FormSelect {
         return;
       }
 
+      if (!this.isFilterable && !this.opened) {
+        this.openedByFocus = true;
+      }
       this.open();
     });
+
+    addSelectorFilteredEventListener(this.domNode, 'click', '.form-select__option', this.onClick.bind(this));
 
     this.domNode.addEventListener('click', event => {
       if (this.outsideClickToCloseEnabled) {
         event.stopPropagation();
       }
 
-      if (event.target === this.domNode) {
+      if (event.target === this.domNode || this.openedByFocus) {
         return;
       }
 
       this.setSelectOpened(!this.opened);
     });
-
-    addSelectorFilteredEventListener(this.domNode, 'click', '.form-select__option', this.onClick.bind(this));
 
     addSelectorFilteredEventListener(this.domNode, 'mouseover', '.form-select__option', this.onMouseOver.bind(this));
 
@@ -304,6 +308,7 @@ class FormSelect {
     }
 
     this.setSelectFocusable(true);
+    this.openedByFocus = false;
   }
 
   onOptionSelected(optionLabel, optionValue, publishEvent = true) {
@@ -330,6 +335,7 @@ class FormSelect {
     if ((this.selectedOptionLabel !== undefined || this.selectedOptionValue !== undefined) && publishEvent) {
       this.publishFormSelectOptionSelectedEvent(value);
     }
+    this.openedByFocus = false;
   }
 
   setSelectValue(value) {
