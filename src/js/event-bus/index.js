@@ -15,7 +15,14 @@ import * as DomNodeUpdated from './DomNodeUpdated/subscriptions';
 import * as FormSelect from './FormSelect/subscriptions';
 import * as GMap from './GMap/subscriptions';
 import * as Modal from './Modal/subscriptions';
-import * as validatory from './validatory/subscriptions';
+import * as validatorySubscriptions from './validatory/subscriptions';
+import {initWithEvents} from './validatory/initWithEvents';
+
+const validatory = {
+  initWithEvents,
+  onFormStateChanged: validatorySubscriptions.onFormStateChanged,
+  onFormElementStateChanged: validatorySubscriptions.onFormElementStateChanged
+};
 
 export {
   Cookies,
