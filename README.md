@@ -238,6 +238,11 @@ The list of the available parameters, their type and default values are as follo
 | gmap_marker_group_path    | string  | yes      | -             |
 | gmap_marker_width         | int     | yes      | -             |
 | gmap_marker_height        | int     | yes      | -             |
+| gmap_cluster_enabled      | int     | no       | 1 \[0,1\]     |
+| gmap_cluster_text_offset_x| int     | no       | 0             |
+| gmap_cluster_text_offset_y| int     | no       | 0             |
+| gmap_cluster_text_color   | string  | no       | '#ffffff'     |
+| gmap_cluster_text_size    | int     | no       | 18            |
 | gmap_style                | string  | no       | [view][1]**   |
 
 ** In order to generate the Google Map custom styles, we could use any available tool. For instance the [snazzy maps][2] 
@@ -261,7 +266,10 @@ This is a basic setup example:
     gmap_marker_selected_path: '/images/gmap/marker-selected',
     gmap_marker_group_path: '/images/gmap/marker-group',
     gmap_marker_width: 40,
-    gmap_marker_height: 60
+    gmap_marker_height: 60,
+    gmap_cluster_enabled: 1,
+    gmap_cluster_text_size: 14,
+    gmap_cluster_text_color: '#222222'
 } %}
 ```
 
