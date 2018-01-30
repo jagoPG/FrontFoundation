@@ -50,6 +50,11 @@ window.initGMap = () => {
       markerGroupPath = map.dataset.markerGroupPath,
       markerWidth = parseInt(map.dataset.markerWidth, 10),
       markerHeight = parseInt(map.dataset.markerHeight, 10),
+      clusterEnabled = parseInt(map.dataset.clusterEnabled, 10),
+      clusterTextOffsetY = parseInt(map.dataset.clusterTextOffsetY, 10),
+      clusterTextOffsetX = parseInt(map.dataset.clusterTextOffsetX, 10),
+      clusterTextColor = map.dataset.clusterTextColor,
+      clusterTextSize = parseInt(map.dataset.clusterTextSize, 10),
       mapStyle = JSON.parse(map.dataset.style);
 
     new GMap(map, {
@@ -66,6 +71,10 @@ window.initGMap = () => {
       markerGroupPath,
       markerWidth,
       markerHeight,
+      clusterEnabled,
+      clusterTextOffset: [clusterTextOffsetY, clusterTextOffsetX],
+      clusterTextColor,
+      clusterTextSize,
       mapStyle
     });
   });

@@ -22,59 +22,67 @@
     @param gmap_marker_group_path           string*
     @param gmap_marker_width                int*
     @param gmap_marker_height               int*
+    @param gmap_cluster_enabled             int=1 [0|1]
+    @param gmap_cluster_text_color          string='#fff'
+    @param gmap_cluster_text_size           int=18
+    @param gmap_cluster_text_offset_x       int=0
+    @param gmap_cluster_text_offset_y       int=0
     @param gmap_style                       string
 #}
 
 {% set map_style = [{
-    'featureType': 'water',
-    'elementType': 'geometry',
-    'stylers': [{'color': '#e9e9e9'}, {'lightness': 17}]
-  }, {
-    'featureType': 'landscape',
-    'elementType': 'geometry',
-    'stylers': [{'color': '#f5f5f5'}, {'lightness': 20}]
-  }, {
-    'featureType': 'road.highway',
-    'elementType': 'geometry.fill',
-    'stylers': [{'color': '#ffffff'}, {'lightness': 17}]
-  }, {
-    'featureType': 'road.highway',
-    'elementType': 'geometry.stroke',
-    'stylers': [{'color': '#ffffff'}, {'lightness': 29}, {'weight': 0.2}]
-  }, {
-    'featureType': 'road.arterial',
-    'elementType': 'geometry',
-    'stylers': [{'color': '#ffffff'}, {'lightness': 18}]
-  }, {
-    'featureType': 'road.local',
-    'elementType': 'geometry',
-    'stylers': [{'color': '#ffffff'}, {'lightness': 16}]
-  }, {
-    'featureType': 'poi',
-    'elementType': 'geometry',
-    'stylers': [{'color': '#f5f5f5'}, {'lightness': 21}]
-  }, {
-    'featureType': 'poi.park',
-    'elementType': 'geometry',
-    'stylers': [{'color': '#dedede'}, {'lightness': 21}]
-  }, {
-    'elementType': 'labels.text.stroke',
-    'stylers': [{'visibility': 'on'}, {'color': '#ffffff'}, {'lightness': 16}]
-  }, {
-    'elementType': 'labels.text.fill',
-    'stylers': [{'saturation': 36}, {'color': '#333333'}, {'lightness': 40}]
-  }, {'elementType': 'labels.icon', 'stylers': [{'visibility': 'off'}]}, {
-    'featureType': 'transit',
-    'elementType': 'geometry',
-    'stylers': [{'color': '#f2f2f2'}, {'lightness': 19}]
-  }, {
-    'featureType': 'administrative',
-    'elementType': 'geometry.fill',
-    'stylers': [{'color': '#fefefe'}, {'lightness': 20}]
-  }, {
-    'featureType': 'administrative',
-    'elementType': 'geometry.stroke',
-    'stylers': [{'color': '#fefefe'}, {'lightness': 17}, {'weight': 1.2}]
+  'featureType': 'water',
+  'elementType': 'geometry',
+  'stylers': [{'color': '#e9e9e9'}, {'lightness': 17}]
+}, {
+  'featureType': 'landscape',
+  'elementType': 'geometry',
+  'stylers': [{'color': '#f5f5f5'}, {'lightness': 20}]
+}, {
+  'featureType': 'road.highway',
+  'elementType': 'geometry.fill',
+  'stylers': [{'color': '#ffffff'}, {'lightness': 17}]
+}, {
+  'featureType': 'road.highway',
+  'elementType': 'geometry.stroke',
+  'stylers': [{'color': '#ffffff'}, {'lightness': 29}, {'weight': 0.2}]
+}, {
+  'featureType': 'road.arterial',
+  'elementType': 'geometry',
+  'stylers': [{'color': '#ffffff'}, {'lightness': 18}]
+}, {
+  'featureType': 'road.local',
+  'elementType': 'geometry',
+  'stylers': [{'color': '#ffffff'}, {'lightness': 16}]
+}, {
+  'featureType': 'poi',
+  'elementType': 'geometry',
+  'stylers': [{'color': '#f5f5f5'}, {'lightness': 21}]
+}, {
+  'featureType': 'poi.park',
+  'elementType': 'geometry',
+  'stylers': [{'color': '#dedede'}, {'lightness': 21}]
+}, {
+  'elementType': 'labels.text.stroke',
+  'stylers': [{'visibility': 'on'}, {'color': '#ffffff'}, {'lightness': 16}]
+}, {
+  'elementType': 'labels.text.fill',
+  'stylers': [{'saturation': 36}, {'color': '#333333'}, {'lightness': 40}]
+}, {
+  'elementType': 'labels.icon',
+  'stylers': [{'visibility': 'off'}]},
+{
+  'featureType': 'transit',
+  'elementType': 'geometry',
+  'stylers': [{'color': '#f2f2f2'}, {'lightness': 19}]
+}, {
+  'featureType': 'administrative',
+  'elementType': 'geometry.fill',
+  'stylers': [{'color': '#fefefe'}, {'lightness': 20}]
+}, {
+  'featureType': 'administrative',
+  'elementType': 'geometry.stroke',
+  'stylers': [{'color': '#fefefe'}, {'lightness': 17}, {'weight': 1.2}]
 }] %}
 
 <section class="gmap js-gmap"
@@ -88,7 +96,12 @@
          data-marker-group-path="{{ gmap_marker_group_path }}"
          data-marker-width="{{ gmap_marker_width }}"
          data-marker-height="{{ gmap_marker_height }}"
+         data-cluster-enabled="{{ gmap_cluster_enabled|default(1) }}"
+         data-cluster-text-offset-x="{{ gmap_cluster_text_offset_x|default(0) }}"
+         data-cluster-text-offset-y="{{ gmap_cluster_text_offset_y|default(0) }}"
+         data-cluster-text-color="{{ gmap_cluster_text_color|default('#ffffff') }}"
+         data-cluster-text-size="{{ gmap_cluster_text_size|default(18) }}"
          data-style={{ gmap_style|default(map_style)|json_encode }}>
-    <div class="gmap__map"></div>
-    {% include '@lin3s_front_foundation/components/gmap_marker_detail.html.twig' %}
+  <div class="gmap__map"></div>
+  {% include '@lin3s_front_foundation/components/gmap_marker_detail.html.twig' %}
 </section>

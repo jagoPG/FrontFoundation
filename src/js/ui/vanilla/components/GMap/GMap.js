@@ -35,6 +35,10 @@ class GMap {
   markerGroupPath;
   markerWidth;
   markerHeight;
+  clusterEnabled;
+  clusterTextOffset;
+  clusterTextColor;
+  clusterTextSize;
   mapStyle;
 
   markerDetail;
@@ -48,6 +52,10 @@ class GMap {
     markerGroupPath,
     markerWidth,
     markerHeight,
+    clusterEnabled,
+    clusterTextOffset,
+    clusterTextColor,
+    clusterTextSize,
     mapStyle
   } = {}) {
     this.domNode = domNode;
@@ -59,6 +67,10 @@ class GMap {
     this.markerGroupPath = markerGroupPath;
     this.markerWidth = markerWidth;
     this.markerHeight = markerHeight;
+    this.clusterEnabled = clusterEnabled;
+    this.clusterTextOffset = clusterTextOffset;
+    this.clusterTextColor = clusterTextColor;
+    this.clusterTextSize = clusterTextSize;
     this.mapStyle = mapStyle;
 
     const markerDetailView = this.domNode.querySelector('.gmap-marker-detail');
@@ -127,16 +139,20 @@ class GMap {
       draggable: true
     });
 
+    if (!this.clusterEnabled) {
+      return;
+    }
+
     this.mapMarkerClusterer = new MarkerClusterer(this.map, [], { // eslint-disable-line no-undef
       gridSize: 50,
       maxZoom: 14,
       styles: [{
-        width: 42,
-        height: 74,
+        width: this.markerWidth,
+        height: this.markerHeight,
         url: this.markerIcons.group.url,
-        textColor: '#FFFFFF',
-        textSize: 16,
-        anchor: [16, 0],
+        textColor: this.clusterTextColor,
+        textSize: this.clusterTextSize,
+        anchor: this.clusterTextOffset
       }]
     });
   }
@@ -167,7 +183,10 @@ class GMap {
     this.hideMarkerDetailView();
 
     this.bounds = undefined;
-    this.mapMarkerClusterer.clearMarkers();
+
+    if (this.clusterEnabled) {
+      this.mapMarkerClusterer.clearMarkers();
+    }
 
     this.mapMarkers.forEach(marker => {
       google.maps.event.clearListeners(marker, 'click');
@@ -202,7 +221,10 @@ class GMap {
       this.bounds.extend(mapMarker.position);
 
       this.mapMarkers.push(mapMarker);
-      this.mapMarkerClusterer.addMarker(mapMarker);
+
+      if (this.clusterEnabled) {
+        this.mapMarkerClusterer.addMarker(mapMarker);
+      }
 
       mapMarker.addListener('click', () => this.onMarkerSelected(marker));
     });
