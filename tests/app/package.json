@@ -54,8 +54,8 @@
   "dependencies": {
     "foes-scrollproxy": "^0.8.0",
     "jquery": "^3.2.1",
-    "lin3s-event-bus": "^0.8.0",
-    "lin3s-front-foundation": "^0.16.1",
+    "lin3s-event-bus": "^0.10.0",
+    "lin3s-front-foundation": "^0.16.0",
     "lodash.debounce": "^4.0.8",
     "parsleyjs": "^2.7.2",
     "prop-types": "^15.6.0",

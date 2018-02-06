@@ -47,9 +47,9 @@ const onReady = () => {
 
   initModals(Array.from(modals));
 
-  onNodeAdded(MODAL_SELECTOR, nodeAddedEvent => initModals(nodeAddedEvent.nodes));
+  onNodeAdded({selector: MODAL_SELECTOR}, nodeAddedEvent => initModals(nodeAddedEvent.nodes));
 
-  onNodeAdded(MODAL_TRIGGER_LINK_SELECTOR, nodeAddedEvent =>
+  onNodeAdded({selector: MODAL_TRIGGER_LINK_SELECTOR}, nodeAddedEvent =>
     nodeAddedEvent.nodes.forEach(modalTriggerLinkNode => {
       const
         modalId = modalTriggerLinkNode.getAttribute('href'),
