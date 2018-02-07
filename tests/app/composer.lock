@@ -4,7 +4,6 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "deff807af8cf50658992137d3ca4743b",
     "content-hash": "7b54f2501e7f67774242eb408f49265b",
     "packages": [
         {
@@ -87,12 +86,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/LIN3S/FrontFoundation.git",
-                "reference": "7b914cbcb83fe9ef65da4700e9d8cbdbe06c9391"
+                "reference": "9a1628790a19a8f46b7c63f58d25a2f92dcb2ded"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/LIN3S/FrontFoundation/zipball/7b914cbcb83fe9ef65da4700e9d8cbdbe06c9391",
-                "reference": "7b914cbcb83fe9ef65da4700e9d8cbdbe06c9391",
+                "url": "https://api.github.com/repos/LIN3S/FrontFoundation/zipball/9a1628790a19a8f46b7c63f58d25a2f92dcb2ded",
+                "reference": "9a1628790a19a8f46b7c63f58d25a2f92dcb2ded",
                 "shasum": ""
             },
             "type": "library",
@@ -108,7 +107,7 @@
                 }
             ],
             "description": "Library that provides a sort of commonly used front-end components in LIN3S projects",
-            "time": "2017-09-18 08:55:04"
+            "time": "2018-02-06 13:48:11"
         },
         {
             "name": "psr/cache",
