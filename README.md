@@ -911,6 +911,48 @@ $form-select-option-background-color-hover-and-active: rgba($form-select-option-
 @import './node_modules/lin3s-front-foundation/dist/scss/ui/atoms/form-select';
 ```
 
+### Picture
+
+This atom will render a picture element with different sources depending on browser size and orientation.
+
+The list of the available parameters, their type and default values are as follows:
+
+| Parameter                 | Type          | Required | Default value |
+|-------------------------- |:--------------|:---------|:--------------|
+| picture_class_name        | string        | no       | null          |
+| picture_image_class_name  | string        | no       | null          |
+| picture_alt               | string        | no       | null          |
+| picture_src_small         | string        | yes      | -             |
+| picture_src_medium        | string        | yes      | -             |
+| picture_src_large         | string        | yes      | -             |
+| picture_src_xlarge        | string        | yes      | -             |
+| picture_src_xxlarge       | string        | yes      | -             |
+| picture_small_breakpoint  | int           | no       | 640           |
+| picture_medium_breakpoint | int           | no       | 1024          |
+| picture_large_breakpoint  | int           | no       | 1200          |
+| picture_xlarge_breakpoint | int           | no       | 1440          |
+| picture_custom_srcset     | html          | no       | null          |
+
+This is a common setup example:
+
+```twig
+{% embed '@lin3s_front_foundation/atoms/picture.html.twig' with {
+    picture_class_name: 'my-picture',
+    picture_image_class_name: 'my-picture__image',
+    picture_alt: 'Some alt text',
+    picture_src_small: 'http://mydomain.com/small-image.jpg',
+    picture_src_medium: 'http://mydomain.com/medium-image.jpg',
+    picture_src_large: 'http://mydomain.com/large-image.jpg',
+    picture_src_xlarge: 'http://mydomain.com/xlarge-image.jpg',
+    picture_src_xxlarge: 'http://mydomain.com/xxlarge-image.jpg',
+    picture_small_breakpoint: 768,
+} %}
+    {% block custom_srcset %}
+        <source srcset="http://mydomain.com/xsmall-image.jpg" media="(max-width: 540px)">
+    {% endblock %}
+{% endembed %}
+```
+
 ## Usage - Available macros
 The library provides you opinionated macros for rendering the form components with pre-defined parameters.
 
