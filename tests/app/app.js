@@ -172,6 +172,16 @@ const testCookies = () => {
   }
 };
 
+const scrollToWithMenuLinks = () => {
+  const links = document.querySelectorAll('.menu__list .menu__link');
+
+  const handleClick = event => Dom.scrollToElement(event.target.hash, {duration: 250, offset: 10});
+
+  Array.from(links, link => {
+    link.addEventListener('click', handleClick, false);
+  });
+};
+
 const onReady = () => {
   testAsyncCancelablePromise();
   testBrowserIsIE11();
@@ -180,6 +190,7 @@ const onReady = () => {
   testDomWaitImagesLoadInDomNode();
   testValidatory();
   testCookies();
+  scrollToWithMenuLinks();
 };
 
 onDomReady(onReady);
