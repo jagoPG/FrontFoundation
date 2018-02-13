@@ -1,0 +1,32 @@
+{##
+    This is a generic picture element implementation
+
+    @param picture_class_name               string=null
+    @param picture_image_class_name         string=null
+    @param picture_alt                      string=null
+    @param picture_src_small                string*
+    @param picture_src_medium               string*
+    @param picture_src_large                string*
+    @param picture_src_xlarge               string*
+    @param picture_src_xxlarge              string*
+    @param picture_small_breakpoint         int=640
+    @param picture_medium_breakpoint        int=1024
+    @param picture_large_breakpoint         int=1200
+    @param picture_xlarge_breakpoint        int=1440
+
+    @embed picture_custom_srcset                    html=null
+#}
+
+{% set picture_custom_srcset %}
+    {%- block picture_custom_srcset -%}{%- endblock -%}
+{% endset %}
+
+<picture class="{{ picture_class_name|default }}">
+    {{ picture_custom_srcset }}
+
+    <source srcset="{{ picture_src_small }}" media="(max-width: {{ picture_small_breakpoint|default(640) }}px)">
+    <source srcset="{{ picture_src_medium }}" media="(max-width: {{ picture_medium_breakpoint|default(1024) }}px)">
+    <source srcset="{{ picture_src_large }}" media="(max-width: {{ picture_large_breakpoint|default(1200) }}px)">
+    <source srcset="{{ picture_src_xlarge }}" media="(max-width: {{ picture_xlarge_breakpoint|default(1440) }}px)">
+    <img class="{{ picture_image_class_name|default }}" src="{{ picture_src_xxlarge }}" alt="{{ picture_alt|default }}" />
+</picture>
