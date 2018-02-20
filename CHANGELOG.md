@@ -5,10 +5,11 @@ This changelog references the relevant changes done between versions.
 To get the diff for a specific change, go to https://github.com/LIN3S/FrontFoundation/commit/XXX where XXX is the change hash 
 To get the diff between two versions, go to https://github.com/LIN3S/FrontFoundation/compare/v0.5.0...v0.6.0
 
+* 0.17.0
+    * Updated the `validatory` dependency and refactored all related code (twig, js, scss).
 * 0.16.2
-    * Updated the `validatory` dependency and updated all related stuff.
-* 0.16.1
     * Updated `lin3s-event-bus` dependency and updated `onNodeAdded` related implementations.
+* 0.16.1
 * 0.16.0
     * Implemented the `Validatory` library bridge. Events, subscriptions and initialization.
     * Added `Cookies` component to read and write document.cookie. Created also related events.
