@@ -173,5 +173,9 @@ h4 {
   }
 }
 
+.picture__image {
+  max-width: 100%;
+}
+
 @include form_group_custom_error('.form-group-input__errors', 'zip-code');
 @include form_group_custom_error('.form-group-input__errors', 'no-service');

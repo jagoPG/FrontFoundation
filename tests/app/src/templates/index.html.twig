@@ -102,6 +102,24 @@
                                 }]
                             } %}
                         </div>
+                        <div id="atoms-picture" class="section__element">
+                            <h4 class="section__title">2.1.9 - Picture</h4>
+                            {% embed '@lin3s_front_foundation/atoms/picture.html.twig' with {
+                                picture_class_name: 'picture',
+                                picture_image_class_name: 'picture__image',
+                                picture_alt: 'Some alt text',
+                                picture_src_small: 'http://lorempixel.com/640/200/abstract',
+                                picture_src_medium: 'http://lorempixel.com/1024/250/nightlife',
+                                picture_src_large: 'http://lorempixel.com/1200/300/city',
+                                picture_src_xlarge: 'http://lorempixel.com/1440/350/people',
+                                picture_src_xxlarge: 'http://lorempixel.com/1920/350/sports',
+                                picture_small_breakpoint: 768,
+                            } %}
+                                {% block picture_custom_srcset %}
+                                    <source srcset="http://lorempixel.com/540/150/cats" media="(max-width: 540px)">
+                                {% endblock %}
+                            {% endembed %}
+                        </div>
                     </div>
                     <div id="atoms-react">
                         <h3 class="section__title">2.2 - Atoms (React)</h3>
