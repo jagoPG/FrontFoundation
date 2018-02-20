@@ -52,6 +52,7 @@
     "webpack-bundle-analyzer": "^2.9.0"
   },
   "dependencies": {
+    "es6-promise-debounce": "^1.0.1",
     "foes-scrollproxy": "^0.8.0",
     "jquery": "^3.2.1",
     "lin3s-event-bus": "^0.10.0",
@@ -61,6 +62,6 @@
     "prop-types": "^15.6.0",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
-    "validatory": "^0.1.1"
+    "validatory": "^0.2.2"
   }
 }

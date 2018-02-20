@@ -10,8 +10,20 @@
 @import './../../_placeholders/form-group';
 @import './../../_mixins/form-validation';
 
+.form-group-input {
+  position: relative;
+}
+
 .form-group-input__label {
   @extend %form-group__label;
 }
 
-@include form_group_validation_errors('.form-group-input__errors');
+.form-group-input__spinner {
+  .form-spinner {
+    position: absolute;
+    right: 15px;
+    top: -30px;
+  }
+}
+
+@include form_group_validation('.form-group-input__errors', '.form-group-input__spinner');

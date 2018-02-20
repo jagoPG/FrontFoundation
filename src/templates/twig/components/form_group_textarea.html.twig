@@ -31,6 +31,7 @@
     @param textarea_value                               string=null
     @param textarea_validation_pattern                  string=null
     @param textarea_validation_type                     string=null
+    @param textarea_spinner                             int=0
 #}
 
 {% set class = 'class="form-group-textarea ' ~ class_name|default ~ ' ' ~ modifiers|default ~ '"' %}
@@ -69,6 +70,12 @@
                     error_modifiers: error.modifiers|default
                 } %}
             {% endfor %}
+        </div>
+    {% endif %}
+
+    {% if textarea_spinner|default(0) %}
+        <div class="form-group-textarea__spinner">
+            {% include '@lin3s_front_foundation/svg/form_spinner.svg.twig' %}
         </div>
     {% endif %}
 </div>

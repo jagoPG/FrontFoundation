@@ -33,6 +33,9 @@
 @import './../../node_modules/lin3s-front-foundation/dist/scss/ui/components/gmap-marker-detail';
 @import './../../node_modules/lin3s-front-foundation/dist/scss/ui/components/modal';
 
+// svg
+@import './../../node_modules/lin3s-front-foundation/dist/scss/ui/svg/form-spinner';
+
 $padding-main: 30px;
 $color-primary: #0e8fff;
 $color-secondary: rgba($color-primary, .75);
@@ -127,6 +130,8 @@ h4 {
   border: 1px solid #d1d1d1;
   margin-top: 30px;
   padding: 20px 30px;
+  position: relative;
+  z-index: 0;
 }
 
 .form[data-validation-state="not-filled"],
@@ -167,3 +172,6 @@ h4 {
     color: $color-tertiary;
   }
 }
+
+@include form_group_custom_error('.form-group-input__errors', 'zip-code');
+@include form_group_custom_error('.form-group-input__errors', 'no-service');

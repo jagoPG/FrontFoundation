@@ -386,6 +386,28 @@
                             </div>
 
                             <div style="position: relative; z-index: 70; margin-bottom: 30px">
+                                {% include '@lin3s_front_foundation/components/form_group_input.html.twig' with {
+                                    input_id: 'async',
+                                    input_name: 'async',
+                                    input_placeholder: 'Enter a valid zip code...',
+                                    input_label_content: 'This will validate against a custom validator. (The only valid zip code is 01005)',
+                                    input_errors: [{
+                                        content: 'This field is required.',
+                                        modifiers: 'form-error--not-filled',
+                                    }, {
+                                        content: 'This is not a valid 5 digit zip code.',
+                                        modifiers: 'form-error--not-valid-zip-code',
+                                    }, {
+                                        content: 'There is no service in the provided zip code\'s area.',
+                                        modifiers: 'form-error--not-valid-no-service',
+                                    }],
+                                    input_required: 1,
+                                    input_validate: 1,
+                                    input_spinner: 1
+                                } %}
+                            </div>
+
+                            <div style="position: relative; z-index: 70; margin-bottom: 30px">
                                 {{ form_group_checkboxes.required(
                                     'terms',
                                     null,
@@ -418,7 +440,7 @@
                                         modifiers: 'form-error--not-valid',
                                     }],
                                     'form-group-radio--inline'
-                                    ) }}
+                                ) }}
                             </div>
 
                             <input type="submit" value="submit"/>

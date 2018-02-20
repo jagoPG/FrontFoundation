@@ -10,6 +10,7 @@
  */
 
 import './src/js/polyfill/index';
+import debounce from 'es6-promise-debounce';
 import {
   Async,
   Browser,
@@ -21,7 +22,7 @@ import {onDomReady, LifeTimeEventPublisher} from 'lin3s-event-bus';
 import FormValidationStateChangedEvent from './src/js/validatory/FormValidationStateChangedEvent';
 import FormElementValidationStateChangedEvent from './src/js/validatory/FormElementValidationStateChangedEvent';
 import {onFormValidationStateChanged, onFormElementValidationStateChanged} from './src/js/validatory/Subscriptions';
-import {init, STATE} from 'validatory';
+import {init, STATE, validatorRegistry, asyncValidation, Validator} from 'validatory';
 
 import './src/js/GMapGeocoderDemo';
 import './src/js/FormSelectDemo';
@@ -101,8 +102,8 @@ const testValidatory = () => {
         return 'VALID';
       case STATE.NOT_VALID:
         return 'NOT VALID';
-      case STATE.NOT_VALIDATED:
-        return 'NOT VALIDATED';
+      case STATE.DEFAULT:
+        return 'DEFAULT';
       case STATE.NOT_FILLED:
         return 'NOT FILLED';
     }
@@ -115,13 +116,20 @@ const testValidatory = () => {
     formElementValidationStateChangedCallback = instance => {
       LifeTimeEventPublisher.publish(new FormElementValidationStateChangedEvent(instance));
     };
-
   init({
     formSelector: '#validatory-form',
     formElementSelector: '#validatory-form input, #validatory-form select, #validatory-form textarea',
     onFormValidationStateChanged: formValidationStateChangedCallback,
     onFormElementValidationStateChanged: formElementValidationStateChangedCallback
   });
+
+  // The previous code is the equivalent to this one:
+  /*
+  Event.validatory.initWithEvents({
+    formSelector: '#validatory-form',
+    formElementSelector: '#validatory-form input, #validatory-form select, #validatory-form textarea'
+  });
+  */
 
   init({
     formSelector: '#validatory-form-react',
@@ -172,6 +180,32 @@ const testCookies = () => {
   }
 };
 
+const addAsyncValidator = () => {
+  const
+    debouncedValidation = debounce(node => {
+      console.log('Asynchronous validation started');
+
+      const validZipCode = /^\d{5}$/.test(node.value); // zip code format validation
+
+      if (!validZipCode) {
+        return {valid: false, errorCode: 'zip-code'};
+      }
+
+      return asyncValidation(fetch('https://jsonplaceholder.typicode.com/posts/1'), () => {
+        const valid = node.value === '01005';
+
+        return valid ? {valid} : {valid: false, errorCode: 'no-service'};
+      });
+    }, 500),
+    asyncValidator = new Validator({
+      supports: node => node.id === 'async',
+      isEmpty: node => node.value === '',
+      isValid: node => debouncedValidation(node),
+    });
+
+  validatorRegistry.add(asyncValidator);
+};
+
 const onReady = () => {
   testAsyncCancelablePromise();
   testBrowserIsIE11();
@@ -182,4 +216,5 @@ const onReady = () => {
   testCookies();
 };
 
+addAsyncValidator();
 onDomReady(onReady);

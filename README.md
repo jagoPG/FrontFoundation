@@ -13,6 +13,8 @@ or alternatively through *NPM*:
 $ npm install --save lin3s-front-foundation
 ```
 
+---
+---
 ## Usage - Available features
 
 ### Async
@@ -40,6 +42,7 @@ aCancelablePromise.cancel();
 // aCancelablePromise.promise has been rejected right after calling the cancel() method.
 ```
 
+---
 ### Browser
 
 This package will provide all browser related implementations.
@@ -54,6 +57,7 @@ import {Browser} from 'lin3s-front-foundation';
 const isIE11 = Browser.isIE11();
 ```
 
+---
 ### Dom
 
 This package will provide all Dom related implementations.
@@ -147,6 +151,7 @@ filtering it's targets by a selector.
 This method will dispatch a DOMElement native event. It's a native alternative to the jQuery's
 [`.trigger(eventName)`][10] method.
 
+---
 ### Cookies
 
 This package will provide all `document.cookie` related implementations.
@@ -203,6 +208,8 @@ EventBus.onCookieWritten(({cookie}) => {
 });
 ```
 
+---
+---
 ## Usage - Available UI components
 
 ### GMap
@@ -398,6 +405,7 @@ onDomReady(() => {
 });
 ```
 
+---
 ### FormGroupInput
 
 The component is composed by the FormLabel, FormInput and the FormError atoms.
@@ -438,6 +446,7 @@ The list of the available parameters, their type and default values are as follo
 | input_errors             | array<br/>{<br/>&nbsp;&nbsp;&nbsp;&nbsp;content: string*, <br/>&nbsp;&nbsp;&nbsp;&nbsp;modifiers: string<br/>} | no       | null          |
 | input_class_name         | string        | no       | null          |
 | input_modifiers          | string        | no       | null          |
+| input_spinner            | int           | no       | 0             |
 
 
 This is a common setup example:
@@ -457,10 +466,12 @@ This is a common setup example:
     }, {
         content: 'Entered phone is not a 9 digit valid phone',
         modifiers: 'form-error--not-valid'
-    }]
+    }],
+    input_spinner: 1
 } %}
 ```
 
+---
 ### FormGroupSelect
 
 This component and it's associated FormSelect atom will build a custom rich select component. The component is composed 
@@ -590,6 +601,7 @@ EventBus.onFormSelectStateChanged(domNode, formSelectStateChangedEvent => {
 | FormSelectStateChangedEvent    | formSelectInstance: FormSelect<br/>state: \[FormSelect.STATE.OPENED \| FormSelect.STATE.CLOSED\] |
 
 
+---
 ### FormGroupTextarea
 
 The component is composed by the FormTextarea, FormLabel and the FormError atoms.
@@ -630,6 +642,7 @@ The list of the available parameters, their type and default values are as follo
 | textarea_errors             | array<br/>{<br/>&nbsp;&nbsp;&nbsp;&nbsp;content: string*, <br/>&nbsp;&nbsp;&nbsp;&nbsp;modifiers: string<br/>} | no       | null          |               |
 | textarea_modifiers          | string        | no       | ''            |               |
 | textarea_placeholder        | string        | no       | ''            |               |
+| textarea_spinner            | int           | no       | 0             |               |
 
 This is a full setup example:
 
@@ -646,9 +659,12 @@ This is a full setup example:
     }, {
         content: 'Entered text does not include a valid 2-5 letter palindrome',
         modifiers: 'form-error--not-valid'
-    }]
+    }],
+    textarea_spinner: 1
 } %}
 ```
+
+---
 ### FormGroupCheckbox
 
 The component is composed by the FormCheckbox, FormLabel and the FormError atoms.
@@ -702,6 +718,8 @@ This is a full setup example:
 } %}
 ```
 
+---
+---
 ## Usage - Available UI (React) components
 
 ### FormGroupSelect (React) component
@@ -713,6 +731,8 @@ This React component will build a FormGroupSelect (vanilla) counterpart.
 This is a [controlled component][4]. For a full initialization example, take a look at the provided example [initialization][5] and [FormGroupSelect use case][6].
 
 
+---
+---
 ## Usage - Available UI atoms
 
 ### FormLabel
@@ -754,6 +774,7 @@ $form-label-line-height: 20px !default;
 @import './node_modules/lin3s-front-foundation/dist/scss/ui/atoms/form-label';
 ```
 
+---
 ### FormError
 
 This atom will render a form-input associated error.
@@ -790,6 +811,7 @@ $form-error-line-height: 18px !default;
 @import './node_modules/lin3s-front-foundation/dist/scss/ui/atoms/form-error';
 ```
 
+---
 ### FormInput
 
 This atom will render a form input.
@@ -837,6 +859,7 @@ $form-input-line-height-small: 18px !default;
 @import './node_modules/lin3s-front-foundation/dist/scss/ui/atoms/form-input';
 ```
 
+---
 ### FormSelect
 
 This atom will render a custom rich form select.
@@ -911,6 +934,8 @@ $form-select-option-background-color-hover-and-active: rgba($form-select-option-
 @import './node_modules/lin3s-front-foundation/dist/scss/ui/atoms/form-select';
 ```
 
+---
+---
 ## Usage - Available macros
 The library provides you opinionated macros for rendering the form components with pre-defined parameters.
 
@@ -923,11 +948,13 @@ The library provides you opinionated macros for rendering the form components wi
 {% macro requiredPhone(id, placeholder, name) %}
 ```
 
+---
 ### Components - form_group_checkboxes
 ```twig
 {% macro required(id, label, content, errors) %}
 ```
 
+---
 ### Components - form_group_inputs
 ```twig
 {% macro required(type, id, placeholder, label, errors, name) %}
@@ -937,17 +964,126 @@ The library provides you opinionated macros for rendering the form components wi
 {% macro requiredPhone(id, placeholder, label, errors, name) %}
 ```
 
+---
 ### Components - form_group_selects
 ```twig
 {% macro required(id, filter_placeholder, label, options, errors) %}
 {% macro requiredAndNot(id, filter_placeholder, label, not_valid_value, options, errors) %}
 ```
 
+---
 ### Components - form_group_textareas
 ```twig
 {% macro required(id, placeholder, label, errors) %}
 {% macro requiredWithPattern(id, placeholder, label, pattern, errors) %}
 ```
+
+---
+---
+## Validatory
+
+FrontFoundation provides `js` and `scss` utility/helper code to work with the [validatory][11] librar to make easier 
+our initialization or style customization.
+
+### Validatory - initWithEvents & EventBus subscriptions
+
+FrontFoundation library provides an utility method `EventBus.validatory.initWithEvents` for initializing the 
+[validatory][11] library coupled to the [lin3s-event-bus][11] library, so our app can be notified when a form, or any 
+of it's element's validation state changes using the exposed `EventBus.validatory.onFormStateChanged` and 
+`EventBus.validatory.onFormElementStateChanged` subscriptions.
+
+```js
+import {EventBus} from 'lin3s-front-foundation';
+
+EventBus.validatory.initWithEvents({
+  formSelector: '#validatory-form',
+  formElementSelector: '#validatory-form input, #validatory-form select, #validatory-form textarea'
+});
+
+// Event subscriptions through the event-bus
+
+const myForm = document.getElementById('validatory-form');
+
+EventBus.validatory.onFormStateChanged(myForm, stateChangedEvent => {
+  // Do what you want with the provided payload object
+  console.log(stateChangedEvent.formValidatorInstance);
+});
+
+const myFormElement = document.querySelector('#validatory-form .zip-code');
+
+EventBus.validatory.onFormElementStateChanged(myFormElement, stateChangedEvent => {
+  // Do what you want with the provided payload object
+  console.log(stateChangedEvent.formElementValidatorInstance);
+});
+```
+
+### Validatory - custom validators and UI customization
+
+In order to build and append a custom validator, we must first prepare the twig markup, then write our custom validator, 
+and add some needed scss.
+
+Note that we are adding some custom validation error messages/markup. (`form-error--not-valid-zip-code`, `form-error--not-valid-no-service`).
+These custom errors will match the custom validator's resolved `errorCode`s.
+
+```twig
+{% include '@lin3s_front_foundation/components/form_group_input.html.twig' with {
+    input_id: 'zip-code',
+    input_required: 1,
+    input_validate: 1,
+    input_validation_type: 'phone',
+    input_placeholder: 'Enter your zip code',
+    input_label_content: 'Zip code',
+    input_errors: [{
+        content: 'This field is required',
+        modifiers: 'form-error--not-filled'
+    }, {
+        content: 'The entered value does not seem ot be a valid zip code',
+        modifiers: 'form-error--not-valid-zip-code'
+    }, , {
+        content: 'Sorry, we are not providing service in the entered zip code's area.',
+        modifiers: 'form-error--not-valid-no-service'
+    }],
+    input_spinner: 1
+} %}
+```
+
+```js
+import debounce from 'es6-promise-debounce';
+import {validatorRegistry, Validator, asyncValidation} from 'validatory';
+
+const
+  debouncedValidation = debounce(node => {
+    console.log('Asynchronous validation started');
+
+    const validZipCode = /^\d{5}$/.test(node.value); // zip code format validation
+
+    if (!validZipCode) {
+      return {valid: false, errorCode: 'zip-code'}; // will match the DOM markup's .form-error--not-valid-zip-code
+    }
+
+    return asyncValidation(fetch('https://jsonplaceholder.typicode.com/posts/1'), response => {
+      const valid = node.value === '01005';
+
+      return valid ? {valid} : {valid: false, errorCode: 'no-service'}; // will match the DOM markup's .form-error--not-valid-no-service
+    });
+  }, 500),
+  asyncValidator = new Validator({
+    supports: node => node.id === 'async',
+    isEmpty: node => node.value === '',
+    isValid: node => debouncedValidation(node),
+  });
+
+validatorRegistry.add(asyncValidator);
+```
+
+```scss
+@import './../../node_modules/lin3s-front-foundation/dist/scss/_mixins/form-validation';
+
+@include form_group_custom_error('.form-group-input__errors', 'zip-code');
+@include form_group_custom_error('.form-group-input__errors', 'no-service');
+```
+
+---
 
 [1]: https://github.com/LIN3S/FrontFoundation/blob/master/src/templates/twig/components/gmap.html.twig#L26
 [2]: https://snazzymaps.com/
@@ -960,3 +1096,4 @@ The library provides you opinionated macros for rendering the form components wi
 [9]: http://api.jquery.com/on/
 [10]: http://api.jquery.com/trigger/
 [11]: https://github.com/FriendsOfECMAScript/Validatory
+[12]: https://github.com/LIN3S/EventBusJS

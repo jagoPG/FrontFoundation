@@ -10,6 +10,10 @@
 @import './../../_placeholders/form-group';
 @import './../../_mixins/form-validation';
 
+.form-group-radio {
+  position: relative;
+}
+
 .form-group-radio--inline {
   .form-group-radio__item {
     display: inline-block;
@@ -25,7 +29,7 @@
   @extend %form-group__label;
 }
 
-@include form_group_validation_errors('.form-group-radio__errors');
+@include form_group_validation('.form-group-radio__errors');
 
 .form-group-radio__item {
   display: inline-block;

@@ -64,9 +64,15 @@
 
     {% if radio_validate|default(0) %}
         {% set required = radio_required|default(0) ? 'required' %}
-        {% set validation = radio_validate|default(0) ? 'data-validate' ~ (radio_validation_pattern|default ? ' data-validate-pattern="' ~ radio_validation_pattern) ~ '"' ~ (radio_validation_type|default ? ' data-validate-' ~ radio_validation_type) %}
 
-        <input class="form-group-radio__hidden" type="hidden" {{ required }} {{ validation }}/>
+        <input class="form-group-radio__hidden" type="hidden" {{ required }}
+                {% if radio_validate|default(0) %} data-validate
+            {% if radio_validation_pattern|default %}
+                data-validate-pattern="{{ radio_validation_pattern }}"
+            {% elseif radio_validation_type|default %}
+                data-validate="{{ radio_validation_type }}"
+            {% endif %}
+                {% endif %}/>
     {% endif %}
 
     {% if radio_errors|default %}
