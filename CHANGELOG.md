@@ -5,6 +5,8 @@ This changelog references the relevant changes done between versions.
 To get the diff for a specific change, go to https://github.com/LIN3S/FrontFoundation/commit/XXX where XXX is the change hash 
 To get the diff between two versions, go to https://github.com/LIN3S/FrontFoundation/compare/v0.5.0...v0.6.0
 
+* 0.17.2
+    * Updated the `validatory` dependency to the v0.2.3 solving a validation bug (no-required).
 * 0.17.1
     * Fixed missing parameter. (`_mixin/_form-validation.scss`)
 * 0.17.0

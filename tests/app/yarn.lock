@@ -7239,6 +7239,10 @@ validatory@^0.2.2:
   version "0.2.2"
   resolved "https://registry.yarnpkg.com/validatory/-/validatory-0.2.2.tgz#949702b8f7af09f14bca228d28f9f5c213f00912"
 
+validatory@^0.2.3:
+  version "0.2.3"
+  resolved "https://registry.yarnpkg.com/validatory/-/validatory-0.2.3.tgz#432fe8278becc5194c1089b77ecc491fa8802559"
+
 vary@~1.1.2:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/vary/-/vary-1.1.2.tgz#2299f02c6ded30d4a5961b0b9f74524a18f634fc"

@@ -11,17 +11,20 @@
     ],
     "require": {
         "php": "^7.1",
-        "symfony/asset": "^3.3",
-        "symfony/framework-bundle": "3.3.*",
-        "symfony/templating": "^3.3",
-        "symfony/twig-bundle": "3.3.*",
-        "symfony/web-server-bundle": "^3.3",
-        "lin3s/front-foundation": "dev-master"
+        "lin3s/front-foundation": "dev-master",
+        "symfony/asset": "3.4.*",
+        "symfony/console": "3.4.*",
+        "symfony/debug-bundle": "3.4.*",
+        "symfony/framework-bundle": "3.4.*",
+        "symfony/templating": "3.4.* ",
+        "symfony/twig-bundle": "3.4.*",
+        "symfony/web-server-bundle": "3.4.*"
     },
     "autoload": {
         "files": [
             "Symfony.php"
         ]
     },
-    "minimum-stability": "dev"
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }

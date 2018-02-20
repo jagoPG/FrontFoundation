@@ -11,6 +11,7 @@
 
 declare(strict_types=1);
 
+use Symfony\Bundle\DebugBundle\DebugBundle;
 use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Bundle\TwigBundle\TwigBundle;
@@ -37,6 +38,7 @@ class Symfony extends Kernel
         ];
 
         if ('dev' === $this->getEnvironment()) {
+            $bundles[] = new DebugBundle();
             $bundles[] = new WebServerBundle();
         }
 
@@ -71,10 +73,11 @@ class Symfony extends Kernel
             ],
         ]);
         $container->loadFromExtension('twig', [
-            'paths'            => [
+            'paths' => [
                 '%kernel.project_dir%'                                                  => '',
                 '%kernel.project_dir%/vendor/lin3s/front-foundation/src/templates/twig' => 'lin3s_front_foundation',
             ],
+            'debug' => '%kernel.debug%',
             'strict_variables' => true,
         ]);
     }
