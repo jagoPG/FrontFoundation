@@ -34,6 +34,7 @@ class Modal {
     this.open = this.open.bind(this);
     this.close = this.close.bind(this);
     this.onCloseButtonClick = this.onCloseButtonClick.bind(this);
+    this.onKeyDown = this.onKeyDown.bind(this);
 
     this.bindListeners();
   }
@@ -51,10 +52,19 @@ class Modal {
     this.close();
   }
 
+  onKeyDown(keyDownEvent) {
+    const key = keyDownEvent.which || keyDownEvent.keyCode;
+
+    if (key === 27) {
+      this.close();
+    }
+  }
+
   open() {
     this.domNode.classList.add(Modal.OPENED_CSS_CLASS);
     this.state = Modal.STATE.OPENED;
 
+    document.addEventListener('keydown', this.onKeyDown);
     this.publishModalStateChangedEvent();
   }
 
@@ -62,6 +72,7 @@ class Modal {
     this.domNode.classList.remove(Modal.OPENED_CSS_CLASS);
     this.state = Modal.STATE.CLOSED;
 
+    document.removeEventListener('keydown', this.onKeyDown);
     this.publishModalStateChangedEvent();
   }
 
