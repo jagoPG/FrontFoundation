@@ -307,8 +307,9 @@ EventBus.onGMapInitialized(domNode, gmapInitializedEvent => {
   const gmapInstance = gmapInitializedEvent.gmapInstance;
 });
 
-EventBus.onGMapGeocodeNoResults(domNode, gmapGeocodeNoResultsEvent => {
-  console.log('Sorry, there are no results for the provided address!');
+EventBus.onGMapGeocode(domNode, gmapGeocodeEvent => {
+  console.log(gmapGeocodeEvent.status);
+  console.log(gmapGeocodeEvent.results);
 });
 
 EventBus.onGMapMarkerSelected(domNode, gmapMarkerSelectedEvent => {
@@ -320,7 +321,7 @@ EventBus.onGMapMarkerSelected(domNode, gmapMarkerSelectedEvent => {
 |--------------------------------|:------------------------|
 | GMapInitializedEvent           | gmapInstance: GMap      |
 | GMapMarkerSelectedEvent        | gmapInstance: GMap<br/>marker: Your marker object representation |
-| GMapGeocodeNoResultsEvent      | gmapInstance: GMap      |
+| GMapGeocodeEvent               | gmapInstance: GMap<br/>status: response status<br/>results: geociding results |
 
 #### GMap - Advanced features
 
@@ -377,8 +378,9 @@ class GMapTest {
       this.gmapInstance.geocodeAddress(this.filterInput.value);
     });
     
-    EventBus.onGMapGeocodeNoResults(this.domNode, gmapGeocodeNoResultsEvent => {
-      console.log('Sorry, there are no results for the provided value!');
+    EventBus.onGMapGeocode(this.domNode, gmapGeocodeEvent => {
+      console.log(gmapGeocodeEvent.status);
+      console.log(gmapGeocodeEvent.results);
     });
     
     EventBus.onGMapMarkerSelected(this.domNode, gmapMarkerSelectedEvent => {

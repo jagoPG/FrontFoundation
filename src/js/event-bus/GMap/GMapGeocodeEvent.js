@@ -11,15 +11,17 @@
 
 import {Event} from 'lin3s-event-bus';
 
-class GMapGeocodeNoResultsEvent extends Event {
+class GMapGeocodeEvent extends Event {
 
-  static NAME = 'GMAP_GEOCODE_NO_RESULTS_EVENT';
+  static NAME = 'GMAP_GEOCODE_EVENT';
 
-  constructor(gmapInstance) {
-    super(GMapGeocodeNoResultsEvent.NAME);
+  constructor(gmapInstance, status, results) {
+    super(GMapGeocodeEvent.NAME);
 
     this.gmapInstance = gmapInstance;
+    this.status = status;
+    this.results = results;
   }
 }
 
-export default GMapGeocodeNoResultsEvent;
+export default GMapGeocodeEvent;

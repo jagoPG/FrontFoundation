@@ -5,8 +5,9 @@ This changelog references the relevant changes done between versions.
 To get the diff for a specific change, go to https://github.com/LIN3S/FrontFoundation/commit/XXX where XXX is the change hash 
 To get the diff between two versions, go to https://github.com/LIN3S/FrontFoundation/compare/v0.5.0...v0.6.0
 
-* 0.18.0 (master)
-    * Added `ESC` keydown listener for closing the `Modal` component. 
+* 0.18.0
+    * Updated the Gmap component's event-bus implementation. It does now publish a `GMapGeocodeEvent`, with the `status` and `results` of the response. 
+    * Added `ESC` keydown listener for closing the `Modal` component.
 * 0.17.3
     * Updated the `validatory` dependency to the v0.2.4 solving the form submission and event blocking bug.
 * 0.17.2

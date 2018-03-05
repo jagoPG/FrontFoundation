@@ -67,8 +67,10 @@ class GMapGeocoder {
       this.debouncedGeocodeByAddress(this.filterInput.value);
     });
 
-    EventBus.GMap.onGeocodeNoResults(this.domNode, () => {
-      this.errorLabel.innerHTML = 'Sorry, there are no results for the provided value!';
+    EventBus.GMap.onGeocode(this.domNode, geocodeEvent => {
+      if (!geocodeEvent.results || geocodeEvent.results.length === 0) {
+        this.errorLabel.innerHTML = 'Sorry, there are no results for the provided value!';
+      }
     });
 
     EventBus.GMap.onMarkerSelected(this.domNode, gmapMarkerSelectedEvent => {

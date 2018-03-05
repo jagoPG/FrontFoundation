@@ -14,7 +14,7 @@ import {isIE11} from './../../../../browser';
 import GMapMarkerDetail from './../GMapMarkerDetail/GMapMarkerDetail';
 import GMapInitializedEvent from './../../../../event-bus/GMap/GMapInitializedEvent';
 import GMapMarkerSelectedEvent from './../../../../event-bus/GMap/GMapMarkerSelectedEvent';
-import GMapGeocodeNoResultsEvent from './../../../../event-bus/GMap/GMapGeocodeNoResultsEvent';
+import GMapGeocodeEvent from './../../../../event-bus/GMap/GMapGeocodeEvent';
 
 class GMap {
 
@@ -332,9 +332,10 @@ class GMap {
             this.centerMap(geocodeResult.geometry.location);
             this.map.setZoom(14);
           } else {
-            this.publishGeocodeNoResultsEvent();
             this.resetMapZoomAndCenterToDefault();
           }
+
+          this.publishGeocodeEvent({status, results});
         }
       );
     }
@@ -364,8 +365,8 @@ class GMap {
     LifeTimeEventPublisher.publish(new GMapMarkerSelectedEvent(this, marker));
   }
 
-  publishGeocodeNoResultsEvent() {
-    LifeTimeEventPublisher.publish(new GMapGeocodeNoResultsEvent(this));
+  publishGeocodeEvent({status, results}) {
+    LifeTimeEventPublisher.publish(new GMapGeocodeEvent(this, status, results));
   }
 }
 

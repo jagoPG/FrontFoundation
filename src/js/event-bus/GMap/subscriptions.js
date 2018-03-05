@@ -13,7 +13,7 @@
 import {Priority, OneTimeEventPublisher, LifeTimeEventPublisher} from 'lin3s-event-bus';
 import GMapInitializedEventSubscriber from './GMapInitializedEventSubscriber';
 import GMapMarkerSelectedEventSubscriber from './GMapMarkerSelectedEventSubscriber';
-import GMapGeocodeNoResultsEventSubscriber from './GMapGeocodeNoResultsEventSubscriber';
+import GMapGeocodeEventSubscriber from './GMapGeocodeEventSubscriber';
 
 const
   onInitialized = (domNode, onGMapInitializedCallback, priority) => {
@@ -38,20 +38,20 @@ const
 
     return gmapMarkerSelectedEventSubscriber;
   },
-  onGeocodeNoResults = (domNode, onGMapGeocodeNoResultsCallback, priority) => {
-    const gmapGeocodeNoResultsEventSubscriber = new GMapGeocodeNoResultsEventSubscriber(
+  onGeocode = (domNode, onGMapGeocodeCallback, priority) => {
+    const gmapGeocodeEventSubscriber = new GMapGeocodeEventSubscriber(
       domNode,
-      onGMapGeocodeNoResultsCallback,
+      onGMapGeocodeCallback,
       new Priority(priority)
     );
 
-    LifeTimeEventPublisher.subscribe(gmapGeocodeNoResultsEventSubscriber);
+    LifeTimeEventPublisher.subscribe(gmapGeocodeEventSubscriber);
 
-    return gmapGeocodeNoResultsEventSubscriber;
+    return gmapGeocodeEventSubscriber;
   };
 
 export {
   onInitialized,
   onMarkerSelected,
-  onGeocodeNoResults
+  onGeocode
 };
