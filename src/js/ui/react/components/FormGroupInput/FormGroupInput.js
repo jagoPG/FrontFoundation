@@ -18,22 +18,26 @@ class FormGroup extends React.Component {
     id: PropTypes.string.isRequired,
     label: PropTypes.string.isRequired,
     onChanged: PropTypes.func,
+    placeholder: PropTypes.string,
+    required: PropTypes.bool,
+    type: PropTypes.string,
     validationEnabled: PropTypes.bool,
     validationPattern: PropTypes.string,
     validationMessageRequired: PropTypes.string,
     validationMessageNotValid: PropTypes.string,
-    required: PropTypes.bool,
-    type: PropTypes.string,
+    value: PropTypes.string,
   };
 
   static defaultProps = {
     onChanged: () => {},
+    placeholder: '',
     required: false,
     type: 'text',
     validationEnabled: false,
     validationMessageRequired: '',
     validationMessageNotValid: '',
     validationPattern: '',
+    value: '',
   };
 
   constructor(props) {
@@ -49,14 +53,16 @@ class FormGroup extends React.Component {
   }
 
   shouldComponentUpdate(nextProps) {
-    const {id,
+    const {
+      id,
       label,
       required,
       type,
       validationEnabled,
       validationPattern,
       validationMessageRequired,
-      validationMessageNotValid
+      validationMessageNotValid,
+      value
     } = this.props;
 
     return id !== nextProps.id ||
@@ -66,7 +72,8 @@ class FormGroup extends React.Component {
       validationEnabled !== nextProps.validationEnabled ||
       validationPattern !== nextProps.validationPattern ||
       validationMessageRequired !== nextProps.validationMessageRequired ||
-      validationMessageNotValid !== nextProps.validationMessageNotValid;
+      validationMessageNotValid !== nextProps.validationMessageNotValid ||
+      value !== nextProps.value;
   }
 
   render() {
@@ -78,7 +85,9 @@ class FormGroup extends React.Component {
       validationEnabled,
       validationPattern,
       validationMessageRequired,
-      validationMessageNotValid
+      validationMessageNotValid,
+      placeholder,
+      value
     } = this.props;
 
     return (<div className="form-group-input">
@@ -96,12 +105,13 @@ class FormGroup extends React.Component {
         id={id}
         name={id}
         onChange={this.onInputChange}
-        placeholder={label}
+        placeholder={placeholder}
         ref={input => {
           this.input = input;
         }}
         required={required}
-        type={type} />
+        type={type}
+        value={value}/>
       <div className="form-group-input__errors">
         <p className="form-error form-error--not-filled">{validationMessageRequired}</p>
         <p className="form-error form-error--not-valid">{validationMessageNotValid}</p>
