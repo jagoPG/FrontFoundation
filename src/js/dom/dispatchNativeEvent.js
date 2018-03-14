@@ -10,7 +10,9 @@
  */
 
 (() => {
-  if (typeof window.CustomEvent === 'function') return false;
+  if (typeof window.CustomEvent === 'function') {
+    return false;
+  }
 
   const CustomEvent = (event, params) => {
     params = params || {
