@@ -27,6 +27,8 @@ class GMap {
   center;
   centerOffsetX;
   centerOffsetY;
+  boundsOffsetX;
+  boundsOffsetY;
   zoom;
   markerIcons;
   markers = [];
@@ -56,7 +58,7 @@ class GMap {
     clusterTextOffset,
     clusterTextColor,
     clusterTextSize,
-    mapStyle
+    mapStyle,
   } = {}) {
     this.domNode = domNode;
 
@@ -106,22 +108,22 @@ class GMap {
         anchor,
         scaledSize: iconSize,
         optimized: false,
-        origin
+        origin,
       },
       selected: {
         url: `${this.markerSelectedPath}.${extension}`,
         anchor,
         scaledSize: iconSize,
         optimized: false,
-        origin
+        origin,
       },
       group: {
         url: `${this.markerGroupPath}.${extension}`,
         anchor,
         scaledSize: iconSize,
         optimized: false,
-        origin
-      }
+        origin,
+      },
     };
   }
 
@@ -136,7 +138,7 @@ class GMap {
       mapTypeId: google.maps.MapTypeId.ROADMAP,
       styles: this.mapStyle,
       scrollwheel: false,
-      draggable: true
+      draggable: true,
     });
 
     if (!this.clusterEnabled) {
@@ -152,8 +154,8 @@ class GMap {
         url: this.markerIcons.group.url,
         textColor: this.clusterTextColor,
         textSize: this.clusterTextSize,
-        anchor: this.clusterTextOffset
-      }]
+        anchor: this.clusterTextOffset,
+      }],
     });
   }
 
@@ -172,6 +174,11 @@ class GMap {
     this.centerOffsetY = y;
 
     this.centerMap(this.getOffsetedLatLng(this.map.getCenter()));
+  }
+
+  setBoundsOffsets({x = 0, y = 0} = {}) {
+    this.boundsOffsetX = x;
+    this.boundsOffsetY = y;
   }
 
   setMarkers(markers) {
@@ -211,7 +218,7 @@ class GMap {
         id: marker.id,
         position: {
           lat: parseFloat(marker.lat),
-          lng: parseFloat(marker.lng)
+          lng: parseFloat(marker.lng),
         },
         map: this.map,
         icon: this.markerIcons.default,
@@ -229,7 +236,7 @@ class GMap {
       mapMarker.addListener('click', () => this.onMarkerSelected(marker));
     });
 
-    this.centerMapOnBounds(this.bounds);
+    this.centerMapOnBounds(this.getOffsetedBounds(this.bounds));
   }
 
   showMarkerDetailView(markerId, markerDetailHtmlContent) {
@@ -254,7 +261,7 @@ class GMap {
 
     this.markerDetail.setPosition({
       x: markerPixelPosition.x - markerDetailRect.width / 2,
-      y: markerPixelPosition.y - markerDetailRect.height - this.markerHeight - 20
+      y: markerPixelPosition.y - markerDetailRect.height - this.markerHeight - 20,
     });
 
     this.markerDetail.show();
@@ -284,19 +291,36 @@ class GMap {
     this.map.panToBounds(bounds);
   }
 
-  getOffsetedLatLng({lat, lng}) {
+  getOffsetedLatLng({lat, lng}, {offsetX = this.centerOffsetX, offsetY = this.centerOffsetY} = {}) {
     const
       scale = Math.pow(2, this.map.getZoom()),
-      pixelOffset = new google.maps.Point(this.centerOffsetX / scale || 0, this.centerOffsetY / scale || 0);
+      pixelOffset = new google.maps.Point(offsetX / scale || 0, offsetY / scale || 0);
 
     const
       worldCoordinateCenter = this.map.getProjection().fromLatLngToPoint({lat, lng}),
       worldCoordinateNewCenter = new google.maps.Point(
         worldCoordinateCenter.x + pixelOffset.x,
-        worldCoordinateCenter.y + pixelOffset.y
+        worldCoordinateCenter.y + pixelOffset.y,
       );
 
     return this.map.getProjection().fromPointToLatLng(worldCoordinateNewCenter);
+  }
+
+  getOffsetedBounds(bounds) {
+    const
+      southWest = bounds.getSouthWest(),
+      northEast = bounds.getNorthEast();
+
+    return new google.maps.LatLngBounds(
+      this.getOffsetedLatLng(
+        {lat: southWest.lat, lng: southWest.lng},
+        {offsetX: this.boundsOffsetX, offsetY: this.boundsOffsetY},
+      ),
+      this.getOffsetedLatLng(
+        {lat: northEast.lat, lng: northEast.lng},
+        {offsetX: this.boundsOffsetX, offsetY: this.boundsOffsetY,},
+      ),
+    );
   }
 
   getPixelPositionFromLatLng({lat, lng}) {
@@ -304,14 +328,14 @@ class GMap {
       scale = Math.pow(2, this.map.getZoom()),
       nw = new google.maps.LatLng(
         this.map.getBounds().getNorthEast().lat(),
-        this.map.getBounds().getSouthWest().lng()
+        this.map.getBounds().getSouthWest().lng(),
       ),
       worldCoordinateNW = this.map.getProjection().fromLatLngToPoint(nw),
       worldCoordinate = this.map.getProjection().fromLatLngToPoint({lat, lng});
 
     return new google.maps.Point(
       Math.floor((worldCoordinate.x - worldCoordinateNW.x) * scale),
-      Math.floor((worldCoordinate.y - worldCoordinateNW.y) * scale)
+      Math.floor((worldCoordinate.y - worldCoordinateNW.y) * scale),
     );
   }
 
@@ -323,7 +347,7 @@ class GMap {
 
       this.geocoder.geocode(
         {
-          address: fullAddress
+          address: fullAddress,
         },
         (results, status) => {
           if (status === google.maps.GeocoderStatus.OK) {
@@ -336,19 +360,19 @@ class GMap {
           }
 
           this.publishGeocodeEvent({status, results});
-        }
+        },
       );
     }
   }
 
   resetMapZoomAndCenterToDefault() {
     if (this.bounds !== undefined) {
-      this.centerMapOnBounds(this.bounds);
+      this.centerMapOnBounds(this.getOffsetedBounds(this.bounds));
     } else {
       this.map.setZoom(this.zoom.initial);
       this.centerMap(this.getOffsetedLatLng(new google.maps.LatLng(
         this.center.lat,
-        this.center.lng
+        this.center.lng,
       )));
     }
   }

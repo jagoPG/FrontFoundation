@@ -5,6 +5,8 @@ This changelog references the relevant changes done between versions.
 To get the diff for a specific change, go to https://github.com/LIN3S/FrontFoundation/commit/XXX where XXX is the change hash 
 To get the diff between two versions, go to https://github.com/LIN3S/FrontFoundation/compare/v0.5.0...v0.6.0
 
+* 0.18.6
+    * Added `setBoundsOffsets` method to the GMap component to offset the default map bounds (if multiple markers are provided).
 * 0.18.5
     * Fixed `dispatchNativeEvent` bug on modern browsers. Refactored event dispatching implementation.
 * 0.18.4
