@@ -19,6 +19,11 @@ const isMobile = viewportWidth => {
   return viewportWidth < 1024;
 };
 
+const optionShape = PropTypes.shape({
+  label: PropTypes.string,
+  value: PropTypes.string,
+});
+
 class FormSelect extends React.Component {
 
   static OPTIONS_CONTAINER_MAX_HEIGHT_MOBILE = 260;
@@ -32,15 +37,13 @@ class FormSelect extends React.Component {
     loading: PropTypes.bool,
     onInputChanged: PropTypes.func,
     onOptionSelected: PropTypes.func.isRequired,
-    options: PropTypes.arrayOf(PropTypes.shape({
-      label: PropTypes.string,
-      value: PropTypes.string
-    })),
+    options: PropTypes.arrayOf(optionShape),
     outsideClickToCloseEnabled: PropTypes.bool,
     placeholder: PropTypes.string,
+    selectedOption: optionShape,
     validationEnabled: PropTypes.bool,
     validationPattern: PropTypes.string,
-    required: PropTypes.bool
+    required: PropTypes.bool,
   };
 
   static defaultProps = {
@@ -48,11 +51,12 @@ class FormSelect extends React.Component {
     filterValue: '',
     filterable: false,
     loading: false,
-    onInputChanged: () => {},
+    onInputChanged: () => {
+    },
     outsideClickToCloseEnabled: true,
     validationEnabled: false,
     validationPattern: '',
-    required: false
+    required: false,
   };
 
   constructor(props) {
@@ -66,9 +70,9 @@ class FormSelect extends React.Component {
       focused: false,
       opened: false,
       touched: false,
-      selectedOption: props.options[0],
+      selectedOption: props.selectedOption || props.options[0],
       hoveredOption: null,
-      mouseOverListenerEnabled: true
+      mouseOverListenerEnabled: true,
     };
 
     // bre-bind method's context
@@ -94,7 +98,7 @@ class FormSelect extends React.Component {
 
   onFocus() {
     this.setState({
-      focused: true
+      focused: true,
     });
 
     if (this.tabHit) {
@@ -170,7 +174,7 @@ class FormSelect extends React.Component {
 
       this.setState({
         hoveredOption: options[hoveredOptionIndex],
-        mouseOverListenerEnabled: false
+        mouseOverListenerEnabled: false,
       });
 
       this.optionNodesRefs[hoveredOptionIndex].scrollIntoView({behaviour: 'smooth'});
@@ -183,7 +187,7 @@ class FormSelect extends React.Component {
 
       this.setState({
         hoveredOption: options[hoveredOptionIndex],
-        mouseOverListenerEnabled: false
+        mouseOverListenerEnabled: false,
       });
 
       this.optionNodesRefs[hoveredOptionIndex].scrollIntoView({behaviour: 'smooth'});
@@ -199,7 +203,7 @@ class FormSelect extends React.Component {
     }
 
     this.setState({
-      selectedOption: option
+      selectedOption: option,
     });
 
     this.props.onOptionSelected(option);
@@ -213,7 +217,7 @@ class FormSelect extends React.Component {
     }
 
     this.setState({
-      mouseOverListenerEnabled: true
+      mouseOverListenerEnabled: true,
     });
   }
 
@@ -223,7 +227,7 @@ class FormSelect extends React.Component {
     }
 
     this.setState({
-      hoveredOption: option
+      hoveredOption: option,
     });
   }
 
@@ -243,7 +247,7 @@ class FormSelect extends React.Component {
       opened: true,
       touched: true,
       editingInput: this.props.filterable,
-      hoveredOption: selectedOption !== null ? selectedOption : hoveredOption !== null ? hoveredOption : options[0]
+      hoveredOption: selectedOption !== null ? selectedOption : hoveredOption !== null ? hoveredOption : options[0],
     }));
 
     this.setSelectFocusable(false);
@@ -259,7 +263,7 @@ class FormSelect extends React.Component {
     this.setState(() => ({
       editingInput: false,
       focused: false,
-      opened: false
+      opened: false,
     }));
 
     this.setSelectFocusable(true);
@@ -304,11 +308,15 @@ class FormSelect extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const optionsAreEqual = this.optionsAreEqual(this.props, nextProps);
+    const
+      optionsAreEqual = this.optionsAreEqual(this.props, nextProps),
+      selectedOptionIsEqual = this.props.selectedOption === nextProps.selectedOption;
 
     this.setState(prevState => {
       const
-        selectedOption = optionsAreEqual && nextProps.enabled ? prevState.selectedOption : nextProps.options[0],
+        selectedOption = optionsAreEqual && nextProps.enabled
+          ? (selectedOptionIsEqual ? prevState.selectedOption : nextProps.selectedOption)
+          : nextProps.selectedOption || nextProps.options[0],
         hoveredOption = optionsAreEqual && nextProps.enabled
           ? prevState.selectedOption !== null ? prevState.selectedOption : prevState.hoveredOption
           : nextProps.options[0];
@@ -318,7 +326,7 @@ class FormSelect extends React.Component {
         editingInput: nextProps.enabled && prevState.editingInput,
         opened: nextProps.enabled && prevState.opened,
         selectedOption,
-        hoveredOption
+        hoveredOption,
       };
     });
   }
@@ -330,7 +338,7 @@ class FormSelect extends React.Component {
 
     /* eslint-disable react/no-did-mount-set-state */
     this.setState({
-      dataRendered: true
+      dataRendered: true,
     });
     /* eslint-enable react/no-did-mount-set-state */
   }
@@ -345,7 +353,7 @@ class FormSelect extends React.Component {
     if (!this.optionsAreEqual(prevProps, this.props)) {
       /* eslint-disable react/no-did-update-set-state */
       this.setState({
-        dataRendered: false
+        dataRendered: false,
       });
       /* eslint-enable react/no-did-update-set-state */
     }
@@ -369,7 +377,8 @@ class FormSelect extends React.Component {
       placeholder,
       validationEnabled,
       validationPattern,
-      required
+      required,
+      selectedOption,
     } = this.props;
 
     const {
@@ -378,9 +387,8 @@ class FormSelect extends React.Component {
       focused,
       opened,
       touched,
-      selectedOption,
       hoveredOption,
-      mouseOverListenerEnabled
+      mouseOverListenerEnabled,
     } = this.state;
 
     return enabled !== nextProps.enabled ||
@@ -395,13 +403,14 @@ class FormSelect extends React.Component {
       validationEnabled !== nextProps.validationEnabled ||
       validationPattern !== nextProps.validationPattern ||
       required !== nextProps.required ||
+      selectedOption !== nextProps.selectedOption ||
       !this.optionsAreEqual(this.props, nextProps) ||
       dataRendered !== nextState.dataRendered ||
       editingInput !== nextState.editingInput ||
       focused !== nextState.focused ||
       opened !== nextState.opened ||
       touched !== nextState.touched ||
-      selectedOption !== nextState.selectedOption ||
+      this.state.selectedOption !== nextState.selectedOption ||
       hoveredOption !== nextState.hoveredOption ||
       mouseOverListenerEnabled !== nextState.mouseOverListenerEnabled;
   }
@@ -421,7 +430,7 @@ class FormSelect extends React.Component {
       options,
       required,
       validationEnabled,
-      validationPattern
+      validationPattern,
     } = this.props;
     const
       formSelectBaseClassName = 'form-select',
@@ -477,9 +486,10 @@ class FormSelect extends React.Component {
               const
                 onOptionMouseOver = mouseOverListenerEnabled ? this.onOptionMouseOver.bind(this, option) : null,
                 formOptionClassName = `form-select__option
-                  ${option === selectedOption ? ' form-select__option--active' : ''}
-                  ${option === hoveredOption ? ' form-select__option--hover' : ''}`,
+                  ${selectedOption && option.value === selectedOption.value ? ' form-select__option--active' : ''}
+                  ${hoveredOption && option.value === hoveredOption.value ? ' form-select__option--hover' : ''}`,
                 labelHtml = this.getDangerousHtml(option.label);
+
               return <div className={formOptionClassName}
                           dangerouslySetInnerHTML={labelHtml}
                           key={`form-select-view-${index}`}

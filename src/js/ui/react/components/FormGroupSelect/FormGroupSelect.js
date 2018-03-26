@@ -14,6 +14,11 @@ import PropTypes from 'prop-types';
 import FormSelect from './../../atoms/FormSelect/FormSelect';
 import ResizeAware from './../../hoc/ResizeAware';
 
+const optionShape = PropTypes.shape({
+  label: PropTypes.string,
+  value: PropTypes.string,
+});
+
 class FormGroupSelect extends React.Component {
 
   static propTypes = {
@@ -25,17 +30,15 @@ class FormGroupSelect extends React.Component {
     loading: PropTypes.bool,
     onInputChanged: PropTypes.func,
     onOptionSelected: PropTypes.func.isRequired,
-    options: PropTypes.arrayOf(PropTypes.shape({
-      label: PropTypes.string,
-      value: PropTypes.string
-    })),
+    options: PropTypes.arrayOf(optionShape),
     outsideClickToCloseEnabled: PropTypes.bool,
     placeholder: PropTypes.string,
     required: PropTypes.bool,
+    selectedOption: optionShape,
     validationEnabled: PropTypes.bool,
     validationPattern: PropTypes.string,
     validationMessageRequired: PropTypes.string,
-    validationMessageNotValid: PropTypes.string
+    validationMessageNotValid: PropTypes.string,
   };
 
   static defaultProps = {
@@ -48,7 +51,7 @@ class FormGroupSelect extends React.Component {
     validationEnabled: false,
     validationMessageRequired: '',
     validationMessageNotValid: '',
-    validationPattern: ''
+    validationPattern: '',
   };
 
   optionsAreEqual(props, nextProps) {
@@ -69,10 +72,11 @@ class FormGroupSelect extends React.Component {
       outsideClickToCloseEnabled,
       placeholder,
       required,
+      selectedOption,
       validationEnabled,
       validationPattern,
       validationMessageRequired,
-      validationMessageNotValid
+      validationMessageNotValid,
     } = this.props;
 
     return enabled !== nextProps.enabled ||
@@ -87,6 +91,7 @@ class FormGroupSelect extends React.Component {
       onOptionSelected !== nextProps.onOptionSelected ||
       outsideClickToCloseEnabled !== nextProps.outsideClickToCloseEnabled ||
       required !== nextProps.required ||
+      selectedOption !== nextProps.selectedOption ||
       validationEnabled !== nextProps.validationEnabled ||
       validationPattern !== nextProps.validationPattern ||
       validationMessageRequired !== nextProps.validationMessageRequired ||
@@ -107,7 +112,7 @@ class FormGroupSelect extends React.Component {
         </div>
         <ResizeAware render={(props) =>
           <FormSelect windowHeight={props.windowHeight} windowWidth={props.windowWidth} {...this.props} />
-        } />
+        }/>
         <div className="form-group-select__errors">
           <p className="form-error form-error--not-filled">{validationMessageRequired}</p>
           <p className="form-error form-error--not-valid">{validationMessageNotValid}</p>
