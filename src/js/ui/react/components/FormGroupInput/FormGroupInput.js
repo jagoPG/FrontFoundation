@@ -15,6 +15,7 @@ import PropTypes from 'prop-types';
 class FormGroup extends React.Component {
 
   static propTypes = {
+    enabled: PropTypes.bool,
     id: PropTypes.string.isRequired,
     label: PropTypes.string.isRequired,
     onChanged: PropTypes.func,
@@ -29,6 +30,7 @@ class FormGroup extends React.Component {
   };
 
   static defaultProps = {
+    enabled: true,
     onChanged: () => {},
     placeholder: '',
     required: false,
@@ -54,6 +56,7 @@ class FormGroup extends React.Component {
 
   shouldComponentUpdate(nextProps) {
     const {
+      enabled,
       id,
       label,
       required,
@@ -65,7 +68,8 @@ class FormGroup extends React.Component {
       value
     } = this.props;
 
-    return id !== nextProps.id ||
+    return enabled !== nextProps.enabled ||
+      id !== nextProps.id ||
       label !== nextProps.label ||
       required !== nextProps.required ||
       type !== nextProps.type ||
@@ -78,6 +82,7 @@ class FormGroup extends React.Component {
 
   render() {
     const {
+      enabled,
       id,
       label,
       required,
@@ -90,7 +95,11 @@ class FormGroup extends React.Component {
       value
     } = this.props;
 
-    return (<div className="form-group-input">
+    const
+      baseClassName = 'form-group-input',
+      className = `${baseClassName}${!enabled ? ' form-group-input--disabled' : ''}`;
+
+    return (<div className={className}>
       <div className="form-group-input__label">
         <label className="form-label" htmlFor={id}>
           {required && <span className="form-label__required">*</span>}

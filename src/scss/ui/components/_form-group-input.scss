@@ -10,8 +10,17 @@
 @import './../../_placeholders/form-group';
 @import './../../_mixins/form-validation';
 
+$form-group-input-background-color-disabled: #eee !default;
+
 .form-group-input {
   position: relative;
+}
+
+.form-group-input--disabled {
+  .form-input {
+    background-color: $form-group-input-background-color-disabled;
+    cursor: not-allowed;
+  }
 }
 
 .form-group-input__label {

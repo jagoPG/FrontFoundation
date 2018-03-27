@@ -15,7 +15,7 @@ $form-input-border-color-error: #b20008 !default;
 $form-input-border-color-valid: #00d44c !default;
 $form-input-placeholder-text-color: rgba(#444, .8) !default;
 $form-input-placeholder-transition: $transition-color !default;
-$form-input-transition: $transition-border-color !default;
+$form-input-transition: $transition-border-color, $transition-background-color !default;
 $form-input-font-family: sans-serif !default;
 $form-input-font-size: 16px !default;
 $form-input-font-size-small: 14px !default;
