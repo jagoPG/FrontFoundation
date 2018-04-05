@@ -111,6 +111,7 @@ class FormGroup extends React.Component {
         className="form-input"
         data-validate={validationEnabled ? true : null}
         data-validate-pattern={validationEnabled ? validationPattern : null}
+        disabled={!enabled}
         id={id}
         name={id}
         onChange={this.onInputChange}
