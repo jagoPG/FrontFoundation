@@ -2,9 +2,11 @@
 
 This changelog references the relevant changes done between versions.
 
-To get the diff for a specific change, go to https://github.com/LIN3S/FrontFoundation/commit/XXX where XXX is the change hash 
+To get the diff for a specific change, go to https://github.com/LIN3S/FrontFoundation/commit/XXX where XXX is the change hash
 To get the diff between two versions, go to https://github.com/LIN3S/FrontFoundation/compare/v0.5.0...v0.6.0
 
+* 0.18.10
+    * Fixed form group radio macro title
 * 0.18.9
     * Added `disabled` (if !`enabled`) prop to the `FormGroupInput` component's inner input.
 * 0.18.8
@@ -18,11 +20,11 @@ To get the diff between two versions, go to https://github.com/LIN3S/FrontFounda
 * 0.18.4
 * 0.18.3
     * Added `placeholder` and `value` props to the `FormGroupInput` React component.
-* 0.18.2 
+* 0.18.2
 * 0.18.1
     * Removed `GMap` console log.
 * 0.18.0
-    * Updated the Gmap component's event-bus implementation. It does now publish a `GMapGeocodeEvent`, with the `status` and `results` of the response. 
+    * Updated the Gmap component's event-bus implementation. It does now publish a `GMapGeocodeEvent`, with the `status` and `results` of the response.
     * Added `ESC` keydown listener for closing the `Modal` component.
 * 0.17.3
     * Updated the `validatory` dependency to the v0.2.4 solving the form submission and event blocking bug.
@@ -65,7 +67,7 @@ To get the diff between two versions, go to https://github.com/LIN3S/FrontFounda
     * Refactor/form atoms and components to accept always id and name. Added `value` param in input and textarea.
     * Corrected and update docs.
 * 0.13.2
-    * Updated both FormGroupSelect and FormGroupInput to extend React.Component instead of Reac.PureComponent due to 
+    * Updated both FormGroupSelect and FormGroupInput to extend React.Component instead of Reac.PureComponent due to
         the shouldComponentUpdate method addition.
     * Fixed FormSelect's filtering bug when inserting new html.
     * Fixed FormSelect's focus/trigger related IE bugs.
@@ -111,7 +113,7 @@ To get the diff between two versions, go to https://github.com/LIN3S/FrontFounda
     * Upgraded minor requirement to v0.7.0 from lin3s-event-bus.
     * Removed Bower support.
     * Added `parsleyWebpackContextReplacementPlugin` Webpack plugin to `config`.
-    * Exported bundle has been separated into `dist` and `config` directories. 
+    * Exported bundle has been separated into `dist` and `config` directories.
     * Refactored GMapMarkerDetail's style and it's associated view's DOM.
 * 0.7.0
     * Added React `FormGroupInput` component to the *Ui* package
